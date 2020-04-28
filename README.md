@@ -3,7 +3,7 @@
 ## Expo
 - Para poder correr la aplicación en nuestros celulares es necesario primero bajarse la aplicación de Expo (android / iOS) y crearse una cuenta.
 
-- Descargar node 
+- Descargar node y npm
 
 - Instalar expo: `npm install expo-cli --global`
 
@@ -13,6 +13,6 @@
 
 - Apretar `s` para loggearse en la cuenta creada previamente
 
-- Escanear el código QR en la aplicación Expo si es android o desde la camára si es ioS
+- Escanear el código QR en la aplicación Expo si es android o desde la camára si es iOS
 
 - Listo!
