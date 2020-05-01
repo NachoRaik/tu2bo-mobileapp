@@ -1,16 +1,16 @@
-import React, { useCallback, useState } from "react";
-import { View, SafeAreaView, TextInput, Text } from "react-native";
+import React, { useCallback, useState } from 'react';
+import { View, SafeAreaView, TextInput, Text } from 'react-native';
 
-import CustomButton from "@components/CustomButton";
-import { ROUTES } from "@constants/routes";
+import CustomButton from '@components/CustomButton';
+import { ROUTES } from '@constants/routes';
 
-import { validateEmail } from "./utils";
+import { validateEmail } from './utils';
 
-import styles from "./styles";
+import styles from './styles';
 
 function LoginScreen({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
@@ -18,9 +18,9 @@ function LoginScreen({ navigation }) {
 
   const onSubmit = useCallback(() => {
     navigation.navigate(ROUTES.Home);
-    setEmail("");
-    setPassword("");
-  }, [email, password]);
+    setEmail('');
+    setPassword('');
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>

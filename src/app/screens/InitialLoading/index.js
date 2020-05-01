@@ -1,7 +1,9 @@
-import React from "react";
-import { SafeAreaView, Text, ActivityIndicator } from "react-native";
+import React from 'react';
+import { SafeAreaView, Text, ActivityIndicator } from 'react-native';
 
-import styles from "./styles";
+import { COLORS } from '@constants/colors';
+
+import styles from './styles';
 
 function InitialLoading() {
   return (
