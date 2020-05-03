@@ -4,5 +4,6 @@ export const ROUTES = {
   Home: 'Home',
   Wall: 'Muro',
   VideoScreen: 'VideoScreen',
-  Notifications: 'Notificaciones'
+  Notifications: 'Notificaciones',
+  Profile: 'Perfil'
 };

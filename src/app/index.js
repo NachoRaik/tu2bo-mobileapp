@@ -10,6 +10,7 @@ import LoginScreen from '@screens/LoginScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
 import TabBarIcon from '@components/TabBarIcon';
+import UserButton from '@components/UserButton';
 
 const Stack = createStackNavigator();
 const WallStack = createStackNavigator();
@@ -22,14 +23,20 @@ function WallStackScreen() {
       <WallStack.Screen
         name={ROUTES.Home}
         component={HomeScreen}
-        options={() => ({
-          title: ROUTES.Wall
+        options={({ navigation }) => ({
+          title: ROUTES.Wall,
+          headerRight: () => <UserButton navigation={navigation} />
         })}
       />
       <WallStack.Screen
         name={ROUTES.VideoScreen}
-        component={() => null}
+        component={() => <></>}
         options={{ title: '' }}
+      />
+      <WallStack.Screen
+        name={ROUTES.Profile}
+        component={() => <></>}
+        options={{ title: ROUTES.Profile }}
       />
     </WallStack.Navigator>
   );
@@ -41,7 +48,7 @@ function NotificationsStackScreen() {
       initialRouteName={ROUTES.Notifications}>
       <WallStack.Screen
         name={ROUTES.Notifications}
-        component={() => null}
+        component={() => <></>}
         options={{ title: ROUTES.Notifications }}
       />
     </WallStack.Navigator>
