@@ -1,5 +1,8 @@
 export const ROUTES = {
   InitialLoading: 'InitialLoading',
   Login: 'Login',
-  Home: 'Home'
+  Home: 'Home',
+  Wall: 'Muro',
+  VideoScreen: 'VideoScreen',
+  Notifications: 'Notificaciones'
 };

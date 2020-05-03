@@ -2,13 +2,80 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { ROUTES } from '@constants/routes';
+import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
+import TabBarIcon from '@components/TabBarIcon';
 
 const Stack = createStackNavigator();
+const WallStack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function WallStackScreen() {
+  return (
+    <WallStack.Navigator
+      initialRouteName={ROUTES.Home}>
+      <WallStack.Screen
+        name={ROUTES.Home}
+        component={HomeScreen}
+        options={() => ({
+          title: ROUTES.Wall
+        })}
+      />
+      <WallStack.Screen
+        name={ROUTES.VideoScreen}
+        component={() => null}
+        options={{ title: '' }}
+      />
+    </WallStack.Navigator>
+  );
+}
+
+function NotificationsStackScreen() {
+  return (
+    <WallStack.Navigator
+      initialRouteName={ROUTES.Notifications}>
+      <WallStack.Screen
+        name={ROUTES.Notifications}
+        component={() => null}
+        options={{ title: ROUTES.Notifications }}
+      />
+    </WallStack.Navigator>
+  );
+}
+
+function TabNavigatorScreen() {
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: COLORS.main,
+        inactiveTintColor: COLORS.gray
+      }}>
+      <Tab.Screen
+        name={ROUTES.Wall}
+        component={WallStackScreen}
+        options={{
+          tabBarIcon: ({ focused, size }) => (
+            <TabBarIcon name="md-home" focused={focused} size={size} />
+          )
+        }}
+      />
+      <Tab.Screen
+        name={ROUTES.Notifications}
+        component={NotificationsStackScreen}
+        options={{
+          tabBarIcon: ({ focused, size }) => (
+            <TabBarIcon name="md-notifications" focused={focused} size={size} />
+          )
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
 
 export default function App() {
   return (
@@ -18,12 +85,10 @@ export default function App() {
         <Stack.Screen
           name={ROUTES.Login}
           component={LoginScreen}
-          options={{ title: ROUTES.Login }}
         />
         <Stack.Screen
           name={ROUTES.Home}
-          component={HomeScreen}
-          options={{ title: ROUTES.Home }}
+          component={TabNavigatorScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
