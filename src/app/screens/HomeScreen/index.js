@@ -5,7 +5,7 @@ import { ROUTES } from '@constants/routes';
 
 import styles from './styles';
 
-function Home({ navigation }) {
+function HomeScreen({ navigation }) {
   const goToDetail = useCallback(
     () => navigation.navigate(ROUTES.VideoScreen),
     [navigation]
@@ -18,4 +18,4 @@ function Home({ navigation }) {
   );
 }
 
-export default Home;
+export default HomeScreen;
