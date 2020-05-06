@@ -9,6 +9,9 @@ import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
+import NotificationsScreen from '@screens/NotificationsScreen';
+import ProfileScreen from '@screens/ProfileScreen';
+import VideoDetailScreen from '@screens/VideoDetailScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import UserButton from '@components/UserButton';
 
@@ -18,8 +21,7 @@ const Tab = createBottomTabNavigator();
 
 function WallStackScreen() {
   return (
-    <WallStack.Navigator
-      initialRouteName={ROUTES.Home}>
+    <WallStack.Navigator initialRouteName={ROUTES.Home}>
       <WallStack.Screen
         name={ROUTES.Home}
         component={HomeScreen}
@@ -30,12 +32,12 @@ function WallStackScreen() {
       />
       <WallStack.Screen
         name={ROUTES.VideoScreen}
-        component={() => <></>}
+        component={VideoDetailScreen}
         options={{ title: '' }}
       />
       <WallStack.Screen
         name={ROUTES.Profile}
-        component={() => <></>}
+        component={ProfileScreen}
         options={{ title: ROUTES.Profile }}
       />
     </WallStack.Navigator>
@@ -44,11 +46,10 @@ function WallStackScreen() {
 
 function NotificationsStackScreen() {
   return (
-    <WallStack.Navigator
-      initialRouteName={ROUTES.Notifications}>
+    <WallStack.Navigator initialRouteName={ROUTES.Notifications}>
       <WallStack.Screen
         name={ROUTES.Notifications}
-        component={() => <></>}
+        component={NotificationsScreen}
         options={{ title: ROUTES.Notifications }}
       />
     </WallStack.Navigator>
@@ -89,14 +90,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName={ROUTES.Login} headerMode="none">
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
-        <Stack.Screen
-          name={ROUTES.Login}
-          component={LoginScreen}
-        />
-        <Stack.Screen
-          name={ROUTES.Home}
-          component={TabNavigatorScreen}
-        />
+        <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
+        <Stack.Screen name={ROUTES.Home} component={TabNavigatorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
