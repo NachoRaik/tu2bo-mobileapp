@@ -8,18 +8,20 @@ import { validateEmail } from '@utils/email';
 
 import styles from './styles';
 
-function LoginScreen({ navigation }) {
+function SignUpScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPw, setConfirmPw] = useState('');
 
   const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
-  const disable = !emailValid || !passwordValid;
+  const disable = !emailValid || !passwordValid || password !== confirmPw;
 
   const onSubmit = useCallback(() => {
-    navigation.navigate(ROUTES.Home);
+    navigation.navigate(ROUTES.Login);
     setEmail('');
     setPassword('');
+    setConfirmPw('');
   }, [navigation]);
 
   return (
@@ -42,22 +44,24 @@ function LoginScreen({ navigation }) {
           placeholder="Contraseña"
           secureTextEntry
         />
+        <TextInput
+          style={styles.input}
+          onChangeText={setConfirmPw}
+          value={confirmPw}
+          label="Confirm Password"
+          placeholder="Confirmar Contraseña"
+          secureTextEntry
+        />
         <CustomButton
-          text="INGRESAR"
+          text="REGISTRARSE"
           style={[styles.loginButton, disable && styles.buttonDisable]}
           textStyle={disable ? styles.textDisable : styles.loginButtonText}
           onPress={onSubmit}
           disable={disable}
-        />
-        <CustomButton
-          text="UNIRSE"
-          style={styles.loginButton}
-          textStyle={styles.loginButtonText}
-          onPress={() => navigation.navigate(ROUTES.SignUp)}
         />
       </View>
     </SafeAreaView>
   );
 }
 
-export default LoginScreen;
+export default SignUpScreen;
