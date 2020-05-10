@@ -6,6 +6,7 @@ import { ROUTES } from '@constants/routes';
 
 import { validateEmail } from '@utils/email';
 
+import OkModal from './components/OkModal';
 import styles from './styles';
 
 function SignUpScreen({ navigation }) {
@@ -13,11 +14,18 @@ function SignUpScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
 
+  const [openModal, setOpenModal] = useState(false);
+
   const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
   const disable = !emailValid || !passwordValid || password !== confirmPw;
 
   const onSubmit = useCallback(() => {
+    setOpenModal(true);
+  }, []);
+
+  const onCloseModal = useCallback(() => {
+    setOpenModal(false);
     navigation.navigate(ROUTES.Login);
     setEmail('');
     setPassword('');
@@ -26,6 +34,7 @@ function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <OkModal visible={openModal} onPress={onCloseModal} />
       <Text style={styles.title}>Tu2bo</Text>
       <View styles={styles.loginContainer}>
         <TextInput
