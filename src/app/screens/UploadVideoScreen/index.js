@@ -68,12 +68,14 @@ function UploadVideoScreen() {
           onPress={() => handleSelection('film', filmVideo)}
           disable={uploading || !!imageUrl}
           loading={uploading && selection === 'film'}
+          text="Grabar video"
         />
         <IconButton
           name="folder-video"
           onPress={() => handleSelection('upload', pickVideo)}
           disable={uploading || !!imageUrl}
           loading={uploading && selection === 'upload'}
+          text="Seleccionar video"
         />
       </View>
       <TextInput
