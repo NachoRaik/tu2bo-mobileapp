@@ -13,6 +13,7 @@ import HomeScreen from '@screens/HomeScreen';
 import NotificationsScreen from '@screens/NotificationsScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
+import UploadVideoScreen from '@screens/UploadVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import UserButton from '@components/UserButton';
 
@@ -40,6 +41,11 @@ function WallStackScreen() {
         name={ROUTES.Profile}
         component={ProfileScreen}
         options={{ title: ROUTES.Profile }}
+      />
+      <WallStack.Screen
+        name={ROUTES.UploadVideo}
+        component={UploadVideoScreen}
+        options={{ title: ROUTES.UploadVideo }}
       />
     </WallStack.Navigator>
   );

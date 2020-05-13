@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { SafeAreaView, FlatList, TouchableOpacity } from 'react-native';
+import { SafeAreaView, FlatList, TouchableOpacity, Button } from 'react-native';
 
 import { ROUTES } from '@constants/routes';
 import VideoCard from '@components/VideoCard';
@@ -28,6 +28,10 @@ function HomeScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Button
+        title="agregarvideo"
+        onPress={() => navigation.navigate(ROUTES.UploadVideo)}
+      />
       <FlatList
         data={VIDEOS}
         renderItem={renderVideo}
