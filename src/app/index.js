@@ -15,7 +15,7 @@ import ProfileScreen from '@screens/ProfileScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
 import UploadVideoScreen from '@screens/UploadVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
-import UserButton from '@components/UserButton';
+import HeaderButtons from '@components/HeaderButtons';
 
 const Stack = createStackNavigator();
 const WallStack = createStackNavigator();
@@ -29,7 +29,8 @@ function WallStackScreen() {
         component={HomeScreen}
         options={({ navigation }) => ({
           title: ROUTES.Wall,
-          headerRight: () => <UserButton navigation={navigation} />
+          headerRightContainerStyle: { flexDirection: 'row' },
+          headerRight: () => <HeaderButtons navigation={navigation} />
         })}
       />
       <WallStack.Screen
