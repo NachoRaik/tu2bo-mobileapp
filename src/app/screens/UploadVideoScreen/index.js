@@ -1,20 +1,31 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { SafeAreaView, TextInput, Button, View } from 'react-native';
+import {
+  SafeAreaView,
+  TextInput,
+  Button,
+  View,
+  Text,
+  ActivityIndicator
+} from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import { StackActions } from '@react-navigation/native';
 
 import IconButton from '@components/IconButton';
+import OkModal from '@components/OkModal';
+import { ROUTES } from '@constants/routes';
 
 import styles from './styles';
 import { uploadImageAsync } from './utils';
 
-function UploadVideoScreen() {
+function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [selection, setSelection] = useState('');
   const [uri, setUri] = useState('');
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
@@ -31,6 +42,7 @@ function UploadVideoScreen() {
       console.warn('Upload failed, sorry :(');
     } finally {
       setUploading(false);
+      setOpenModal(true);
     }
   }, [uri]);
 
@@ -55,29 +67,39 @@ function UploadVideoScreen() {
     }
   }, []);
 
-  const handleSelection = useCallback((category, getVideo) => {
-    setSelection(category);
-    getVideo();
-  }, []);
+  const onCloseModal = useCallback(() => {
+    navigation.dispatch(StackActions.popToTop());
+    navigation.navigate(ROUTES.Profile);
+    setOpenModal(false);
+  }, [navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.uploadButtons}>
-        <IconButton
-          name="video-camera"
-          onPress={() => handleSelection('film', filmVideo)}
-          disable={uploading || !!imageUrl}
-          loading={uploading && selection === 'film'}
-          text="Grabar video"
-        />
-        <IconButton
-          name="folder-video"
-          onPress={() => handleSelection('upload', pickVideo)}
-          disable={uploading || !!imageUrl}
-          loading={uploading && selection === 'upload'}
-          text="Seleccionar video"
-        />
-      </View>
+      <OkModal
+        visible={openModal}
+        text="Se subió el video correctamente"
+        closeText="Ver mis videos"
+        onPress={onCloseModal}
+      />
+      {uri ? (
+        <>
+          <Entypo name="attachment" size={30} color="green" />
+          <Text>Video Adjunto</Text>
+        </>
+      ) : (
+        <View style={styles.uploadButtons}>
+          <IconButton
+            name="video-camera"
+            onPress={() => filmVideo()}
+            text="Grabar video"
+          />
+          <IconButton
+            name="folder-video"
+            onPress={() => pickVideo()}
+            text="Seleccionar video"
+          />
+        </View>
+      )}
       <TextInput
         style={styles.titleInput}
         onChangeText={setTitle}
@@ -92,7 +114,11 @@ function UploadVideoScreen() {
         dataDetectorTypes="all"
         multiline
       />
-      <Button title="Subir" onPress={handleSubmitVideo} />
+      {uploading ? (
+        <ActivityIndicator size="small" />
+      ) : (
+        <Button title="Subir" onPress={handleSubmitVideo} />
+      )}
     </SafeAreaView>
   );
 }
