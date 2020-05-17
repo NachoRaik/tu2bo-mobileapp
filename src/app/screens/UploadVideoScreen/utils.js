@@ -1,6 +1,6 @@
 import { fb } from '@config/firebase';
 
-export const uploadImageAsync = async (uri, id) => {
+export const uploadVideoToFirebase = async (uri, id) => {
   // Why are we using XMLHttpRequest? See:
   // https://github.com/expo/expo/issues/2402#issuecomment-443726662
   const blob = await new Promise((resolve, reject) => {

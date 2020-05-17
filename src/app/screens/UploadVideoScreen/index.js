@@ -12,7 +12,7 @@ import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 
 import styles from './styles';
-import { uploadImageAsync } from './utils';
+import { uploadVideoToFirebase } from './utils';
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
@@ -30,7 +30,7 @@ function UploadVideoScreen({ navigation }) {
   const handleSubmitVideo = useCallback(async () => {
     try {
       setUploading(true);
-      const uploadUrl = await uploadImageAsync(uri, 1);
+      const uploadUrl = await uploadVideoToFirebase(uri, 1);
       setImageUrl(uploadUrl); //{url, desc, title} then goes to media server
     } catch (e) {
       console.warn(e);
