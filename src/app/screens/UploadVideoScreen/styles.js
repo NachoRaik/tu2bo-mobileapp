@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,23 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 150,
     textAlignVertical: 'top'
+  },
+  uploadButton: {
+    backgroundColor: COLORS.main,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: COLORS.main,
+    marginBottom: 10
+  },
+  buttonDisable: {
+    borderColor: COLORS.gray,
+    backgroundColor: COLORS.gray
+  },
+  uploadButtonText: {
+    color: COLORS.white
+  },
+  textDisable: {
+    color: COLORS.white
   }
 });
 

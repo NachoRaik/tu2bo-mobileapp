@@ -1,12 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import {
-  SafeAreaView,
-  TextInput,
-  Button,
-  View,
-  Text,
-  ActivityIndicator
-} from 'react-native';
+import { SafeAreaView, TextInput, View, Text } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -14,7 +7,9 @@ import { StackActions } from '@react-navigation/native';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
+import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
+import { COLORS } from '@constants/colors';
 
 import styles from './styles';
 import { uploadImageAsync } from './utils';
@@ -73,6 +68,8 @@ function UploadVideoScreen({ navigation }) {
     setOpenModal(false);
   }, [navigation]);
 
+  const disable = !uri || !title;
+
   return (
     <SafeAreaView style={styles.container}>
       <OkModal
@@ -114,11 +111,15 @@ function UploadVideoScreen({ navigation }) {
         dataDetectorTypes="all"
         multiline
       />
-      {uploading ? (
-        <ActivityIndicator size="small" />
-      ) : (
-        <Button title="Subir" onPress={handleSubmitVideo} />
-      )}
+      <CustomButton
+        text="SUBIR"
+        style={[styles.uploadButton, disable && styles.buttonDisable]}
+        textStyle={disable ? styles.textDisable : styles.uploadButtonText}
+        onPress={handleSubmitVideo}
+        disable={disable}
+        loading={uploading}
+        loaderColor={COLORS.white}
+      />
     </SafeAreaView>
   );
 }
