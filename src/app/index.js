@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
+import SignUpScreen from '@screens/SignUpScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
 import NotificationsScreen from '@screens/NotificationsScreen';
@@ -91,6 +92,7 @@ export default function App() {
       <Stack.Navigator initialRouteName={ROUTES.Login} headerMode="none">
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
+        <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
         <Stack.Screen name={ROUTES.Home} component={TabNavigatorScreen} />
       </Stack.Navigator>
     </NavigationContainer>

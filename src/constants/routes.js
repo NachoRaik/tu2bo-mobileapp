@@ -5,5 +5,6 @@ export const ROUTES = {
   Wall: 'Muro',
   VideoScreen: 'VideoScreen',
   Notifications: 'Notificaciones',
-  Profile: 'Perfil'
+  Profile: 'Perfil',
+  SignUp: 'Registro'
 };

@@ -24,6 +24,10 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.taller2.tutubo",
+      "versionCode": 1
     }
   }
 }
