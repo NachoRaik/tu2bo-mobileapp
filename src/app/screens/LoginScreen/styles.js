@@ -1,17 +1,17 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../../../constants/colors';
+import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.main
+    backgroundColor: COLORS.white
   },
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: COLORS.white,
+    color: COLORS.main,
     marginBottom: 30
   },
   loginContainer: {
@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: COLORS.white,
+    borderColor: COLORS.gray,
+    borderWidth: 1,
     borderRadius: 5,
     marginBottom: 20,
     padding: 5,
@@ -28,17 +30,18 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.main,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: COLORS.white,
+    borderColor: COLORS.main,
     marginBottom: 10
   },
   buttonDisable: {
-    borderColor: COLORS.gray
+    borderColor: COLORS.gray,
+    backgroundColor: COLORS.gray
   },
   loginButtonText: {
     color: COLORS.white
   },
   textDisable: {
-    color: COLORS.gray
+    color: COLORS.white
   }
 });
 

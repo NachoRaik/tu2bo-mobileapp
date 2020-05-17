@@ -5,8 +5,8 @@ import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 
 import { validateEmail } from '@utils/email';
+import OkModal from '@components/OkModal';
 
-import OkModal from './components/OkModal';
 import styles from './styles';
 
 function SignUpScreen({ navigation }) {
@@ -34,7 +34,12 @@ function SignUpScreen({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <OkModal visible={openModal} onPress={onCloseModal} />
+      <OkModal
+        text="Se creó la cuenta correctamente"
+        closeText="Volver a login"
+        visible={openModal}
+        onPress={onCloseModal}
+      />
       <Text style={styles.title}>Tu2bo</Text>
       <View styles={styles.loginContainer}>
         <TextInput

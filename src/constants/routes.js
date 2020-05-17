@@ -6,5 +6,6 @@ export const ROUTES = {
   VideoScreen: 'VideoScreen',
   Notifications: 'Notificaciones',
   Profile: 'Perfil',
-  SignUp: 'Registro'
+  SignUp: 'Registro',
+  UploadVideo: 'Subir Video'
 };
