@@ -26,3 +26,10 @@
 - En una terminal correr `adb reverse tcp:5000 tcp:5000` donde 5000 es el puerto donde esta corriendo el appserver y lo forwardeamos a la app.
 
 - Ahora las pegadas a localhost:5000 desde la app deberian pegarle al appserver levantado localmente
+
+- Para loguearse por ahora se puede usar:
+
+```
+username: 'user1'
+password: '123'
+```
