@@ -16,3 +16,13 @@
 - Escanear el código QR en la aplicación Expo si es android o desde la camára si es iOS
 
 - Listo!
+
+## Conectar con el appserver localmente
+
+- Levantar el appserver
+
+- Levantar la app desde un emulador
+
+- En una terminal correr `adb reverse tcp:5000 tcp:5000` donde 5000 es el puerto donde esta corriendo el appserver y lo forwardeamos a la app.
+
+- Ahora las pegadas a localhost:5000 desde la app deberian pegarle al appserver levantado localmente
