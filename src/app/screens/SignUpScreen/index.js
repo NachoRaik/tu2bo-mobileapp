@@ -29,23 +29,25 @@ function SignUpScreen({ navigation }) {
     dispatch(actionCreator.register({ email, username, password }));
   }, [dispatch, username, email, password]);
 
-  useEffect(() => {
-    if (registered) {
-      setOpenModal(true);
-      setEmail('');
-      setUsername('');
-      setPassword('');
-    }
-  }, [registered, navigation]);
-
-  const onCloseModal = useCallback(() => {
-    setOpenModal(false);
-    navigation.navigate(ROUTES.Login);
+  const cleanForm = useCallback(() => {
     setEmail('');
     setUsername('');
     setPassword('');
     setConfirmPw('');
-  }, [navigation]);
+  }, []);
+
+  useEffect(() => {
+    if (registered) {
+      setOpenModal(true);
+      cleanForm();
+    }
+  }, [registered, cleanForm, navigation]);
+
+  const onCloseModal = useCallback(() => {
+    setOpenModal(false);
+    navigation.navigate(ROUTES.Login);
+    cleanForm();
+  }, [navigation, cleanForm]);
 
   return (
     <SafeAreaView style={styles.container}>
