@@ -1,4 +1,4 @@
-import { login, setToken, removeToken } from '@services/AuthService';
+import { login, register, setToken, removeToken } from '@services/AuthService';
 import api from '@config/api';
 
 export const actions = {
@@ -6,7 +6,10 @@ export const actions = {
   LOGIN_SUCCESS: '@@AUTH/LOGIN_SUCCESS',
   LOGIN_FAILURE: '@@AUTH/LOGIN_FAILURE',
   SAVE_CURENT_TOKEN: '@@AUTH/SAVE_CURENT_TOKEN',
-  LOGOUT: '@@AUTH/LOGOUT'
+  LOGOUT: '@@AUTH/LOGOUT',
+  REGISTER: '@@AUTH/REGISTER',
+  REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
+  REGISTER_FAILURE: '@@AUTH/REGISTER_FAILURE'
 };
 
 export const actionCreator = {
@@ -34,7 +37,21 @@ export const actionCreator = {
   logout: () => {
     removeToken();
     return { type: actions.LOGOUT };
-  }
+  },
+  register: (info) => async (dispatch) => {
+    dispatch({ type: actions.REGISTER });
+    const response = await register(info);
+    if (response.ok) {
+      dispatch(actionCreator.registerSuccess());
+    } else dispatch(actionCreator.loginFailure(response.problem));
+  },
+  registerSuccess: () => ({
+    type: actions.REGISTER_SUCCESS
+  }),
+  registerFailure: (problem) => ({
+    type: actions.REGISTER_FAILURE,
+    payload: problem
+  })
 };
 
 export default actionCreator;

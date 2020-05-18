@@ -3,7 +3,8 @@ import { actions } from './actions';
 const initialState = {
   loading: false,
   token: '',
-  error: null
+  error: null,
+  registered: false
 };
 
 function reducer(state = initialState, action) {
@@ -36,6 +37,25 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         token: ''
+      };
+    case actions.REGISTER:
+      return {
+        ...state,
+        loading: true,
+        token: '',
+        error: null
+      };
+    case actions.REGISTER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        registered: true
+      };
+    case actions.REGISTER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
       };
     default:
       return state;

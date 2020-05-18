@@ -5,6 +5,8 @@ import api from '@config/api';
 export const login = (username, password) =>
   api.post('/login', { username, password });
 
+export const register = (info) => api.post('/register', info);
+
 export const getToken = () => AsyncStorage.getItem('access-token');
 
 export const setToken = (token) => {
