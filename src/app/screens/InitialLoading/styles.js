@@ -6,12 +6,12 @@ const styles = StyleSheet.create({
     flex: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: COLORS.main
+    backgroundColor: COLORS.white
   },
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    color: COLORS.white,
+    color: COLORS.main,
     marginBottom: 30
   }
 });

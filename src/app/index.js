@@ -96,7 +96,9 @@ function TabNavigatorScreen() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={ROUTES.Login} headerMode="none">
+      <Stack.Navigator
+        initialRouteName={ROUTES.InitialLoading}
+        headerMode="none">
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
