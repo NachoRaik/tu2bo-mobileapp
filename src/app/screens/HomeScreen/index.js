@@ -34,7 +34,7 @@ function HomeScreen({ navigation }) {
         <VideoCard
           title={item.title}
           thumb={item.thumb}
-          subtitle={item.subtitle}
+          subtitle={item.author}
         />
       </TouchableOpacity>
     ),

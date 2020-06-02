@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native';
 import api from '@config/api';
 
 export const login = (username, password) =>
-  api.post('/login', { username, password });
+  api.post('/login', { email: username, password });
 
 export const register = (info) => api.post('/register', info);
 

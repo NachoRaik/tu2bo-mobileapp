@@ -13,7 +13,7 @@ const actionCreators = {
     if (response.ok) {
       dispatch({
         type: actions.GET_VIDEOS_SUCCESS,
-        payload: response.data.videos
+        payload: response.data
       });
     } else {
       dispatch({

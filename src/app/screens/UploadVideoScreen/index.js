@@ -16,7 +16,7 @@ import { uploadVideoToFirebase } from './utils';
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
@@ -31,7 +31,7 @@ function UploadVideoScreen({ navigation }) {
     try {
       setUploading(true);
       const uploadUrl = await uploadVideoToFirebase(uri, 1);
-      setImageUrl(uploadUrl); //{url, desc, title} then goes to media server
+      setVideoUrl(uploadUrl); //{url, desc, title} then goes to media server
     } catch (e) {
       console.warn(e);
       console.warn('Upload failed, sorry :(');
@@ -64,9 +64,15 @@ function UploadVideoScreen({ navigation }) {
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.popToTop());
-    navigation.navigate(ROUTES.Profile);
+    navigation.navigate(ROUTES.VideoScreen, {
+      video: {
+        sources: [videoUrl],
+        title: title,
+        description: description
+      }
+    });
     setOpenModal(false);
-  }, [navigation]);
+  }, [navigation, videoUrl, title, description]);
 
   const disable = !uri || !title;
 

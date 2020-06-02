@@ -1,11 +1,11 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import VideoPlayer from '@components/VideoPlayer';
 
 import styles from './styles';
 
 function VideoDetailScreen({ navigation, route }) {
-  const { sources, title, subtitle, description } = route?.params?.video;
+  const { url, title, author, description } = route?.params?.video;
 
   navigation.setOptions({
     title: title
@@ -13,9 +13,9 @@ function VideoDetailScreen({ navigation, route }) {
 
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
-      <VideoPlayer sources={sources} style={{ alignSelf: 'center' }} />
+      <VideoPlayer source={url} style={{ alignSelf: 'center' }} />
       <View style={styles.videoInfo}>
-        <Text style={styles.subtitle}>{subtitle}</Text>
+        <Text style={styles.subtitle}>{author}</Text>
         <Text style={styles.title}>{description}</Text>
       </View>
     </ScrollView>

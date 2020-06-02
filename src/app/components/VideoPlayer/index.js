@@ -4,7 +4,7 @@ import { Video } from 'expo-av';
 
 import styles from './styles';
 
-function VideoPlayer({ sources }) {
+function VideoPlayer({ source }) {
   const [videoRef, setVideoRef] = useState(null);
 
   const handleVideoRef = useCallback((component) => {
@@ -16,7 +16,7 @@ function VideoPlayer({ sources }) {
       <Video
         ref={handleVideoRef}
         source={{
-          uri: sources[0]
+          uri: source
         }}
         rate={1.0}
         isMuted //={false}
