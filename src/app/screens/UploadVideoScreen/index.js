@@ -32,12 +32,12 @@ function UploadVideoScreen({ navigation }) {
       setUploading(true);
       const uploadUrl = await uploadVideoToFirebase(uri, 1);
       setVideoUrl(uploadUrl); //{url, desc, title} then goes to media server
+      setOpenModal(true);
     } catch (e) {
       console.warn(e);
       console.warn('Upload failed, sorry :(');
     } finally {
       setUploading(false);
-      setOpenModal(true);
     }
   }, [uri]);
 
@@ -66,7 +66,7 @@ function UploadVideoScreen({ navigation }) {
     navigation.dispatch(StackActions.popToTop());
     navigation.navigate(ROUTES.VideoScreen, {
       video: {
-        sources: [videoUrl],
+        url: videoUrl,
         title: title,
         description: description
       }

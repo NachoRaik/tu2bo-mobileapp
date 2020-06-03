@@ -16,11 +16,11 @@ export const actionCreator = {
   login: (username, password) => async (dispatch) => {
     dispatch({ type: actions.LOGIN });
     const response = await login(username, password);
-    if (response.ok) {
+    if (response?.ok) {
       const token = response.data.token; //response.headers['access-token']
       setToken(token);
       dispatch(actionCreator.loginSuccess(token));
-    } else dispatch(actionCreator.loginFailure(response.problem));
+    } else dispatch(actionCreator.loginFailure(response?.problem));
   },
   loginSuccess: (token) => ({
     type: actions.LOGIN_SUCCESS,
