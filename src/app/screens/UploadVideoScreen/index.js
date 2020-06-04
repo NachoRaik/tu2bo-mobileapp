@@ -22,6 +22,7 @@ function UploadVideoScreen({ navigation }) {
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [error, setError] = useState(null);
 
   const user = useSelector((state) => state.auth.currentUser);
 
@@ -38,7 +39,7 @@ function UploadVideoScreen({ navigation }) {
       setOpenModal(true);
     } catch (e) {
       console.warn(e);
-      console.warn('Upload failed, sorry :(');
+      setError('Algo falló mientras se subia el video');
     } finally {
       setUploading(false);
     }
@@ -131,6 +132,7 @@ function UploadVideoScreen({ navigation }) {
         loaderColor={COLORS.white}
       />
       {uploading && <Text>El video puede tardar unos minutos en subir...</Text>}
+      {error && <Text>{error}</Text>}
     </SafeAreaView>
   );
 }
