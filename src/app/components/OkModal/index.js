@@ -5,7 +5,7 @@ import check from '@assets/check.gif';
 import { COLORS } from '@constants/colors';
 import styles from './styles';
 
-export default function OkModal({ visible, onPress }) {
+export default function OkModal({ visible, onPress, text, closeText }) {
   return (
     <Modal
       animationType="slide"
@@ -14,12 +14,12 @@ export default function OkModal({ visible, onPress }) {
       onRequestClose={onPress}>
       <View style={styles.container}>
         <Image style={styles.gif} source={check} />
-        <Text style={styles.title}>Se creó la cuenta exitosamente!</Text>
+        <Text style={styles.title}>{text}</Text>
       </View>
       <Button
         style={styles.button}
         onPress={onPress}
-        title="Volver al Login"
+        title={closeText}
         color={COLORS.main}
       />
     </Modal>

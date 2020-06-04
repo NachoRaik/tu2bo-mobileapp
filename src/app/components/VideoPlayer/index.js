@@ -4,7 +4,7 @@ import { Video } from 'expo-av';
 
 import styles from './styles';
 
-function VideoPlayer() {
+function VideoPlayer({ sources }) {
   const [videoRef, setVideoRef] = useState(null);
 
   const handleVideoRef = useCallback((component) => {
@@ -16,17 +16,18 @@ function VideoPlayer() {
       <Video
         ref={handleVideoRef}
         source={{
-          uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+          uri: sources[0]
         }}
         rate={1.0}
-        isMuted={false}
+        isMuted //={false}
         useNativeControls
         shouldPlay
         style={styles.video}
+        resizeMode="contain"
       />
-      <TouchableOpacity onPress={() => videoRef?.playFromPositionAsync(4000)}>
+      {/*<TouchableOpacity onPress={() => videoRef?.playFromPositionAsync(4000)}>
         <Text>Click me 0.4</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     </>
   );
 }
