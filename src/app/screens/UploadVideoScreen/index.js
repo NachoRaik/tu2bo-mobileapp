@@ -4,6 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { StackActions } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
@@ -16,11 +17,14 @@ import { uploadVideoToFirebase } from './utils';
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
-  const [imageUrl, setImageUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [error, setError] = useState(null);
+
+  const user = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
@@ -31,13 +35,13 @@ function UploadVideoScreen({ navigation }) {
     try {
       setUploading(true);
       const uploadUrl = await uploadVideoToFirebase(uri, 1);
-      setImageUrl(uploadUrl); //{url, desc, title} then goes to media server
+      setVideoUrl(uploadUrl); //{url, desc, title} then goes to media server
+      setOpenModal(true);
     } catch (e) {
       console.warn(e);
-      console.warn('Upload failed, sorry :(');
+      setError('Algo falló mientras se subia el video');
     } finally {
       setUploading(false);
-      setOpenModal(true);
     }
   }, [uri]);
 
@@ -64,9 +68,16 @@ function UploadVideoScreen({ navigation }) {
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.popToTop());
-    navigation.navigate(ROUTES.Profile);
+    navigation.navigate(ROUTES.VideoScreen, {
+      video: {
+        url: videoUrl,
+        title: title,
+        description: description,
+        author: user?.username
+      }
+    });
     setOpenModal(false);
-  }, [navigation]);
+  }, [navigation, videoUrl, title, user, description]);
 
   const disable = !uri || !title;
 
@@ -120,6 +131,8 @@ function UploadVideoScreen({ navigation }) {
         loading={uploading}
         loaderColor={COLORS.white}
       />
+      {uploading && <Text>El video puede tardar unos minutos en subir...</Text>}
+      {error && <Text>{error}</Text>}
     </SafeAreaView>
   );
 }
