@@ -126,6 +126,7 @@ function UploadVideoScreen({ navigation }) {
         loading={uploading}
         loaderColor={COLORS.white}
       />
+      {uploading && <Text>El video puede tardar unos minutos en subir...</Text>}
     </SafeAreaView>
   );
 }

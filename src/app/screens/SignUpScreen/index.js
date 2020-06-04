@@ -24,6 +24,7 @@ function SignUpScreen({ navigation }) {
   const dispatch = useDispatch();
   const registered = useSelector((state) => state.login.registered);
   const authLoading = useSelector((state) => state.login.loading);
+  const error = useSelector((state) => state.login.error);
 
   const onSubmit = useCallback(() => {
     dispatch(actionCreator.register({ email, username, password }));
@@ -46,8 +47,8 @@ function SignUpScreen({ navigation }) {
   const onCloseModal = useCallback(() => {
     setOpenModal(false);
     navigation.navigate(ROUTES.Login);
-    cleanForm();
-  }, [navigation, cleanForm]);
+    dispatch(actionCreator.cleanState());
+  }, [navigation, dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -100,6 +101,7 @@ function SignUpScreen({ navigation }) {
           loaderColor={COLORS.white}
         />
       </View>
+      {error && <Text>{error}</Text>}
     </SafeAreaView>
   );
 }

@@ -9,7 +9,8 @@ export const actions = {
   LOGOUT: '@@AUTH/LOGOUT',
   REGISTER: '@@AUTH/REGISTER',
   REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
-  REGISTER_FAILURE: '@@AUTH/REGISTER_FAILURE'
+  REGISTER_FAILURE: '@@AUTH/REGISTER_FAILURE',
+  CLEAN_STATE: '@@AUTH/CLEAN_STATE'
 };
 
 export const actionCreator = {
@@ -19,8 +20,8 @@ export const actionCreator = {
     if (response?.ok) {
       const token = response.data.token; //response.headers['access-token']
       setToken(token);
-      dispatch(actionCreator.loginSuccess(token));
-    } else dispatch(actionCreator.loginFailure(response?.problem));
+      dispatch(actionCreator.loginSuccess(response.data));
+    } else dispatch(actionCreator.loginFailure(response?.data));
   },
   loginSuccess: (token) => ({
     type: actions.LOGIN_SUCCESS,
@@ -43,7 +44,7 @@ export const actionCreator = {
     const response = await register(info);
     if (response.ok) {
       dispatch(actionCreator.registerSuccess());
-    } else dispatch(actionCreator.loginFailure(response.problem));
+    } else dispatch(actionCreator.registerFailure(response.data));
   },
   registerSuccess: () => ({
     type: actions.REGISTER_SUCCESS
@@ -51,6 +52,9 @@ export const actionCreator = {
   registerFailure: (problem) => ({
     type: actions.REGISTER_FAILURE,
     payload: problem
+  }),
+  cleanState: () => ({
+    type: actions.CLEAN_STATE
   })
 };
 

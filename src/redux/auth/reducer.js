@@ -4,7 +4,8 @@ const initialState = {
   loading: false,
   token: '',
   error: null,
-  registered: false
+  registered: false,
+  currentUser: {}
 };
 
 function reducer(state = initialState, action) {
@@ -19,7 +20,8 @@ function reducer(state = initialState, action) {
     case actions.LOGIN_SUCCESS:
       return {
         ...state,
-        token: action.payload,
+        token: action.payload.token,
+        currentUser: action.payload.user,
         loading: false
       };
     case actions.LOGIN_FAILURE:
@@ -56,6 +58,13 @@ function reducer(state = initialState, action) {
         ...state,
         loading: false,
         error: action.payload
+      };
+    case actions.CLEAN_STATE:
+      return {
+        ...state,
+        registered: false,
+        error: null,
+        loading: false
       };
     default:
       return state;

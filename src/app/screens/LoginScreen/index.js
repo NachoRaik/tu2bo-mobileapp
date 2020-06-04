@@ -7,33 +7,44 @@ import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/auth/actions';
 
-//import { validateEmail } from '@utils/email';
+import { validateEmail } from '@utils/email';
 
 import styles from './styles';
 
 function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const emailValid = true; //validateEmail(email);
+  const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
   const disable = !emailValid || !passwordValid;
 
   const dispatch = useDispatch();
   const token = useSelector((state) => state.login.token);
   const authLoading = useSelector((state) => state.login.loading);
+  const error = useSelector((state) => state.login.error);
 
   const onSubmit = useCallback(() => {
-    dispatch(actionCreator.login(username, password));
-  }, [dispatch, username, password]);
+    dispatch(actionCreator.login(email, password));
+  }, [dispatch, email, password]);
+
+  const cleanLogin = useCallback(() => {
+    dispatch(actionCreator.cleanState());
+    setEmail('');
+    setPassword('');
+  }, [dispatch]);
 
   useEffect(() => {
     if (token) {
       navigation.navigate(ROUTES.Home);
-      setUsername('');
-      setPassword('');
+      cleanLogin();
     }
-  }, [token, navigation]);
+  }, [token, cleanLogin, navigation]);
+
+  const onNavigateToRegister = useCallback(() => {
+    cleanLogin();
+    navigation.navigate(ROUTES.SignUp);
+  }, [navigation, cleanLogin]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,10 +52,10 @@ function LoginScreen({ navigation }) {
       <View styles={styles.loginContainer}>
         <TextInput
           style={styles.input}
-          onChangeText={setUsername}
-          value={username}
+          onChangeText={setEmail}
+          value={email}
           label="Email"
-          placeholder="Email o username"
+          placeholder="Email"
           keyboardType="email-address"
         />
         <TextInput
@@ -68,10 +79,11 @@ function LoginScreen({ navigation }) {
           text="UNIRSE"
           style={styles.loginButton}
           textStyle={styles.loginButtonText}
-          onPress={() => navigation.navigate(ROUTES.SignUp)}
+          onPress={onNavigateToRegister}
           disable={authLoading}
         />
       </View>
+      {error && <Text>{error}</Text>}
     </SafeAreaView>
   );
 }
