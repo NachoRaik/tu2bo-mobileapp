@@ -22,9 +22,9 @@ function SignUpScreen({ navigation }) {
   const disable = infoValid(username, email, password, confirmPw);
 
   const dispatch = useDispatch();
-  const registered = useSelector((state) => state.login.registered);
-  const authLoading = useSelector((state) => state.login.loading);
-  const error = useSelector((state) => state.login.error);
+  const registered = useSelector((state) => state.auth.registered);
+  const authLoading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
 
   const onSubmit = useCallback(() => {
     dispatch(actionCreator.register({ email, username, password }));

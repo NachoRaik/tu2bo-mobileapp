@@ -20,9 +20,9 @@ function LoginScreen({ navigation }) {
   const disable = !emailValid || !passwordValid;
 
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.login.token);
-  const authLoading = useSelector((state) => state.login.loading);
-  const error = useSelector((state) => state.login.error);
+  const token = useSelector((state) => state.auth.token);
+  const authLoading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
 
   const onSubmit = useCallback(() => {
     dispatch(actionCreator.login(email, password));

@@ -4,6 +4,7 @@ import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import { StackActions } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
@@ -21,6 +22,8 @@ function UploadVideoScreen({ navigation }) {
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
   const [openModal, setOpenModal] = useState(false);
+
+  const user = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
@@ -68,11 +71,12 @@ function UploadVideoScreen({ navigation }) {
       video: {
         url: videoUrl,
         title: title,
-        description: description
+        description: description,
+        author: user?.username
       }
     });
     setOpenModal(false);
-  }, [navigation, videoUrl, title, description]);
+  }, [navigation, videoUrl, title, user, description]);
 
   const disable = !uri || !title;
 

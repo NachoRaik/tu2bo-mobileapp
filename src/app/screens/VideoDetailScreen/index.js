@@ -15,7 +15,7 @@ function VideoDetailScreen({ navigation, route }) {
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
       <VideoPlayer source={url} style={{ alignSelf: 'center' }} />
       <View style={styles.videoInfo}>
-        <Text style={styles.subtitle}>{author}</Text>
+        <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
         <Text style={styles.title}>{description}</Text>
       </View>
     </ScrollView>
