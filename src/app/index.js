@@ -16,7 +16,7 @@ import VideoDetailScreen from '@screens/VideoDetailScreen';
 import UploadVideoScreen from '@screens/UploadVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import HeaderButtons from '@components/HeaderButtons';
-import LogoutButton from '@components/LogoutButton';
+//import LogoutButton from '@components/LogoutButton';
 
 const Stack = createStackNavigator();
 const WallStack = createStackNavigator();
@@ -30,7 +30,7 @@ function WallStackScreen() {
         component={HomeScreen}
         options={({ navigation }) => ({
           title: ROUTES.Wall,
-          headerLeft: () => <LogoutButton navigation={navigation} />,
+          //headerLeft: () => <LogoutButton navigation={navigation} />,
           headerRightContainerStyle: { flexDirection: 'row' },
           headerRight: () => <HeaderButtons navigation={navigation} />
         })}
