@@ -12,8 +12,17 @@ const styles = StyleSheet.create({
   videoInfo: {
     margin: 15
   },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
   subtitle: {
     fontWeight: 'bold'
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5
   }
 });
 
