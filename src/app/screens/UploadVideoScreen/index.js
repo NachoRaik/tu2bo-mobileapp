@@ -148,17 +148,9 @@ function UploadVideoScreen({ navigation }) {
             {thumbLoading || !thumbnail ? (
               <ActivityIndicator />
             ) : (
-              <Image
-                source={{ uri: thumbnail }}
-                style={{ height: 130, width: '90%', marginVertical: 10 }}
-              />
+              <Image source={{ uri: thumbnail }} style={styles.thumb} />
             )}
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-around'
-              }}>
+            <View style={styles.attachment}>
               <Entypo name="attachment" size={25} color="green" />
               <Text>Video Adjunto</Text>
             </View>

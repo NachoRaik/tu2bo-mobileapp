@@ -12,6 +12,16 @@ const styles = StyleSheet.create({
     alignItems: 'center'
     //width: '100%'
   },
+  thumb: {
+    height: 130,
+    width: '90%',
+    marginVertical: 10
+  },
+  attachment: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
+  },
   uploadButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
