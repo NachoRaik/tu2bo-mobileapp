@@ -58,8 +58,7 @@ function UploadVideoScreen({ navigation }) {
       const { uri: image } = await VideoThumbnails.getThumbnailAsync(videoUri, {
         time: 150
       });
-      const thumbUrl = await uploadToFirebase(image, 'thumb');
-      setThumb(thumbUrl);
+      setThumb(image);
     } catch (e) {
       console.warn(e);
     } finally {
@@ -74,6 +73,7 @@ function UploadVideoScreen({ navigation }) {
       setUploading(true);
       const uploadUrl = await uploadToFirebase(uri, 'video');
       setVideoUrl(uploadUrl);
+      const thumbUrl = await uploadToFirebase(thumbnail, 'thumb');
       dispatch(
         actionCreator.uploadVideo(user.id, {
           url: uploadUrl,
@@ -82,7 +82,7 @@ function UploadVideoScreen({ navigation }) {
           visibility: visibility,
           user_id: user.id,
           description: description,
-          thumb: thumbnail,
+          thumb: thumbUrl,
           date: date
         })
       );
