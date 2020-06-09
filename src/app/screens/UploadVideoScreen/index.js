@@ -1,22 +1,32 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { ScrollView, TextInput, View, Text, Picker, Image } from 'react-native';
+import moment from 'moment';
+import {
+  ScrollView,
+  SafeAreaView,
+  TextInput,
+  View,
+  Text,
+  Picker,
+  Image,
+  ActivityIndicator
+} from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as VideoThumbnails from 'expo-video-thumbnails';
 import { StackActions } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
 import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
+import actionCreator from '@redux/users/actions';
 
 import styles from './styles';
-import { uploadVideoToFirebase } from './utils';
+import { uploadToFirebase } from './utils';
 import { VISIBILITYS } from './constants';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 console.disableYellowBox = true;
 
@@ -28,10 +38,13 @@ function UploadVideoScreen({ navigation }) {
   const [uri, setUri] = useState('');
   const [visibility, setVisibility] = useState(VISIBILITYS[0].value);
   const [thumbnail, setThumb] = useState('');
+  const [thumbLoading, setThumbLoading] = useState(false);
+  const [timestamp, setTimestamp] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState(null);
 
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
@@ -41,20 +54,38 @@ function UploadVideoScreen({ navigation }) {
 
   const generateThumbnail = useCallback(async (videoUri) => {
     try {
+      setThumbLoading(true);
       const { uri: image } = await VideoThumbnails.getThumbnailAsync(videoUri, {
         time: 150
       });
-      setThumb(image); //should save thumbnail in firebase too
+      const thumbUrl = await uploadToFirebase(image, 'thumb');
+      setThumb(thumbUrl);
     } catch (e) {
       console.warn(e);
+    } finally {
+      setThumbLoading(false);
     }
   }, []);
 
   const handleSubmitVideo = useCallback(async () => {
     try {
+      const date = moment().format('MM/DD/YY HH:mm:ss');
+      setTimestamp(date);
       setUploading(true);
-      const uploadUrl = await uploadVideoToFirebase(uri, 1);
-      setVideoUrl(uploadUrl); //{url, desc, title} then goes to media server
+      const uploadUrl = await uploadToFirebase(uri, 'video');
+      setVideoUrl(uploadUrl);
+      dispatch(
+        actionCreator.uploadVideo(user.id, {
+          url: uploadUrl,
+          author: user.username,
+          title: title,
+          visibility: visibility,
+          user_id: user.id,
+          description: description,
+          thumb: thumbnail,
+          date: date
+        })
+      );
       setOpenModal(true);
     } catch (e) {
       console.warn(e);
@@ -62,7 +93,7 @@ function UploadVideoScreen({ navigation }) {
     } finally {
       setUploading(false);
     }
-  }, [uri]);
+  }, [uri, dispatch, thumbnail, user, title, visibility, description]);
 
   const filmVideo = useCallback(async () => {
     let pickerResult = await ImagePicker.launchCameraAsync({
@@ -94,11 +125,12 @@ function UploadVideoScreen({ navigation }) {
         url: videoUrl,
         title: title,
         description: description,
-        author: user?.username
+        author: user?.username,
+        date: timestamp
       }
     });
     setOpenModal(false);
-  }, [navigation, videoUrl, title, user, description]);
+  }, [navigation, videoUrl, title, user, timestamp, description]);
 
   const disable = !uri || !title;
 
@@ -113,7 +145,9 @@ function UploadVideoScreen({ navigation }) {
       <ScrollView contentContainerStyle={styles.scrollArea}>
         {uri ? (
           <>
-            {!!thumbnail && (
+            {thumbLoading || !thumbnail ? (
+              <ActivityIndicator />
+            ) : (
               <Image
                 source={{ uri: thumbnail }}
                 style={{ height: 130, width: '90%', marginVertical: 10 }}
