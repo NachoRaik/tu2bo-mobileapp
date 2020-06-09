@@ -19,7 +19,7 @@ function VideoPlayer({ source }) {
           uri: source
         }}
         rate={1.0}
-        isMuted //={false}
+        isMuted={false}
         useNativeControls
         shouldPlay
         style={styles.video}

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { SafeAreaView, TextInput, View, Text, Picker } from 'react-native';
+import { ScrollView, TextInput, View, Text, Picker, Image } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
@@ -16,6 +16,9 @@ import { COLORS } from '@constants/colors';
 import styles from './styles';
 import { uploadVideoToFirebase } from './utils';
 import { VISIBILITYS } from './constants';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+console.disableYellowBox = true;
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
@@ -24,6 +27,7 @@ function UploadVideoScreen({ navigation }) {
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
   const [visibility, setVisibility] = useState(VISIBILITYS[0].value);
+  const [thumbnail, setThumb] = useState('');
 
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState(null);
@@ -34,6 +38,17 @@ function UploadVideoScreen({ navigation }) {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
     Permissions.getAsync(Permissions.CAMERA);
   });
+
+  const generateThumbnail = useCallback(async (videoUri) => {
+    try {
+      const { uri: image } = await VideoThumbnails.getThumbnailAsync(videoUri, {
+        time: 150
+      });
+      setThumb(image); //should save thumbnail in firebase too
+    } catch (e) {
+      console.warn(e);
+    }
+  }, []);
 
   const handleSubmitVideo = useCallback(async () => {
     try {
@@ -56,8 +71,9 @@ function UploadVideoScreen({ navigation }) {
     if (!pickerResult.cancelled) {
       //dispatcheo la action
       setUri(pickerResult.uri);
+      generateThumbnail(pickerResult.uri);
     }
-  }, []);
+  }, [generateThumbnail]);
 
   const pickVideo = useCallback(async () => {
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
@@ -67,8 +83,9 @@ function UploadVideoScreen({ navigation }) {
     if (!pickerResult.cancelled) {
       //dispatcheo la action
       setUri(pickerResult.uri);
+      generateThumbnail(pickerResult.uri);
     }
-  }, []);
+  }, [generateThumbnail]);
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.popToTop());
@@ -93,60 +110,77 @@ function UploadVideoScreen({ navigation }) {
         closeText="Ver mis videos"
         onPress={onCloseModal}
       />
-      {uri ? (
-        <>
-          <Entypo name="attachment" size={30} color="green" />
-          <Text>Video Adjunto</Text>
-        </>
-      ) : (
-        <View style={styles.uploadButtons}>
-          <IconButton
-            name="video-camera"
-            onPress={() => filmVideo()}
-            text="Grabar video"
-          />
-          <IconButton
-            name="folder-video"
-            onPress={() => pickVideo()}
-            text="Seleccionar video"
-          />
+      <ScrollView contentContainerStyle={styles.scrollArea}>
+        {uri ? (
+          <>
+            {!!thumbnail && (
+              <Image
+                source={{ uri: thumbnail }}
+                style={{ height: 130, width: '90%', marginVertical: 10 }}
+              />
+            )}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around'
+              }}>
+              <Entypo name="attachment" size={25} color="green" />
+              <Text>Video Adjunto</Text>
+            </View>
+          </>
+        ) : (
+          <View style={styles.uploadButtons}>
+            <IconButton
+              name="video-camera"
+              onPress={() => filmVideo()}
+              text="Grabar video"
+            />
+            <IconButton
+              name="folder-video"
+              onPress={() => pickVideo()}
+              text="Seleccionar video"
+            />
+          </View>
+        )}
+        <TextInput
+          style={styles.titleInput}
+          onChangeText={setTitle}
+          value={title}
+          placeholder="Titulo"
+        />
+        <TextInput
+          style={styles.descInput}
+          onChangeText={setDescription}
+          value={description}
+          placeholder="Escribe una breve descripcion..."
+          dataDetectorTypes="all"
+          multiline
+        />
+        <View style={styles.visPicker}>
+          <Picker
+            selectedValue={visibility}
+            onValueChange={(itemValue) => setVisibility(itemValue)}>
+            {VISIBILITYS.map((v) => (
+              <Picker.Item key={v.value} label={v.name} value={v.value} />
+            ))}
+          </Picker>
         </View>
-      )}
-      <TextInput
-        style={styles.titleInput}
-        onChangeText={setTitle}
-        value={title}
-        placeholder="Titulo"
-      />
-      <TextInput
-        style={styles.descInput}
-        onChangeText={setDescription}
-        value={description}
-        placeholder="Escribe una breve descripcion..."
-        dataDetectorTypes="all"
-        multiline
-      />
-      <View style={styles.visPicker}>
-        <Picker
-          selectedValue={visibility}
-          onValueChange={(itemValue) => setVisibility(itemValue)}>
-          {VISIBILITYS.map((v) => (
-            <Picker.Item key={v.value} label={v.name} value={v.value} />
-          ))}
-        </Picker>
-      </View>
 
-      <CustomButton
-        text="SUBIR"
-        style={[styles.uploadButton, disable && styles.buttonDisable]}
-        textStyle={disable ? styles.textDisable : styles.uploadButtonText}
-        onPress={handleSubmitVideo}
-        disable={disable}
-        loading={uploading}
-        loaderColor={COLORS.white}
-      />
-      {uploading && <Text>El video puede tardar unos minutos en subir...</Text>}
-      {error && <Text>{error}</Text>}
+        <CustomButton
+          text="SUBIR"
+          style={[styles.uploadButton, disable && styles.buttonDisable]}
+          textStyle={disable ? styles.textDisable : styles.uploadButtonText}
+          onPress={handleSubmitVideo}
+          disable={disable}
+          loading={uploading}
+          loaderColor={COLORS.white}
+        />
+        {uploading && (
+          <Text>El video puede tardar unos minutos en subir...</Text>
+        )}
+        {error && <Text>{error}</Text>}
+      </ScrollView>
     </SafeAreaView>
   );
 }

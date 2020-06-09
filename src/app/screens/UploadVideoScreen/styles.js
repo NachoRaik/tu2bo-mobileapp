@@ -3,9 +3,14 @@ import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    //alignItems: 'center',
+    //flex: 1,
+    //justifyContent: 'center'
+  },
+  scrollArea: {
+    //flex: 1,
+    alignItems: 'center'
+    //width: '100%'
   },
   uploadButtons: {
     flexDirection: 'row',
