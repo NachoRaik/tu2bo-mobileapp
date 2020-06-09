@@ -28,6 +28,14 @@ const styles = StyleSheet.create({
     height: 150,
     textAlignVertical: 'top'
   },
+  visPicker: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.black,
+    marginVertical: 20,
+    padding: 5,
+    width: '90%'
+  },
   uploadButton: {
     backgroundColor: COLORS.main,
     borderStyle: 'solid',

@@ -1,8 +1,9 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import { SafeAreaView, TextInput, View, Text } from 'react-native';
+import { SafeAreaView, TextInput, View, Text, Picker } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
+import * as VideoThumbnails from 'expo-video-thumbnails';
 import { StackActions } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ import { COLORS } from '@constants/colors';
 
 import styles from './styles';
 import { uploadVideoToFirebase } from './utils';
+import { VISIBILITYS } from './constants';
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
@@ -21,6 +23,8 @@ function UploadVideoScreen({ navigation }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
+  const [visibility, setVisibility] = useState(VISIBILITYS[0].value);
+
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState(null);
 
@@ -122,6 +126,16 @@ function UploadVideoScreen({ navigation }) {
         dataDetectorTypes="all"
         multiline
       />
+      <View style={styles.visPicker}>
+        <Picker
+          selectedValue={visibility}
+          onValueChange={(itemValue) => setVisibility(itemValue)}>
+          {VISIBILITYS.map((v) => (
+            <Picker.Item key={v.value} label={v.name} value={v.value} />
+          ))}
+        </Picker>
+      </View>
+
       <CustomButton
         text="SUBIR"
         style={[styles.uploadButton, disable && styles.buttonDisable]}
