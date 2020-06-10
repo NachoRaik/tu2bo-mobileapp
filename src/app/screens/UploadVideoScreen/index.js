@@ -16,6 +16,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as VideoThumbnails from 'expo-video-thumbnails';
 import { StackActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
+import * as Random from 'expo-random';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
@@ -25,10 +26,10 @@ import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/users/actions';
 
 import styles from './styles';
-import { uploadToFirebase } from './utils';
+import { uploadToFirebase, getuuid } from './utils';
 import { VISIBILITYS } from './constants';
 
-console.disableYellowBox = true;
+//console.disableYellowBox = true;
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
@@ -71,9 +72,20 @@ function UploadVideoScreen({ navigation }) {
       const date = moment().format('MM/DD/YY HH:mm:ss');
       setTimestamp(date);
       setUploading(true);
-      const uploadUrl = await uploadToFirebase(uri, 'video');
+      const uuid = getuuid(); //to upload video in unique folder
+      const uploadUrl = await uploadToFirebase(
+        uri,
+        user.username,
+        uuid,
+        'video'
+      );
       setVideoUrl(uploadUrl);
-      const thumbUrl = await uploadToFirebase(thumbnail, 'thumb');
+      const thumbUrl = await uploadToFirebase(
+        thumbnail,
+        user.username,
+        uuid,
+        'thumb'
+      );
       dispatch(
         actionCreator.uploadVideo(user.id, {
           url: uploadUrl,
