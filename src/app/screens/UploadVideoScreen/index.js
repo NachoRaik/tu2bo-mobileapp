@@ -51,8 +51,6 @@ function UploadVideoScreen({ navigation }) {
   const user = useSelector((state) => state.auth.currentUser);
   const videoId = useSelector((state) => state.users.videoId);
 
-  console.warn(user);
-
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
     Permissions.getAsync(Permissions.CAMERA);
@@ -149,6 +147,7 @@ function UploadVideoScreen({ navigation }) {
     navigation.dispatch(StackActions.popToTop());
     navigation.navigate(ROUTES.VideoScreen, {
       video: {
+        id: videoId,
         url: videoUrl,
         title: title,
         description: description,
@@ -157,7 +156,17 @@ function UploadVideoScreen({ navigation }) {
       }
     });
     setOpenModal(false);
-  }, [navigation, videoUrl, title, user, timestamp, description]);
+    dispatch(actionCreator.cleanState());
+  }, [
+    dispatch,
+    navigation,
+    videoId,
+    videoUrl,
+    title,
+    user,
+    timestamp,
+    description
+  ]);
 
   const disable = !uri || !title;
 

@@ -26,6 +26,12 @@ function reducer(state = initialState, action) {
         loading: false,
         error: action.payload
       };
+    case actions.CLEAN_STATE:
+      return {
+        videoId: null,
+        error: null,
+        loading: false
+      };
     default:
       return state;
   }
