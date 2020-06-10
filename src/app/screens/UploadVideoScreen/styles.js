@@ -3,9 +3,10 @@ import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    //alignItems: 'center',
+    //alignItems: 'center'
     //flex: 1,
     //justifyContent: 'center'
+    marginTop: 20
   },
   scrollArea: {
     //flex: 1,

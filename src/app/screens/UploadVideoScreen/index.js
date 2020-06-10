@@ -8,7 +8,8 @@ import {
   Text,
   Picker,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  ProgressBarAndroid
 } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
@@ -16,7 +17,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as VideoThumbnails from 'expo-video-thumbnails';
 import { StackActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
-import * as Random from 'expo-random';
 
 import IconButton from '@components/IconButton';
 import OkModal from '@components/OkModal';
@@ -29,7 +29,7 @@ import styles from './styles';
 import { uploadToFirebase, getuuid } from './utils';
 import { VISIBILITYS } from './constants';
 
-//console.disableYellowBox = true;
+console.disableYellowBox = true;
 
 function UploadVideoScreen({ navigation }) {
   const [uploading, setUploading] = useState(false);
@@ -42,16 +42,29 @@ function UploadVideoScreen({ navigation }) {
   const [thumbLoading, setThumbLoading] = useState(false);
   const [timestamp, setTimestamp] = useState('');
 
+  const [progress, setProgress] = useState(0);
+
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.currentUser);
+  const videoId = useSelector((state) => state.users.videoId);
+
+  console.warn(user);
 
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);
     Permissions.getAsync(Permissions.CAMERA);
   });
+
+  useEffect(() => {
+    if (videoId) {
+      setProgress(1);
+      setOpenModal(true);
+      setUploading(false);
+    }
+  }, [videoId]);
 
   const generateThumbnail = useCallback(async (videoUri) => {
     try {
@@ -79,6 +92,7 @@ function UploadVideoScreen({ navigation }) {
         uuid,
         'video'
       );
+      setProgress(0.3);
       setVideoUrl(uploadUrl);
       const thumbUrl = await uploadToFirebase(
         thumbnail,
@@ -86,6 +100,7 @@ function UploadVideoScreen({ navigation }) {
         uuid,
         'thumb'
       );
+      setProgress(0.6);
       dispatch(
         actionCreator.uploadVideo(user.id, {
           url: uploadUrl,
@@ -98,12 +113,12 @@ function UploadVideoScreen({ navigation }) {
           date: date
         })
       );
-      setOpenModal(true);
+      //setOpenModal(true);
     } catch (e) {
       console.warn(e);
       setError('Algo falló mientras se subia el video');
     } finally {
-      setUploading(false);
+      //setUploading(false);
     }
   }, [uri, dispatch, thumbnail, user, title, visibility, description]);
 
@@ -204,16 +219,26 @@ function UploadVideoScreen({ navigation }) {
             ))}
           </Picker>
         </View>
+        {uploading ? (
+          <ProgressBarAndroid
+            styleAttr="Horizontal"
+            indeterminate={false}
+            color={COLORS.main}
+            style={{ width: '90%' }}
+            progress={progress}
+          />
+        ) : (
+          <CustomButton
+            text="SUBIR"
+            style={[styles.uploadButton, disable && styles.buttonDisable]}
+            textStyle={disable ? styles.textDisable : styles.uploadButtonText}
+            onPress={handleSubmitVideo}
+            disable={disable}
+            loading={uploading}
+            loaderColor={COLORS.white}
+          />
+        )}
 
-        <CustomButton
-          text="SUBIR"
-          style={[styles.uploadButton, disable && styles.buttonDisable]}
-          textStyle={disable ? styles.textDisable : styles.uploadButtonText}
-          onPress={handleSubmitVideo}
-          disable={disable}
-          loading={uploading}
-          loaderColor={COLORS.white}
-        />
         {uploading && (
           <Text>El video puede tardar unos minutos en subir...</Text>
         )}
