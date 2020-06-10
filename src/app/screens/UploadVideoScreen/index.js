@@ -210,6 +210,7 @@ function UploadVideoScreen({ navigation }) {
           onChangeText={setTitle}
           value={title}
           placeholder="Titulo"
+          editable={!uploading}
         />
         <TextInput
           style={styles.descInput}
@@ -217,12 +218,14 @@ function UploadVideoScreen({ navigation }) {
           value={description}
           placeholder="Escribe una breve descripcion..."
           dataDetectorTypes="all"
+          editable={!uploading}
           multiline
         />
         <View style={styles.visPicker}>
           <Picker
             selectedValue={visibility}
-            onValueChange={(itemValue) => setVisibility(itemValue)}>
+            onValueChange={(itemValue) => setVisibility(itemValue)}
+            enabled={!uploading}>
             {VISIBILITYS.map((v) => (
               <Picker.Item key={v.value} label={v.name} value={v.value} />
             ))}
@@ -249,9 +252,11 @@ function UploadVideoScreen({ navigation }) {
         )}
 
         {uploading && (
-          <Text>El video puede tardar unos minutos en subir...</Text>
+          <Text style={{ marginVertical: 5 }}>
+            El video puede tardar unos minutos en subir...
+          </Text>
         )}
-        {error && <Text>{error}</Text>}
+        {error && <Text style={{ marginVertical: 5 }}>{error}</Text>}
       </ScrollView>
     </SafeAreaView>
   );
