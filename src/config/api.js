@@ -6,6 +6,4 @@ const api = create({
   timeout: 10000
 });
 
-console.warn(API_BASE_URL);
-
 export default api;

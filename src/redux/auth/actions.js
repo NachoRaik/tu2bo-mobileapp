@@ -23,7 +23,6 @@ export const actionCreator = {
     dispatch({ type: actions.LOGIN });
     const response = await login(username, password);
     if (response?.ok) {
-      //const token = response.data.token; //response.headers['access-token']
       setSession(response.data);
       dispatch(actionCreator.loginSuccess(response.data));
     } else dispatch(actionCreator.loginFailure(response?.data));
