@@ -37,7 +37,7 @@ function UploadVideoScreen({ navigation }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [uri, setUri] = useState('');
-  const [visibility, setVisibility] = useState(VISIBILITYS[0].value);
+  const [visibility, setVisibility] = useState(VISIBILITIES[0].value);
   const [thumbnail, setThumb] = useState('');
   const [thumbLoading, setThumbLoading] = useState(false);
   const [timestamp, setTimestamp] = useState('');
