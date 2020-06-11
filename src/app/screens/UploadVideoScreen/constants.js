@@ -1,4 +1,4 @@
-export const VISIBILITYS = [
+export const VISIBILITIES = [
   {
     value: 'public',
     name: 'PUBLICO'

@@ -30,7 +30,7 @@ function reducer(state = initialState, action) {
         loading: false,
         error: action.payload
       };
-    case actions.SAVE_CURENT_SESSION:
+    case actions.SAVE_CURRENT_SESSION:
       return {
         ...state,
         token: action.payload.token,

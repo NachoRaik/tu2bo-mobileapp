@@ -27,7 +27,7 @@ import actionCreator from '@redux/users/actions';
 
 import styles from './styles';
 import { uploadToFirebase, getuuid } from './utils';
-import { VISIBILITYS } from './constants';
+import { VISIBILITIES } from './constants';
 
 console.disableYellowBox = true;
 
@@ -221,7 +221,7 @@ function UploadVideoScreen({ navigation }) {
             selectedValue={visibility}
             onValueChange={(itemValue) => setVisibility(itemValue)}
             enabled={!uploading}>
-            {VISIBILITYS.map((v) => (
+            {VISIBILITIES.map((v) => (
               <Picker.Item key={v.value} label={v.name} value={v.value} />
             ))}
           </Picker>

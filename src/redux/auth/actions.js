@@ -10,7 +10,7 @@ export const actions = {
   LOGIN: '@@AUTH/LOGIN',
   LOGIN_SUCCESS: '@@AUTH/LOGIN_SUCCESS',
   LOGIN_FAILURE: '@@AUTH/LOGIN_FAILURE',
-  SAVE_CURENT_SESSION: '@@AUTH/SAVE_CURENT_SESSION',
+  SAVE_CURRENT_SESSION: '@@AUTH/SAVE_CURRENT_SESSION',
   LOGOUT: '@@AUTH/LOGOUT',
   REGISTER: '@@AUTH/REGISTER',
   REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
@@ -37,7 +37,7 @@ export const actionCreator = {
   }),
   saveCurrentSession: (session) => {
     api.setHeader('Authorization', session.token);
-    return { type: actions.SAVE_CURENT_SESSION, payload: session };
+    return { type: actions.SAVE_CURRENT_SESSION, payload: session };
   },
   logout: () => {
     removeSession();
