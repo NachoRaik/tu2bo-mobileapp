@@ -111,12 +111,9 @@ function UploadVideoScreen({ navigation }) {
           date: date
         })
       );
-      //setOpenModal(true);
     } catch (e) {
       console.warn(e);
       setError('Algo falló mientras se subia el video');
-    } finally {
-      //setUploading(false);
     }
   }, [uri, dispatch, thumbnail, user, title, visibility, description]);
 
@@ -125,7 +122,6 @@ function UploadVideoScreen({ navigation }) {
       mediaTypes: 'Videos'
     });
     if (!pickerResult.cancelled) {
-      //dispatcheo la action
       setUri(pickerResult.uri);
       generateThumbnail(pickerResult.uri);
     }
@@ -137,7 +133,6 @@ function UploadVideoScreen({ navigation }) {
     });
 
     if (!pickerResult.cancelled) {
-      //dispatcheo la action
       setUri(pickerResult.uri);
       generateThumbnail(pickerResult.uri);
     }
