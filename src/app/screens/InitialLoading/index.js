@@ -6,15 +6,15 @@ import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/auth/actions';
 
-import { getToken } from '@services/AuthService';
+import { getSession } from '@services/AuthService';
 import styles from './styles';
 
 function InitialLoading({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
-    getToken().then((token) => {
-      if (token) {
-        dispatch(actionCreator.saveCurrentToken(token));
+    getSession().then(({ token, user }) => {
+      if (token && user) {
+        dispatch(actionCreator.saveCurrentSession({ token, user }));
         navigation.navigate(ROUTES.Home);
       } else {
         navigation.navigate(ROUTES.Login);

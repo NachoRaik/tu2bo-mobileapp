@@ -3,9 +3,20 @@ import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: 20
+  },
+  scrollArea: {
+    alignItems: 'center'
+  },
+  thumb: {
+    height: 130,
+    width: '90%',
+    marginVertical: 10
+  },
+  attachment: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'space-around'
   },
   uploadButtons: {
     flexDirection: 'row',
@@ -27,6 +38,14 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 150,
     textAlignVertical: 'top'
+  },
+  visPicker: {
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: COLORS.black,
+    marginVertical: 20,
+    padding: 5,
+    width: '90%'
   },
   uploadButton: {
     backgroundColor: COLORS.main,

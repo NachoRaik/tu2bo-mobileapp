@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  ActivityIndicator
+  ActivityIndicator,
+  RefreshControl
 } from 'react-native';
 
 import { ROUTES } from '@constants/routes';
@@ -15,12 +16,22 @@ import actionCreators from '@redux/videos/actions';
 import styles from './styles';
 
 function HomeScreen({ navigation }) {
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
   const videos = useSelector((state) => state.videos.videos);
   const videosLoading = useSelector((state) => state.videos.loading);
 
   useEffect(() => {
+    dispatch(actionCreators.getVideos());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setRefreshing(false);
+  }, [videos]);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
     dispatch(actionCreators.getVideos());
   }, [dispatch]);
 
@@ -52,6 +63,13 @@ function HomeScreen({ navigation }) {
           data={videos}
           renderItem={renderVideo}
           keyExtractor={keyExtractor}
+          refreshControl={
+            <RefreshControl
+              colors={[COLORS.main, COLORS.main]}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
+          }
         />
       )}
     </SafeAreaView>

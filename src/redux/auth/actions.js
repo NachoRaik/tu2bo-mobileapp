@@ -1,11 +1,16 @@
-import { login, register, setToken, removeToken } from '@services/AuthService';
+import {
+  login,
+  register,
+  setSession,
+  removeSession
+} from '@services/AuthService';
 import api from '@config/api';
 
 export const actions = {
   LOGIN: '@@AUTH/LOGIN',
   LOGIN_SUCCESS: '@@AUTH/LOGIN_SUCCESS',
   LOGIN_FAILURE: '@@AUTH/LOGIN_FAILURE',
-  SAVE_CURENT_TOKEN: '@@AUTH/SAVE_CURENT_TOKEN',
+  SAVE_CURRENT_SESSION: '@@AUTH/SAVE_CURRENT_SESSION',
   LOGOUT: '@@AUTH/LOGOUT',
   REGISTER: '@@AUTH/REGISTER',
   REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
@@ -18,8 +23,7 @@ export const actionCreator = {
     dispatch({ type: actions.LOGIN });
     const response = await login(username, password);
     if (response?.ok) {
-      const token = response.data.token; //response.headers['access-token']
-      setToken(token);
+      setSession(response.data);
       dispatch(actionCreator.loginSuccess(response.data));
     } else dispatch(actionCreator.loginFailure(response?.data));
   },
@@ -31,12 +35,12 @@ export const actionCreator = {
     type: actions.LOGIN_FAILURE,
     payload: problem
   }),
-  saveCurrentToken: (token) => {
-    api.setHeader('Authorization', token);
-    return { type: actions.SAVE_CURENT_TOKEN, payload: token };
+  saveCurrentSession: (session) => {
+    api.setHeader('Authorization', session.token);
+    return { type: actions.SAVE_CURRENT_SESSION, payload: session };
   },
   logout: () => {
-    removeToken();
+    removeSession();
     return { type: actions.LOGOUT };
   },
   register: (info) => async (dispatch) => {
