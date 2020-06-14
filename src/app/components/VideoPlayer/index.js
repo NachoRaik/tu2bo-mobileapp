@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react';
-//import { TouchableOpacity, Text } from 'react-native';
 import { Video } from 'expo-av';
 
 import styles from './styles';
