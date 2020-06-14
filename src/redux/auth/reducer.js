@@ -34,7 +34,7 @@ function reducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
-        currentUser: actions.payload.user
+        currentUser: action.payload.user
       };
     case actions.LOGOUT:
       return {

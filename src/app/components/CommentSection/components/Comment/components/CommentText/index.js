@@ -7,7 +7,6 @@ import styles from './styles';
 
 function CommentText({ text, onRefPress }) {
   const [subtexts] = useState(commentSubtexts(text));
-  console.warn(subtexts);
   return (
     <Text style={styles.text}>
       {subtexts.map((subtext) =>
