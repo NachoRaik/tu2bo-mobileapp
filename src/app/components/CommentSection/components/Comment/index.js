@@ -2,14 +2,15 @@ import React from 'react';
 import { Text, View, Image } from 'react-native';
 
 import styles from './styles';
+import CommentText from './components/CommentText';
 
-function Comment({ image, text, user }) {
+function Comment({ image, text, user, onRefPress }) {
   return (
     <View style={styles.container}>
       <Image source={{ uri: image }} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={styles.user}>{user}</Text>
-        <Text style={styles.text}>{text}</Text>
+        <CommentText style={styles.text} text={text} onRefPress={onRefPress} />
       </View>
     </View>
   );

@@ -6,17 +6,18 @@ import CommentInput from './components/CommentInput';
 
 import styles from './styles';
 
-function CommentSection({ comments }) {
+function CommentSection({ comments, onRefPress }) {
   const renderComment = useCallback(
     (item) => (
       <Comment
-        key={item.id.toString()}
-        user={item.username}
-        text={item.comment}
+        key={item.comment_id.toString()}
+        user={item.author}
+        text={item.content}
         image={item.imageUrl || undefined}
+        onRefPress={onRefPress}
       />
     ),
-    []
+    [onRefPress]
   );
 
   return (
