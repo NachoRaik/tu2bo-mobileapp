@@ -20,7 +20,7 @@ function VideoDetailScreen({ navigation, route }) {
   });
 
   const onRefPress = useCallback(
-    (seconds) => videoRef?.playFromPositionAsync(seconds),
+    (miliseconds) => videoRef?.playFromPositionAsync(miliseconds),
     [videoRef]
   );
 
