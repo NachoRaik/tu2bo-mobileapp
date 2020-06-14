@@ -9,18 +9,21 @@ export const register = (info) => api.post('/register', info);
 
 export const getSession = async () => {
   const token = await AsyncStorage.getItem('access-token');
-  const user = await AsyncStorage.getItem('current-user');
-  return { token, user };
+  const id = parseInt(await AsyncStorage.getItem('userid'), 10);
+  const username = await AsyncStorage.getItem('username');
+  return { token, user: { id, username } };
 };
 
 export const removeSession = () => {
   AsyncStorage.removeItem('access-token');
-  AsyncStorage.removeItem('current-user');
+  AsyncStorage.removeItem('userid');
+  AsyncStorage.removeItem('username');
   api.deleteHeader('Authorization');
 };
 
 export const setSession = ({ token, user }) => {
   AsyncStorage.setItem('access-token', token);
-  AsyncStorage.setItem('current-user', user);
+  AsyncStorage.setItem('userid', `${user.id}`);
+  AsyncStorage.setItem('username', user.username);
   api.setHeader('Authorization', token);
 };

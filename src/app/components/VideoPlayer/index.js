@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import React, { useCallback } from 'react';
 import { Video } from 'expo-av';
 
 import styles from './styles';
 
-function VideoPlayer({ source }) {
-  const [videoRef, setVideoRef] = useState(null);
-
-  const handleVideoRef = useCallback((component) => {
-    setVideoRef(component);
-  }, []);
+function VideoPlayer({ source, setVideoRef }) {
+  const handleVideoRef = useCallback(
+    (component) => {
+      setVideoRef(component);
+    },
+    [setVideoRef]
+  );
 
   return (
     <>
@@ -25,9 +25,6 @@ function VideoPlayer({ source }) {
         style={styles.video}
         resizeMode="contain"
       />
-      {/*<TouchableOpacity onPress={() => videoRef?.playFromPositionAsync(4000)}>
-        <Text>Click me 0.4</Text>
-      </TouchableOpacity>*/}
     </>
   );
 }
