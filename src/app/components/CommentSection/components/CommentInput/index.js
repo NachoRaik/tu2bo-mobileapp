@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { TextInput, Text, View, TouchableOpacity } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { TextInput, View } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+import { COLORS } from '@constants/colors';
 
 import styles from './styles';
 
 function CommentInput({ onSubmit }) {
   const [comment, setComment] = useState('');
+
+  const onCommentSubmit = useCallback(() => {
+    onSubmit(comment);
+    setComment('');
+  }, [comment, onSubmit]);
 
   return (
     <View style={styles.container}>
@@ -15,9 +23,13 @@ function CommentInput({ onSubmit }) {
         label="Comment"
         placeholder="Ingrese un comentario"
       />
-      <TouchableOpacity onPress={() => onSubmit(comment)}>
-        <Text>Postear</Text>
-      </TouchableOpacity>
+      <FontAwesome.Button
+        name="send"
+        backgroundColor={COLORS.white}
+        color={COLORS.main}
+        size={20}
+        onPress={onCommentSubmit}
+      />
     </View>
   );
 }
