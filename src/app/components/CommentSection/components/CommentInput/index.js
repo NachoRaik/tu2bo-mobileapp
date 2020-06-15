@@ -4,13 +4,14 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import { COLORS } from '@constants/colors';
 
+import { parseComment } from './utils';
 import styles from './styles';
 
 function CommentInput({ onSubmit }) {
   const [comment, setComment] = useState('');
 
   const onCommentSubmit = useCallback(() => {
-    onSubmit(comment);
+    onSubmit(parseComment(comment));
     setComment('');
   }, [comment, onSubmit]);
 
