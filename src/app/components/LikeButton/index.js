@@ -6,7 +6,7 @@ function LikeButton({ liked, onLiked }) {
   return (
     <TouchableOpacity
       //style={[styles.button, style]}
-      onPress={() => onLiked(!liked)}>
+      onPress={onLiked}>
       <AntDesign name={liked ? 'like1' : 'like2'} size={28} color="red" />
     </TouchableOpacity>
   );

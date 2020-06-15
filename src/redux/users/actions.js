@@ -14,7 +14,7 @@ const actionCreators = {
     if (response.ok) {
       dispatch({
         type: actions.UPLOAD_VIDEO_SUCCESS,
-        payload: response.data
+        payload: response.data.id
       });
     } else {
       dispatch({

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, Text, View, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 
-function CommentInput() {
+function CommentInput({ onSubmit }) {
   const [comment, setComment] = useState('');
 
   return (
@@ -15,6 +15,9 @@ function CommentInput() {
         label="Comment"
         placeholder="Ingrese un comentario"
       />
+      <TouchableOpacity onPress={() => onSubmit(comment)}>
+        <Text>Postear</Text>
+      </TouchableOpacity>
     </View>
   );
 }

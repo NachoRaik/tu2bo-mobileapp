@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback, useState } from 'react';
-import moment from 'moment';
 import {
   ScrollView,
   SafeAreaView,
@@ -24,6 +23,7 @@ import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/users/actions';
+import { getFormatTimestamp } from '@utils/date';
 
 import styles from './styles';
 import { uploadToFirebase, getuuid } from './utils';
@@ -80,7 +80,7 @@ function UploadVideoScreen({ navigation }) {
 
   const handleSubmitVideo = useCallback(async () => {
     try {
-      const date = moment().format('MM/DD/YY HH:mm:ss');
+      const date = getFormatTimestamp();
       setTimestamp(date);
       setUploading(true);
       const uuid = getuuid(); //to upload video in unique folder
@@ -140,6 +140,8 @@ function UploadVideoScreen({ navigation }) {
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.popToTop());
+    console.warn('video id es');
+    console.warn(videoId);
     navigation.navigate(ROUTES.VideoScreen, {
       video: {
         id: videoId,

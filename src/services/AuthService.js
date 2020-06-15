@@ -9,7 +9,8 @@ export const register = (info) => api.post('/register', info);
 
 export const getSession = async () => {
   const token = await AsyncStorage.getItem('access-token');
-  const id = parseInt(await AsyncStorage.getItem('userid'), 10);
+  const id = await AsyncStorage.getItem('userid');
+  console.warn(id);
   const username = await AsyncStorage.getItem('username');
   return { token, user: { id, username } };
 };
