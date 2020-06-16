@@ -1,4 +1,5 @@
 import { uploadVideo } from '@services/UserService';
+import videoActionCreators from '@redux/videos/actions';
 
 export const actions = {
   UPLOAD_VIDEO: '@@USERS/UPLOAD_VIDEO',
@@ -16,10 +17,11 @@ const actionCreators = {
         type: actions.UPLOAD_VIDEO_SUCCESS,
         payload: response.data.id
       });
+      dispatch(videoActionCreators.getVideos());
     } else {
       dispatch({
         type: actions.UPLOAD_VIDEO_FAILURE,
-        payload: response.problem
+        payload: response.data.reason
       });
     }
   },

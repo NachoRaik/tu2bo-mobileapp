@@ -28,7 +28,7 @@ const actionCreators = {
     } else {
       dispatch({
         type: actions.GET_VIDEOS_FAILURE,
-        payload: response.problem
+        payload: response.data.reason
       });
     }
   },
@@ -43,7 +43,7 @@ const actionCreators = {
     } else {
       dispatch({
         type: actions.GET_VIDEO_COMMENTS_FAILURE,
-        payload: response.problem
+        payload: response.data.reason
       });
     }
   },
@@ -58,7 +58,7 @@ const actionCreators = {
     } else {
       dispatch({
         type: actions.COMMENT_VIDEO_FAILURE,
-        payload: response.problem
+        payload: response.data.reason
       });
     }
   }

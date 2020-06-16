@@ -19,12 +19,12 @@ export const removeSession = () => {
   AsyncStorage.removeItem('access-token');
   AsyncStorage.removeItem('userid');
   AsyncStorage.removeItem('username');
-  api.deleteHeader('Authorization');
+  api.deleteHeader('access-token');
 };
 
 export const setSession = ({ token, user }) => {
   AsyncStorage.setItem('access-token', token);
   AsyncStorage.setItem('userid', `${user.id}`);
   AsyncStorage.setItem('username', user.username);
-  api.setHeader('Authorization', token);
+  api.setHeader('access-token', token);
 };

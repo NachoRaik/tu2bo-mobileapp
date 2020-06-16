@@ -25,7 +25,7 @@ export const actionCreator = {
     if (response?.ok) {
       setSession(response.data);
       dispatch(actionCreator.loginSuccess(response.data));
-    } else dispatch(actionCreator.loginFailure(response?.data));
+    } else dispatch(actionCreator.loginFailure(response?.data.reason));
   },
   loginSuccess: (token) => ({
     type: actions.LOGIN_SUCCESS,
@@ -48,7 +48,7 @@ export const actionCreator = {
     const response = await register(info);
     if (response.ok) {
       dispatch(actionCreator.registerSuccess());
-    } else dispatch(actionCreator.registerFailure(response.data));
+    } else dispatch(actionCreator.registerFailure(response.data.reason));
   },
   registerSuccess: () => ({
     type: actions.REGISTER_SUCCESS
