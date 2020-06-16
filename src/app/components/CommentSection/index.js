@@ -24,7 +24,7 @@ function CommentSection({ loading, comments, onRefPress, onCommentSubmit }) {
     <View style={styles.commentSection}>
       <Text style={styles.title}>Comentarios</Text>
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator color="red" style={{ margin: 15 }} />
       ) : (
         <View style={styles.container}>
           {comments.map((item) => renderComment(item))}

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import VideoPlayer from '@components/VideoPlayer';
@@ -7,7 +7,7 @@ import CommentSection from '@components/CommentSection';
 import LikeButton from '@components/LikeButton';
 import actionCreators from '@redux/videos/actions';
 import { getFormatTimestamp } from '@utils/date';
-import { updateLikedVideo } from '@services/VideoService';
+import { updateLikedVideo, getVideoById } from '@services/VideoService';
 
 import { formatDate } from './utils';
 
@@ -15,6 +15,8 @@ import styles from './styles';
 
 function VideoDetailScreen({ navigation, route }) {
   const { id, url, title, author, description, date } = route?.params?.video;
+  const [loading, setLoading] = useState(false);
+  const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [videoRef, setVideoRef] = useState(null);
 
@@ -26,7 +28,19 @@ function VideoDetailScreen({ navigation, route }) {
   const user = useSelector((state) => state.auth.currentUser);
 
   useEffect(() => {
-    dispatch(actionCreators.getVideoComments(id));
+    async function fetchData() {
+      dispatch(actionCreators.getVideoComments(id));
+      setLoading(true);
+      const response = await getVideoById(id);
+      if (response.ok) {
+        setLiked(response.data.user_related_info.is_liked);
+        setLikes(response.data.likes);
+        setLoading(false);
+      } else {
+        //TODO: Add error
+      }
+    }
+    fetchData();
   }, [dispatch, id]);
 
   navigation.setOptions({
@@ -53,11 +67,12 @@ function VideoDetailScreen({ navigation, route }) {
   const onLikeToggle = useCallback(async () => {
     const response = await updateLikedVideo(id, { liked: !liked });
     if (response.ok) {
+      setLikes(likes + (liked ? -1 : 1));
       setLiked(!liked);
     } else {
       //TODO: Add error
     }
-  }, [id, liked]);
+  }, [id, liked, likes]);
 
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
@@ -66,23 +81,27 @@ function VideoDetailScreen({ navigation, route }) {
         style={{ alignSelf: 'center' }}
         setVideoRef={setVideoRef}
       />
-      <View style={styles.videoInfo}>
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>{title}</Text>
-            <Text>{formatDate(date)}</Text>
+      {loading ? (
+        <ActivityIndicator color="red" style={{ marginTop: 20 }} />
+      ) : (
+        <View style={styles.videoInfo}>
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.title}>{title}</Text>
+              <Text>{formatDate(date)}</Text>
+            </View>
+            <LikeButton liked={liked} onLiked={onLikeToggle} likes={likes} />
           </View>
-          <LikeButton liked={liked} onLiked={onLikeToggle} />
+          <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
+          <Text style={styles.desc}>{description}</Text>
+          <CommentSection
+            loading={commentsLoading}
+            comments={comments}
+            onRefPress={onRefPress}
+            onCommentSubmit={submitComment}
+          />
         </View>
-        <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
-        <Text style={styles.desc}>{description}</Text>
-        <CommentSection
-          loading={commentsLoading}
-          comments={comments}
-          onRefPress={onRefPress}
-          onCommentSubmit={submitComment}
-        />
-      </View>
+      )}
     </ScrollView>
   );
 }
