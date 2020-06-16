@@ -140,8 +140,6 @@ function UploadVideoScreen({ navigation }) {
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.popToTop());
-    console.warn('video id es');
-    console.warn(videoId);
     navigation.navigate(ROUTES.VideoScreen, {
       video: {
         id: videoId,
