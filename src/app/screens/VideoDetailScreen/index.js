@@ -37,7 +37,7 @@ function VideoDetailScreen({ navigation, route }) {
         setLiked(response.data.user_related_info.is_liked);
         setLikes(response.data.likes);
       } else {
-        setError(response.data); //TODO: This will change
+        setError(response.data.reason);
       }
       setLoading(false);
     }

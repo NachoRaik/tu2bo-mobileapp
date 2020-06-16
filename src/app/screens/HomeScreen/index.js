@@ -22,8 +22,6 @@ function HomeScreen({ navigation }) {
   const videos = useSelector((state) => state.videos.videos);
   const videosLoading = useSelector((state) => state.videos.loading);
 
-  console.warn(videos);
-
   useEffect(() => {
     dispatch(actionCreators.getVideos());
   }, [dispatch]);
