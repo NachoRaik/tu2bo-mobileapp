@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { ScrollView, Text, View, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, ActivityIndicator, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import VideoPlayer from '@components/VideoPlayer';
@@ -19,6 +19,7 @@ function VideoDetailScreen({ navigation, route }) {
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [videoRef, setVideoRef] = useState(null);
+  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
 
@@ -35,13 +36,24 @@ function VideoDetailScreen({ navigation, route }) {
       if (response.ok) {
         setLiked(response.data.user_related_info.is_liked);
         setLikes(response.data.likes);
-        setLoading(false);
       } else {
-        //TODO: Add error
+        setError(response.data); //TODO: This will change
       }
+      setLoading(false);
     }
     fetchData();
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (error) {
+      Alert.alert(
+        'Error',
+        error,
+        [{ text: 'OK', onPress: () => setError('') }],
+        { cancelable: false }
+      );
+    }
+  });
 
   navigation.setOptions({
     title: title
@@ -70,7 +82,7 @@ function VideoDetailScreen({ navigation, route }) {
       setLikes(likes + (liked ? -1 : 1));
       setLiked(!liked);
     } else {
-      //TODO: Add error
+      setError(response.data.reason);
     }
   }, [id, liked, likes]);
 
@@ -78,11 +90,11 @@ function VideoDetailScreen({ navigation, route }) {
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
       <VideoPlayer
         source={url}
-        style={{ alignSelf: 'center' }}
+        style={styles.videoPlayer}
         setVideoRef={setVideoRef}
       />
       {loading ? (
-        <ActivityIndicator color="red" style={{ marginTop: 20 }} />
+        <ActivityIndicator color="red" style={styles.loader} />
       ) : (
         <View style={styles.videoInfo}>
           <View style={styles.header}>

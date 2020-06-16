@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
   scrollArea: {
     //marginBottom: 10
   },
+  videoPlayer: {
+    alignSelf: 'center'
+  },
+  loader: {
+    marginTop: 20
+  },
   videoInfo: {
     margin: 15
   },
