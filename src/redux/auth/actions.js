@@ -36,7 +36,7 @@ export const actionCreator = {
     payload: problem
   }),
   saveCurrentSession: (session) => {
-    api.setHeader('Authorization', session.token);
+    api.setHeader('access-token', session.token);
     return { type: actions.SAVE_CURRENT_SESSION, payload: session };
   },
   logout: () => {

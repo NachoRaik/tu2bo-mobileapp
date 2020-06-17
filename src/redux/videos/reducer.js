@@ -4,8 +4,7 @@ const initialState = {
   videos: [],
   loading: false,
   error: null,
-  comments: [],
-  liked: false
+  comments: []
 };
 
 function reducer(state = initialState, action) {
