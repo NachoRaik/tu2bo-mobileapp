@@ -25,7 +25,7 @@ export const actionCreator = {
     if (response?.ok) {
       setSession(response.data);
       dispatch(actionCreator.loginSuccess(response.data));
-    } else dispatch(actionCreator.loginFailure(response?.data));
+    } else dispatch(actionCreator.loginFailure(response?.data.reason));
   },
   loginSuccess: (token) => ({
     type: actions.LOGIN_SUCCESS,
@@ -36,7 +36,7 @@ export const actionCreator = {
     payload: problem
   }),
   saveCurrentSession: (session) => {
-    api.setHeader('Authorization', session.token);
+    api.setHeader('access-token', session.token);
     return { type: actions.SAVE_CURRENT_SESSION, payload: session };
   },
   logout: () => {
@@ -48,7 +48,7 @@ export const actionCreator = {
     const response = await register(info);
     if (response.ok) {
       dispatch(actionCreator.registerSuccess());
-    } else dispatch(actionCreator.registerFailure(response.data));
+    } else dispatch(actionCreator.registerFailure(response.data.reason));
   },
   registerSuccess: () => ({
     type: actions.REGISTER_SUCCESS

@@ -3,7 +3,8 @@ import { actions } from './actions';
 const initialState = {
   videos: [],
   loading: false,
-  error: null
+  error: null,
+  comments: []
 };
 
 function reducer(state = initialState, action) {
@@ -21,6 +22,42 @@ function reducer(state = initialState, action) {
         loading: false
       };
     case actions.GET_VIDEOS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case actions.GET_VIDEO_COMMENTS:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case actions.GET_VIDEO_COMMENTS_SUCCESS:
+      return {
+        ...state,
+        comments: action.payload,
+        loading: false
+      };
+    case actions.GET_VIDEO_COMMENTS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+    case actions.COMMENT_VIDEO:
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
+    case actions.COMMENT_VIDEO_SUCCESS:
+      return {
+        ...state,
+        comments: [...state.comments, action.payload],
+        loading: false
+      };
+    case actions.COMMENT_VIDEO_FAILURE:
       return {
         ...state,
         loading: false,

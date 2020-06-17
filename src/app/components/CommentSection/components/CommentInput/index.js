@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { TextInput, View } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
+import { COLORS } from '@constants/colors';
+
+import { parseComment } from './utils';
 import styles from './styles';
 
-function CommentInput() {
+function CommentInput({ onSubmit }) {
   const [comment, setComment] = useState('');
+
+  const onCommentSubmit = useCallback(() => {
+    onSubmit(parseComment(comment));
+    setComment('');
+  }, [comment, onSubmit]);
 
   return (
     <View style={styles.container}>
@@ -14,6 +23,13 @@ function CommentInput() {
         value={comment}
         label="Comment"
         placeholder="Ingrese un comentario"
+      />
+      <FontAwesome.Button
+        name="send"
+        backgroundColor={COLORS.white}
+        color={COLORS.main}
+        size={20}
+        onPress={onCommentSubmit}
       />
     </View>
   );
