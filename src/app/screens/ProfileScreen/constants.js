@@ -14,3 +14,26 @@ export const MY_VIDEOS = [
     likes: 100000
   }
 ];
+
+export const PROFILE = {
+  username: 'aUsername',
+  image: 'anImageUrl.com',
+  first_name: 'aName',
+  last_name: 'aLastName',
+  email: 'email@host.com',
+  user_info: {
+    //this may not come if it is the same user
+    is_friend: true
+  }
+};
+
+export const REQUESTS = [
+  {
+    id: 1,
+    username: 'aUsername'
+  },
+  {
+    id: 2,
+    username: 'anotherUsername'
+  }
+];
