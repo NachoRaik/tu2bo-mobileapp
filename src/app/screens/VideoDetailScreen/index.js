@@ -8,13 +8,23 @@ import LikeButton from '@components/LikeButton';
 import actionCreators from '@redux/videos/actions';
 import { getFormatTimestamp } from '@utils/date';
 import { updateLikedVideo, getVideoById } from '@services/VideoService';
+import { ROUTES } from '@constants/routes';
 
 import { formatDate } from './utils';
 
 import styles from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function VideoDetailScreen({ navigation, route }) {
-  const { id, url, title, author, description, date } = route?.params?.video;
+  const {
+    id,
+    url,
+    title,
+    author,
+    description,
+    date,
+    user_id
+  } = route?.params?.video;
   const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
@@ -104,7 +114,14 @@ function VideoDetailScreen({ navigation, route }) {
             </View>
             <LikeButton liked={liked} onLiked={onLikeToggle} likes={likes} />
           </View>
-          <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(ROUTES.Profile, {
+                user_id
+              })
+            }>
+            <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
+          </TouchableOpacity>
           <Text style={styles.desc}>{description}</Text>
           <CommentSection
             loading={commentsLoading}

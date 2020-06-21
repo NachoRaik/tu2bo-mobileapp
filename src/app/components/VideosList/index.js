@@ -4,7 +4,8 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  RefreshControl
+  RefreshControl,
+  Button
 } from 'react-native';
 
 import { ROUTES } from '@constants/routes';
@@ -47,7 +48,7 @@ function VideosList({ videos, loading, onRefresh, navigation }) {
     <SafeAreaView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color={COLORS.main} />
-      ) : (
+      ) : videos.length ? (
         <FlatList
           data={videos}
           renderItem={renderVideo}
@@ -60,6 +61,8 @@ function VideosList({ videos, loading, onRefresh, navigation }) {
             />
           }
         />
+      ) : (
+        <Button title="Refrescar" onPress={handleRefresh} />
       )}
     </SafeAreaView>
   );
