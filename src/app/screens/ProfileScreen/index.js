@@ -20,7 +20,9 @@ function ProfileScreen({ navigation, route }) {
 
   console.warn(currentUser);
 
-  const isMyProfile = !user_id || user_id === currentUser.id;
+  const isMyProfile = !user_id || user_id === parseInt(currentUser.id, 10);
+
+  console.warn(isMyProfile);
 
   const profile = isMyProfile ? currentUser : PROFILE;
 
