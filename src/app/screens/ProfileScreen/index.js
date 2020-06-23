@@ -8,9 +8,11 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-import { useSelector } from 'react-redux';
+import { StackActions } from '@react-navigation/native';
+import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 
+import actionCreator from '@redux/auth/actions';
 import LogoutButton from '@components/LogoutButton';
 import VideosList from '@components/VideosList';
 import { COLORS } from '@constants/colors';
@@ -21,6 +23,7 @@ import {
   getFriendRequests,
   acceptFriendshipRequest
 } from '@services/UserService';
+import { ROUTES } from '@constants/routes';
 
 import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
@@ -43,6 +46,14 @@ function ProfileScreen({ navigation, route }) {
   const user_id = route?.params?.user_id || parseInt(currentUser.id, 10);
 
   const isMyProfile = user_id === parseInt(currentUser.id, 10);
+
+  const dispatch = useDispatch();
+
+  const onLogout = useCallback(() => {
+    navigation.dispatch(StackActions.popToTop());
+    dispatch(actionCreator.logout());
+    navigation.navigate(ROUTES.Login);
+  }, [navigation, dispatch]);
 
   const getRequests = useCallback(async () => {
     setLoadingRequests(true);
@@ -103,6 +114,10 @@ function ProfileScreen({ navigation, route }) {
         'Error',
         error,
         [
+          {
+            text: isMyProfile && 'Logout',
+            onPress: isMyProfile && onLogout
+          },
           {
             text: 'OK',
             onPress: () => {
