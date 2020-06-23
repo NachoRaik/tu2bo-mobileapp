@@ -8,6 +8,8 @@ const api = create({
   timeout: 10000
 });
 
+console.warn('aca');
+
 console.warn(API_BASE_URL);
 
 export default api;
