@@ -5,8 +5,6 @@ import {
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
-  RefreshControl,
-  Button,
   View,
   Text
 } from 'react-native';
@@ -16,16 +14,17 @@ import { acceptFriendshipRequest } from '@services/UserService';
 
 import styles from './styles';
 
-function FriendShipRequests({ requests, loading, navigation }) {
+function FriendShipRequests({ requests, loading }) {
   const renderRequest = useCallback(
     ({ item }) => (
       <View style={styles.videoCard}>
         <View style={styles.card}>
           <Text style={styles.title}>{item.username}</Text>
-          <Button
-            title="Aceptar"
-            onPress={() => acceptFriendshipRequest(item.id)}
-          />
+          <TouchableOpacity
+            style={styles.acceptUser}
+            onPress={() => acceptFriendshipRequest(item.id)}>
+            <Text style={styles.buttonText}>ACEPTAR</Text>
+          </TouchableOpacity>
         </View>
       </View>
     ),
@@ -33,15 +32,7 @@ function FriendShipRequests({ requests, loading, navigation }) {
   );
 
   const renderSeparator = useCallback(() => {
-    return (
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: COLORS.gray,
-          paddingHorizontal: 20
-        }}
-      />
-    );
+    return <View style={styles.requestSeparator} />;
   }, []);
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);

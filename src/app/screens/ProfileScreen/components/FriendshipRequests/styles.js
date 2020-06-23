@@ -40,6 +40,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     fontWeight: 'bold'
+  },
+  acceptUser: {
+    backgroundColor: COLORS.main,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 2,
+    borderRadius: 5
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontWeight: 'bold',
+    margin: 5
+  },
+  requestSeparator: {
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.gray,
+    paddingHorizontal: 20
   }
 });
 
