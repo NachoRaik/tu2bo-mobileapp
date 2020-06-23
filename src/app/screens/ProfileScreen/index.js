@@ -5,7 +5,8 @@ import {
   View,
   ScrollView,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 import { useSelector } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
@@ -15,6 +16,7 @@ import VideosList from '@components/VideosList';
 import { COLORS } from '@constants/colors';
 import {
   getUserById,
+  getVideosById,
   sendFriendRequest,
   getFriendRequests,
   acceptFriendshipRequest
@@ -24,7 +26,7 @@ import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
 
 import styles from './styles';
-import { MY_VIDEOS, IMAGE } from './constants';
+import { IMAGE } from './constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileScreen({ navigation, route }) {
@@ -33,12 +35,14 @@ function ProfileScreen({ navigation, route }) {
   const [loadingRequests, setLoadingRequests] = useState(false);
   const [profile, setProfile] = useState(null);
   const [requests, setRequests] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [error, setError] = useState('');
-  const user_id = route?.params?.user_id;
-
+  const [openError, setopenError] = useState(false);
   const currentUser = useSelector((state) => state.auth.currentUser);
 
-  const isMyProfile = !user_id || user_id === parseInt(currentUser.id, 10);
+  const user_id = route?.params?.user_id || parseInt(currentUser.id, 10);
+
+  const isMyProfile = user_id === parseInt(currentUser.id, 10);
 
   const getRequests = useCallback(async () => {
     setLoadingRequests(true);
@@ -63,12 +67,21 @@ function ProfileScreen({ navigation, route }) {
     [getRequests]
   );
 
+  const getVideos = useCallback(async () => {
+    setLoading(true);
+    const response = await getVideosById(user_id);
+    if (response.ok) {
+      setVideos(response.data);
+    } else {
+      setError(response.data.reason);
+    }
+    setLoading(false);
+  }, [user_id]);
+
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
-      const response = await getUserById(
-        user_id || parseInt(currentUser.id, 10)
-      );
+      const response = await getUserById(user_id);
       if (response.ok) {
         setProfile(response.data);
       } else {
@@ -77,19 +90,37 @@ function ProfileScreen({ navigation, route }) {
       setLoading(false);
     }
     fetchData();
+    getVideos();
     if (isMyProfile) {
       getRequests();
     }
-  }, [user_id, currentUser, getRequests, isMyProfile]);
+  }, [user_id, getRequests, getVideos, isMyProfile]);
 
-  console.warn(profile);
-  console.warn(requests);
+  useEffect(() => {
+    if (error && !openError) {
+      setopenError(true);
+      Alert.alert(
+        'Error',
+        error,
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setError('');
+              setopenError(false);
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+  }, [error, openError]);
 
   const imageUrl = profile?.profile_info?.picture || IMAGE;
 
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
+      {loading || !profile ? (
         <ActivityIndicator size="large" color={COLORS.main} />
       ) : (
         <ScrollView style={styles.scrollArea}>
@@ -114,14 +145,14 @@ function ProfileScreen({ navigation, route }) {
               <StatusButton
                 onRequest={() => sendFriendRequest(user_id)}
                 onAccept={() => acceptFriendshipRequest(user_id)}
-                status={profile.friendship_status}
+                status={profile?.friendship_status}
               />
             )}
           </View>
           <View style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={() => setSelection(0)}>
               <Text style={[styles.title, selection === 0 && styles.selected]}>
-                {isMyProfile ? 'Mis Videos' : `Videos de ${profile.username}`}
+                {isMyProfile ? 'Mis Videos' : `Videos de ${profile?.username}`}
               </Text>
             </TouchableOpacity>
             {isMyProfile && (
@@ -134,7 +165,7 @@ function ProfileScreen({ navigation, route }) {
             )}
           </View>
           {!selection ? (
-            <VideosList videos={MY_VIDEOS} navigation={navigation} />
+            <VideosList videos={videos} navigation={navigation} />
           ) : (
             <FriendshipRequests
               requests={requests}

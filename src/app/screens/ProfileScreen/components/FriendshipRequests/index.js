@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Entypo } from '@expo/vector-icons';
 import {
   SafeAreaView,

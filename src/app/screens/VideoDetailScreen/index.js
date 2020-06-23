@@ -30,6 +30,7 @@ function VideoDetailScreen({ navigation, route }) {
   const [liked, setLiked] = useState(false);
   const [videoRef, setVideoRef] = useState(null);
   const [error, setError] = useState('');
+  const [openError, setopenError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -55,15 +56,24 @@ function VideoDetailScreen({ navigation, route }) {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (error) {
+    if (error && !openError) {
+      setopenError(true);
       Alert.alert(
         'Error',
         error,
-        [{ text: 'OK', onPress: () => setError('') }],
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setError('');
+              setopenError(false);
+            }
+          }
+        ],
         { cancelable: false }
       );
     }
-  });
+  }, [error, openError]);
 
   navigation.setOptions({
     title: title
