@@ -10,11 +10,10 @@ import {
 } from 'react-native';
 
 import { COLORS } from '@constants/colors';
-import { acceptFriendshipRequest } from '@services/UserService';
 
 import styles from './styles';
 
-function FriendShipRequests({ requests, loading }) {
+function FriendShipRequests({ requests, loading, onAccept }) {
   const renderRequest = useCallback(
     ({ item }) => (
       <View style={styles.videoCard}>
@@ -22,13 +21,13 @@ function FriendShipRequests({ requests, loading }) {
           <Text style={styles.title}>{item.username}</Text>
           <TouchableOpacity
             style={styles.acceptUser}
-            onPress={() => acceptFriendshipRequest(item.id)}>
+            onPress={() => onAccept(item.id)}>
             <Text style={styles.buttonText}>ACEPTAR</Text>
           </TouchableOpacity>
         </View>
       </View>
     ),
-    []
+    [onAccept]
   );
 
   const renderSeparator = useCallback(() => {
@@ -40,7 +39,9 @@ function FriendShipRequests({ requests, loading }) {
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-        <ActivityIndicator size="large" color={COLORS.main} />
+        <View style={{ margin: 20 }}>
+          <ActivityIndicator size="small" color={COLORS.main} />
+        </View>
       ) : requests.length ? (
         <FlatList
           data={requests}

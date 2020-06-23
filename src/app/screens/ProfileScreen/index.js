@@ -24,12 +24,13 @@ import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
 
 import styles from './styles';
-import { MY_VIDEOS } from './constants';
+import { MY_VIDEOS, IMAGE } from './constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileScreen({ navigation, route }) {
   const [selection, setSelection] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingRequests, setLoadingRequests] = useState(false);
   const [profile, setProfile] = useState(null);
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState('');
@@ -40,15 +41,27 @@ function ProfileScreen({ navigation, route }) {
   const isMyProfile = !user_id || user_id === parseInt(currentUser.id, 10);
 
   const getRequests = useCallback(async () => {
-    setLoading(true);
+    setLoadingRequests(true);
     const response = await getFriendRequests();
     if (response.ok) {
       setRequests(response.data);
     } else {
       setError(response.data.reason);
     }
-    setLoading(false);
+    setLoadingRequests(false);
   }, []);
+
+  const onAcceptMyRequest = useCallback(
+    async (id) => {
+      const response = await acceptFriendshipRequest(id);
+      if (response.ok) {
+        getRequests();
+      } else {
+        setError(response.data.reason);
+      }
+    },
+    [getRequests]
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -72,14 +85,12 @@ function ProfileScreen({ navigation, route }) {
   console.warn(profile);
   console.warn(requests);
 
-  const imageUrl =
-    profile?.profile_info?.picture ||
-    'https://i.ya-webdesign.com/images/default-avatar-png-18.png'; //TODO
+  const imageUrl = profile?.profile_info?.picture || IMAGE;
 
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" color={COLORS.main} />
       ) : (
         <ScrollView style={styles.scrollArea}>
           <View style={styles.detailContainer}>
@@ -125,7 +136,11 @@ function ProfileScreen({ navigation, route }) {
           {!selection ? (
             <VideosList videos={MY_VIDEOS} navigation={navigation} />
           ) : (
-            <FriendshipRequests requests={requests} />
+            <FriendshipRequests
+              requests={requests}
+              loading={loadingRequests}
+              onAccept={onAcceptMyRequest}
+            />
           )}
         </ScrollView>
       )}

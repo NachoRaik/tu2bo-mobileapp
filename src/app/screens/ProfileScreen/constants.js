@@ -15,31 +15,5 @@ export const MY_VIDEOS = [
   }
 ];
 
-export const PROFILE = {
-  id: 1,
-  username: 'olifer97',
-  email: 'email@host.com',
-  profile_info: {
-    picture:
-      'https://www.kindpng.com/picc/m/163-1636340_user-avatar-icon-avatar-transparent-user-icon-png.png'
-  },
-  user_info: {
-    //this may not come if it is the same user
-    is_friend: true
-  }
-};
-
-export const REQUESTS = [
-  {
-    id: 3,
-    username: 'pepito'
-  },
-  {
-    id: 4,
-    username: 'juanita'
-  },
-  {
-    id: 5,
-    username: 'po'
-  }
-];
+export const IMAGE =
+  'https://i.ya-webdesign.com/images/default-avatar-png-18.png';
