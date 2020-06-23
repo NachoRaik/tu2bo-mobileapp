@@ -109,7 +109,7 @@ function VideoDetailScreen({ navigation, route }) {
   const navigateToProfile = useCallback(
     (userId) => {
       navigation.navigate(ROUTES.Profile, {
-        userId
+        user_id: userId
       });
     },
     [navigation]
