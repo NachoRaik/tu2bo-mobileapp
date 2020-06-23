@@ -106,6 +106,15 @@ function VideoDetailScreen({ navigation, route }) {
     }
   }, [id, liked, likes]);
 
+  const navigateToProfile = useCallback(
+    (userId) => {
+      navigation.navigate(ROUTES.Profile, {
+        userId
+      });
+    },
+    [navigation]
+  );
+
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
       <VideoPlayer
@@ -124,12 +133,7 @@ function VideoDetailScreen({ navigation, route }) {
             </View>
             <LikeButton liked={liked} onLiked={onLikeToggle} likes={likes} />
           </View>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(ROUTES.Profile, {
-                user_id
-              })
-            }>
+          <TouchableOpacity onPress={() => navigateToProfile(user_id)}>
             <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
           </TouchableOpacity>
           <Text style={styles.desc}>{description}</Text>
@@ -138,6 +142,7 @@ function VideoDetailScreen({ navigation, route }) {
             comments={comments}
             onRefPress={onRefPress}
             onCommentSubmit={submitComment}
+            onUserClick={navigateToProfile}
           />
         </View>
       )}

@@ -6,7 +6,13 @@ import CommentInput from './components/CommentInput';
 
 import styles from './styles';
 
-function CommentSection({ loading, comments, onRefPress, onCommentSubmit }) {
+function CommentSection({
+  loading,
+  comments,
+  onRefPress,
+  onCommentSubmit,
+  onUserClick
+}) {
   const renderComment = useCallback(
     (item) => (
       <Comment
@@ -15,9 +21,10 @@ function CommentSection({ loading, comments, onRefPress, onCommentSubmit }) {
         text={item.content}
         image={item.imageUrl || undefined}
         onRefPress={onRefPress}
+        onUserClick={() => onUserClick(item.user_id)}
       />
     ),
-    [onRefPress]
+    [onRefPress, onUserClick]
   );
 
   return (
