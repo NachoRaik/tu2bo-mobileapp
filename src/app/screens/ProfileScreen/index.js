@@ -115,8 +115,8 @@ function ProfileScreen({ navigation, route }) {
         error,
         [
           {
-            text: isMyProfile && 'Logout',
-            onPress: isMyProfile && onLogout
+            text: 'Logout',
+            onPress: onLogout
           },
           {
             text: 'OK',
