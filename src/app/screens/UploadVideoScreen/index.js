@@ -50,6 +50,7 @@ function UploadVideoScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.currentUser);
   const videoId = useSelector((state) => state.users.videoId);
+  const uploadError = useSelector((state) => state.users.error);
 
   useEffect(() => {
     Permissions.getAsync(Permissions.CAMERA_ROLL);

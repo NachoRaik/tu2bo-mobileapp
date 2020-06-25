@@ -8,6 +8,4 @@ const api = create({
 
 console.warn(API_BASE_URL);
 
-console.warn('bueno!');
-
 export default api;

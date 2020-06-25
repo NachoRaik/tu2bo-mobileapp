@@ -164,7 +164,8 @@ function ProfileScreen({ navigation, route }) {
               />
             )}
           </View>
-          <View style={{ flexDirection: 'row' }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <TouchableOpacity onPress={() => setSelection(0)}>
               <Text style={[styles.title, selection === 0 && styles.selected]}>
                 {isMyProfile ? 'Mis Videos' : `Videos de ${profile?.username}`}
