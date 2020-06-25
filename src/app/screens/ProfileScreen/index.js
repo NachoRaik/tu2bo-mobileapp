@@ -181,7 +181,11 @@ function ProfileScreen({ navigation, route }) {
             )}
           </View>
           {!selection ? (
-            <VideosList videos={videos} navigation={navigation} />
+            <VideosList
+              videos={videos}
+              navigation={navigation}
+              onRefresh={getVideos}
+            />
           ) : (
             <FriendshipRequests
               requests={requests}

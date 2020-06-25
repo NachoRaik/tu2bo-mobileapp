@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   RefreshControl,
-  Button
+  Button,
+  View
 } from 'react-native';
 
 import { ROUTES } from '@constants/routes';
@@ -62,7 +63,9 @@ function VideosList({ videos, loading, onRefresh, navigation }) {
           }
         />
       ) : (
-        <Button title="Refrescar" onPress={handleRefresh} />
+        <View style={{ margin: 20 }}>
+          <Button title="Refrescar" onPress={handleRefresh} />
+        </View>
       )}
     </SafeAreaView>
   );
