@@ -4,10 +4,8 @@ import { COLORS } from '@constants/colors';
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    //backgroundColor: COLORS.grayLight,
     flex: 1,
     justifyContent: 'center'
-    //paddingTop: 20
   },
   scrollArea: {
     flex: 1,
