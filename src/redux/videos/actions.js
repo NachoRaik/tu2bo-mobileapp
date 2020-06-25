@@ -20,7 +20,6 @@ const actionCreators = {
   getVideos: () => async (dispatch) => {
     dispatch({ type: actions.GET_VIDEOS });
     const response = await getVideos();
-    console.warn(response);
     if (response.ok) {
       dispatch({
         type: actions.GET_VIDEOS_SUCCESS,
