@@ -3,7 +3,7 @@ import CustomButton from '@components/CustomButton';
 
 import styles from './styles';
 
-function StatusButton({ onRequest, onAccept, status }) {
+function StatusButton({ onRequest, onAccept, onStartChat, status }) {
   const [statusInfo] = useState({
     'no-friends': {
       text: 'Enviar solicitud de amistad',
@@ -18,10 +18,10 @@ function StatusButton({ onRequest, onAccept, status }) {
       nextStatus: 'friends'
     },
     friends: {
-      text: 'Son amigxs',
-      disable: true,
-      clickFunction: null,
-      nextStatus: null
+      text: 'Enviar mensaje',
+      disable: false,
+      clickFunction: onStartChat,
+      nextStatus: 'friends'
     },
     'waiting-acceptance': {
       text: 'Aceptar solicitud',

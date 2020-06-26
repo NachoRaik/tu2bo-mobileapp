@@ -12,6 +12,7 @@ import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
 import NotificationsScreen from '@screens/NotificationsScreen';
 import ProfileScreen from '@screens/ProfileScreen';
+import ChatScreen from '@screens/ChatScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
 import UploadVideoScreen from '@screens/UploadVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
@@ -27,7 +28,7 @@ function WallStackScreen() {
     <WallStack.Navigator initialRouteName={ROUTES.Home}>
       <WallStack.Screen
         name={ROUTES.Home}
-        component={HomeScreen}
+        component={TabNavigatorScreen}
         options={({ navigation }) => ({
           title: ROUTES.Wall,
           //headerLeft: () => <LogoutButton navigation={navigation} />,
@@ -49,6 +50,11 @@ function WallStackScreen() {
         name={ROUTES.UploadVideo}
         component={UploadVideoScreen}
         options={{ title: ROUTES.UploadVideo }}
+      />
+      <WallStack.Screen
+        name={ROUTES.Chat}
+        component={ChatScreen}
+        options={{ title: '' }}
       />
     </WallStack.Navigator>
   );
@@ -75,7 +81,7 @@ function TabNavigatorScreen() {
       }}>
       <Tab.Screen
         name={ROUTES.Wall}
-        component={WallStackScreen}
+        component={HomeScreen}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-home" focused={focused} size={size} />
@@ -104,7 +110,7 @@ export default function App() {
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
-        <Stack.Screen name={ROUTES.Home} component={TabNavigatorScreen} />
+        <Stack.Screen name={ROUTES.Home} component={WallStackScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

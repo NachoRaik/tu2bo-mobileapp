@@ -129,7 +129,7 @@ function ProfileScreen({ navigation, route }) {
         { cancelable: false }
       );
     }
-  }, [error, openError]);
+  }, [error, openError, onLogout]);
 
   const imageUrl = profile?.profile_info?.picture || IMAGE;
 
@@ -157,11 +157,21 @@ function ProfileScreen({ navigation, route }) {
                 />
               </View>
             ) : (
-              <StatusButton
-                onRequest={() => sendFriendRequest(user_id)}
-                onAccept={() => acceptFriendshipRequest(user_id)}
-                status={profile?.friendship_status}
-              />
+              <View>
+                <StatusButton
+                  onRequest={() => sendFriendRequest(user_id)}
+                  onAccept={() => acceptFriendshipRequest(user_id)}
+                  status={profile?.friendship_status}
+                  onStartChat={() =>
+                    navigation.navigate(ROUTES.Chat, {
+                      user: {
+                        user_id,
+                        username: profile.username
+                      }
+                    })
+                  }
+                />
+              </View>
             )}
           </View>
           <View

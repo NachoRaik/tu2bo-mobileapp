@@ -7,5 +7,6 @@ export const ROUTES = {
   Notifications: 'Notificaciones',
   Profile: 'Perfil',
   SignUp: 'Registro',
-  UploadVideo: 'Subir Video'
+  UploadVideo: 'Subir Video',
+  Chat: 'Chat'
 };
