@@ -11,7 +11,7 @@ export const sendMessages = (messages, me_id, dest_id) => {
     const message = {
       text,
       user,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     db.collection(`${ids[0]}-${ids[1]}`).add(message);
   }
@@ -19,7 +19,9 @@ export const sendMessages = (messages, me_id, dest_id) => {
 
 const parse = (doc) => {
   if (doc) {
-    const { timestamp, text, user } = doc.data();
+    const { createdAt: timestamp, text, user } = doc.data({
+      serverTimestamps: 'estimate'
+    });
     const message = {
       _id: doc.id,
       createdAt: timestamp?.toDate(),
