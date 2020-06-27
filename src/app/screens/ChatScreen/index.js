@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { on, sendMessages } from '@services/ChatService';
 
 import { renderBubble } from './components/CustomBubble';
+import { renderSend, renderComposer } from './components/CustomInput';
 
 function ChatScreen({ navigation, route }) {
   const [messages, setMessages] = useState([]);
@@ -48,6 +49,8 @@ function ChatScreen({ navigation, route }) {
         name: me.username
       }}
       renderBubble={renderBubble}
+      renderSend={renderSend}
+      renderComposer={renderComposer}
     />
   );
 }
