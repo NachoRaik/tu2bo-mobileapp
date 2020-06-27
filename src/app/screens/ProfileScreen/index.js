@@ -24,12 +24,12 @@ import {
   acceptFriendshipRequest
 } from '@services/UserService';
 import { ROUTES } from '@constants/routes';
+import { DEFAULT_IMAGE } from '@constants/defaults';
 
 import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
 
 import styles from './styles';
-import { IMAGE } from './constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileScreen({ navigation, route }) {
@@ -131,7 +131,7 @@ function ProfileScreen({ navigation, route }) {
     }
   }, [error, openError]);
 
-  const imageUrl = profile?.profile_info?.picture || IMAGE;
+  const imageUrl = profile?.profile_info?.picture || DEFAULT_IMAGE;
 
   return (
     <SafeAreaView style={styles.container}>

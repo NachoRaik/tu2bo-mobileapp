@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 
+import { DEFAULT_IMAGE } from '@constants/defaults';
+
 import styles from './styles';
 import CommentText from './components/CommentText';
 
@@ -23,7 +25,7 @@ function Comment({ image, text, user, onRefPress, onUserClick }) {
 }
 
 Comment.defaultProps = {
-  image: 'https://i.ya-webdesign.com/images/default-avatar-png-18.png',
+  image: DEFAULT_IMAGE,
   text: '',
   user: ''
 };
