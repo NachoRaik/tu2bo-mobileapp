@@ -55,7 +55,9 @@ export const on = (callback, me_id, dest_id) => {
 
 const parseChat = (doc) => {
   if (doc) {
+    console.warn(doc.data());
     const { user2 } = doc.data();
+    console.warn(user2);
     return user2;
   }
 };

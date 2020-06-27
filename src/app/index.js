@@ -10,7 +10,7 @@ import LoginScreen from '@screens/LoginScreen';
 import SignUpScreen from '@screens/SignUpScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
-import NotificationsScreen from '@screens/NotificationsScreen';
+import ChatListScreen from '@screens/ChatListScreen';
 import ProfileScreen from '@screens/ProfileScreen';
 import ChatScreen from '@screens/ChatScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
@@ -89,8 +89,8 @@ function TabNavigatorScreen() {
         }}
       />
       <Tab.Screen
-        name={ROUTES.Notifications}
-        component={NotificationsStackScreen}
+        name={ROUTES.ChatList}
+        component={ChatListScreen}
         options={{
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-notifications" focused={focused} size={size} />
