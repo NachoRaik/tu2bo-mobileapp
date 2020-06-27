@@ -33,9 +33,13 @@ function ChatScreen({ navigation, route }) {
 
   const onSend = useCallback(
     (msgs = []) => {
-      sendMessages(msgs, parseInt(me.id, 10), user_id);
+      sendMessages(
+        msgs,
+        { username: me.username, id: me.id },
+        { username, id: user_id }
+      );
     },
-    [me, user_id]
+    [me, username, user_id]
   );
 
   return (

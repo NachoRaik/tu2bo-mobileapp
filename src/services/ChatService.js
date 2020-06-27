@@ -4,8 +4,8 @@ import { fb } from '@config/firebase';
 
 const db = fb.firestore();
 
-export const sendMessages = (messages, me_id, dest_id) => {
-  const ids = [me_id, dest_id].sort();
+export const sendMessages = (messages, myUser, otherUser) => {
+  const sortUsers = [myUser, otherUser].sort((a, b) => a.id - b.id);
   for (let i = 0; i < messages.length; i++) {
     const { text, user } = messages[i];
     const message = {
@@ -13,11 +13,16 @@ export const sendMessages = (messages, me_id, dest_id) => {
       user,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     };
-    db.collection(`${ids[0]}-${ids[1]}`).add(message);
+    const chatRef = db
+      .collection('chats')
+      .doc(`${sortUsers[0].id}-${sortUsers[1].id}`);
+
+    chatRef.set({ user1: sortUsers[0], user2: sortUsers[1] }, { merge: true });
+    chatRef.collection('messages').add(message);
   }
 };
 
-const parse = (doc) => {
+const parseMessage = (doc) => {
   if (doc) {
     const { createdAt: timestamp, text, user } = doc.data({
       serverTimestamps: 'estimate'
@@ -35,12 +40,34 @@ const parse = (doc) => {
 export const on = (callback, me_id, dest_id) => {
   const ids = [me_id, dest_id].sort();
   return db
-    .collection(`${ids[0]}-${ids[1]}`)
+    .collection('chats')
+    .doc(`${ids[0]}-${ids[1]}`)
+    .collection('messages')
     .orderBy('createdAt', 'asc')
     .onSnapshot(function (querySnapshot) {
       querySnapshot.docChanges().forEach(function (change) {
         if (change.type === 'added') {
-          callback(parse(change.doc));
+          callback(parseMessage(change.doc));
+        }
+      });
+    });
+};
+
+const parseChat = (doc) => {
+  if (doc) {
+    const { user2 } = doc.data();
+    return user2;
+  }
+};
+
+export const onNewChat = (callback, me) => {
+  return db
+    .collection('chats')
+    .where('user1.username', '==', me.username)
+    .onSnapshot(function (querySnapshot) {
+      querySnapshot.docChanges().forEach(function (change) {
+        if (change.type === 'added') {
+          callback(parseChat(change.doc));
         }
       });
     });
