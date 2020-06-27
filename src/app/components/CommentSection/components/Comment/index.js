@@ -1,15 +1,23 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, TouchableOpacity } from 'react-native';
+
+import { DEFAULT_IMAGE } from '@constants/defaults';
 
 import styles from './styles';
 import CommentText from './components/CommentText';
 
-function Comment({ image, text, user, onRefPress }) {
+function Comment({ image, text, user, onRefPress, onUserClick }) {
   return (
     <View style={styles.container}>
-      <Image source={{ uri: image }} style={styles.image} />
+      <TouchableOpacity onPress={onUserClick}>
+        <Image source={{ uri: image }} style={styles.image} />
+      </TouchableOpacity>
+
       <View style={styles.textContainer}>
-        <Text style={styles.user}>{user}</Text>
+        <TouchableOpacity onPress={onUserClick}>
+          <Text style={styles.user}>{user}</Text>
+        </TouchableOpacity>
+
         <CommentText style={styles.text} text={text} onRefPress={onRefPress} />
       </View>
     </View>
@@ -17,7 +25,7 @@ function Comment({ image, text, user, onRefPress }) {
 }
 
 Comment.defaultProps = {
-  image: 'https://i.ya-webdesign.com/images/default-avatar-png-18.png',
+  image: DEFAULT_IMAGE,
   text: '',
   user: ''
 };

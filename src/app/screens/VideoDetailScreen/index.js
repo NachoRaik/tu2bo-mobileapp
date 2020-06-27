@@ -8,18 +8,29 @@ import LikeButton from '@components/LikeButton';
 import actionCreators from '@redux/videos/actions';
 import { getFormatTimestamp } from '@utils/date';
 import { updateLikedVideo, getVideoById } from '@services/VideoService';
+import { ROUTES } from '@constants/routes';
 
 import { formatDate } from './utils';
 
 import styles from './styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function VideoDetailScreen({ navigation, route }) {
-  const { id, url, title, author, description, date } = route?.params?.video;
+  const {
+    id,
+    url,
+    title,
+    author,
+    description,
+    date,
+    user_id
+  } = route?.params?.video;
   const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [videoRef, setVideoRef] = useState(null);
   const [error, setError] = useState('');
+  const [openError, setopenError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -45,15 +56,24 @@ function VideoDetailScreen({ navigation, route }) {
   }, [dispatch, id]);
 
   useEffect(() => {
-    if (error) {
+    if (error && !openError) {
+      setopenError(true);
       Alert.alert(
         'Error',
         error,
-        [{ text: 'OK', onPress: () => setError('') }],
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              setError('');
+              setopenError(false);
+            }
+          }
+        ],
         { cancelable: false }
       );
     }
-  });
+  }, [error, openError]);
 
   navigation.setOptions({
     title: title
@@ -86,6 +106,15 @@ function VideoDetailScreen({ navigation, route }) {
     }
   }, [id, liked, likes]);
 
+  const navigateToProfile = useCallback(
+    (userId) => {
+      navigation.navigate(ROUTES.Profile, {
+        user_id: userId
+      });
+    },
+    [navigation]
+  );
+
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
       <VideoPlayer
@@ -104,13 +133,16 @@ function VideoDetailScreen({ navigation, route }) {
             </View>
             <LikeButton liked={liked} onLiked={onLikeToggle} likes={likes} />
           </View>
-          <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
+          <TouchableOpacity onPress={() => navigateToProfile(user_id)}>
+            <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
+          </TouchableOpacity>
           <Text style={styles.desc}>{description}</Text>
           <CommentSection
             loading={commentsLoading}
             comments={comments}
             onRefPress={onRefPress}
             onCommentSubmit={submitComment}
+            onUserClick={navigateToProfile}
           />
         </View>
       )}
