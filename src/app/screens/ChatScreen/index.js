@@ -40,9 +40,7 @@ function ChatScreen({ navigation, route }) {
 
   return (
     <GiftedChat
-      messages={messages.sort(
-        (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-      )}
+      messages={messages}
       onSend={(msgs) => onSend(msgs)}
       user={{
         _id: parseInt(me.id, 10),

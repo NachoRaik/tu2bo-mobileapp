@@ -34,16 +34,14 @@ const parse = (doc) => {
 
 export const on = (callback, me_id, dest_id) => {
   const ids = [me_id, dest_id].sort();
-  return (
-    db
-      .collection(`${ids[0]}-${ids[1]}`)
-      //.limitToLast(20)
-      .onSnapshot(function (querySnapshot) {
-        querySnapshot.docChanges().forEach(function (change) {
-          if (change.type === 'added') {
-            callback(parse(change.doc));
-          }
-        });
-      })
-  );
+  return db
+    .collection(`${ids[0]}-${ids[1]}`)
+    .orderBy('createdAt', 'asc')
+    .onSnapshot(function (querySnapshot) {
+      querySnapshot.docChanges().forEach(function (change) {
+        if (change.type === 'added') {
+          callback(parse(change.doc));
+        }
+      });
+    });
 };
