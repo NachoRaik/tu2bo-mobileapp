@@ -55,14 +55,11 @@ function ProfileScreen({ navigation, route }) {
   const dispatch = useDispatch();
 
   const onLogout = useCallback(() => {
-    //navigation.dispatch(StackActions.popToTop());
     dispatch(actionCreator.logout());
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [ROUTES.Login]
-      })
-    );
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ROUTES.Login }]
+    });
   }, [navigation, dispatch]);
 
   const getRequests = useCallback(async () => {
