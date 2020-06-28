@@ -30,8 +30,6 @@ function WallStackScreen() {
         name={ROUTES.Home}
         component={TabNavigatorScreen}
         options={({ navigation }) => ({
-          //title: ROUTES.Wall,
-          //headerLeft: () => <LogoutButton navigation={navigation} />,
           headerRightContainerStyle: { flexDirection: 'row' },
           headerRight: () => <HeaderButtons navigation={navigation} />
         })}
