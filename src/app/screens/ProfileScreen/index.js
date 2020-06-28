@@ -8,12 +8,6 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-import {
-  StackActions,
-  CommonActions,
-  TabActions
-} from '@react-navigation/native';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -29,12 +23,12 @@ import {
   acceptFriendshipRequest
 } from '@services/UserService';
 import { ROUTES } from '@constants/routes';
+import { DEFAULT_IMAGE } from '@constants/defaults';
 
 import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
 
 import styles from './styles';
-import { IMAGE } from './constants';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileScreen({ navigation, route }) {
@@ -138,7 +132,7 @@ function ProfileScreen({ navigation, route }) {
     }
   }, [error, openError, onLogout]);
 
-  const imageUrl = profile?.profile_info?.picture || IMAGE;
+  const imageUrl = profile?.profile_info?.picture || DEFAULT_IMAGE;
 
   return (
     <SafeAreaView style={styles.container}>
