@@ -68,10 +68,6 @@ function ChatListScreen({ navigation }) {
 
   const me = useSelector((state) => state.auth.currentUser);
 
-  navigation.setOptions({
-    title: 'Chats'
-  });
-
   const renderChat = useCallback(
     ({ item }) => (
       <TouchableOpacity
