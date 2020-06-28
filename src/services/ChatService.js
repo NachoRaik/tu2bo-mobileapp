@@ -72,7 +72,7 @@ export const onNewChat = (callback, user, me) => {
     .where(`${user}.username`, '==', me.username)
     .onSnapshot(function (querySnapshot) {
       querySnapshot.docChanges().forEach(function (change) {
-        if (change.type === 'added') {
+        if (change.type === 'added' || change.type === 'modified') {
           callback(parseChat(change.doc, me));
         }
       });

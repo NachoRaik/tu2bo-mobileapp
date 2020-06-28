@@ -20,27 +20,40 @@ import styles from './styles';
 function ChatListScreen({ navigation }) {
   const [chats, setChats] = useState([]);
 
-  useFocusEffect(
-    useCallback(() => {
-      const unsuscribe1 = onNewChat(
-        (chat) => chat && setChats((prevChats) => [...prevChats, chat]),
-        'user1',
-        me
+  const updateChats = useCallback((chat) => {
+    setChats((prevChats) => {
+      const copy = [...prevChats];
+      const index = copy.findIndex(
+        (c) => c.user.username === chat.user.username
       );
+      if (index >= 0) {
+        copy[index] = chat;
+        return copy;
+      } else {
+        return [...prevChats, chat];
+      }
+    });
+  }, []);
 
-      const unsuscribe2 = onNewChat(
-        (chat) => chat && setChats((prevChats) => [...prevChats, chat]),
-        'user2',
-        me
-      );
+  useEffect(() => {
+    const unsuscribe1 = onNewChat(
+      (chat) => chat && updateChats(chat),
+      'user1',
+      me
+    );
 
-      return () => {
-        unsuscribe1();
-        unsuscribe2();
-        setChats([]);
-      };
-    }, [me])
-  );
+    const unsuscribe2 = onNewChat(
+      (chat) => chat && updateChats(chat),
+      'user2',
+      me
+    );
+
+    return () => {
+      unsuscribe1();
+      unsuscribe2();
+      setChats([]);
+    };
+  }, [me, updateChats]);
 
   const me = useSelector((state) => state.auth.currentUser);
 

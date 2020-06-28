@@ -84,8 +84,7 @@ function TabNavigatorScreen() {
           title: 'Chats',
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-chatbubbles" focused={focused} size={size} />
-          ),
-          unmountOnBlur: true
+          )
         }}
       />
     </Tab.Navigator>
