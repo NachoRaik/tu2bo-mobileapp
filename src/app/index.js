@@ -30,7 +30,7 @@ function WallStackScreen() {
         name={ROUTES.Home}
         component={TabNavigatorScreen}
         options={({ navigation }) => ({
-          title: ROUTES.Wall,
+          //title: ROUTES.Wall,
           //headerLeft: () => <LogoutButton navigation={navigation} />,
           headerRightContainerStyle: { flexDirection: 'row' },
           headerRight: () => <HeaderButtons navigation={navigation} />
@@ -60,18 +60,6 @@ function WallStackScreen() {
   );
 }
 
-function NotificationsStackScreen() {
-  return (
-    <WallStack.Navigator initialRouteName={ROUTES.Notifications}>
-      <WallStack.Screen
-        name={ROUTES.Notifications}
-        component={NotificationsScreen}
-        options={{ title: ROUTES.Notifications }}
-      />
-    </WallStack.Navigator>
-  );
-}
-
 function TabNavigatorScreen() {
   return (
     <Tab.Navigator
@@ -83,6 +71,7 @@ function TabNavigatorScreen() {
         name={ROUTES.Wall}
         component={HomeScreen}
         options={{
+          title: 'Muro',
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-home" focused={focused} size={size} />
           )
@@ -92,9 +81,11 @@ function TabNavigatorScreen() {
         name={ROUTES.ChatList}
         component={ChatListScreen}
         options={{
+          title: 'Chats',
           tabBarIcon: ({ focused, size }) => (
-            <TabBarIcon name="md-notifications" focused={focused} size={size} />
-          )
+            <TabBarIcon name="md-chatbubbles" focused={focused} size={size} />
+          ),
+          unmountOnBlur: true
         }}
       />
     </Tab.Navigator>

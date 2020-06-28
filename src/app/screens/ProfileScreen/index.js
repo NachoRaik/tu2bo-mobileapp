@@ -8,7 +8,12 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-import { StackActions } from '@react-navigation/native';
+import {
+  StackActions,
+  CommonActions,
+  TabActions
+} from '@react-navigation/native';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -50,9 +55,14 @@ function ProfileScreen({ navigation, route }) {
   const dispatch = useDispatch();
 
   const onLogout = useCallback(() => {
-    navigation.dispatch(StackActions.popToTop());
+    //navigation.dispatch(StackActions.popToTop());
     dispatch(actionCreator.logout());
-    navigation.navigate(ROUTES.Login);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [ROUTES.Login]
+      })
+    );
   }, [navigation, dispatch]);
 
   const getRequests = useCallback(async () => {

@@ -17,7 +17,10 @@ export const sendMessages = (messages, myUser, otherUser) => {
       .collection('chats')
       .doc(`${sortUsers[0].id}-${sortUsers[1].id}`);
 
-    chatRef.set({ user1: sortUsers[0], user2: sortUsers[1] }, { merge: true });
+    chatRef.set(
+      { user1: sortUsers[0], user2: sortUsers[1], lastMessage: message },
+      { merge: true }
+    );
     chatRef.collection('messages').add(message);
   }
 };
@@ -53,23 +56,24 @@ export const on = (callback, me_id, dest_id) => {
     });
 };
 
-const parseChat = (doc) => {
+const parseChat = (doc, me) => {
   if (doc) {
-    console.warn(doc.data());
-    const { user2 } = doc.data();
-    console.warn(user2);
-    return user2;
+    const { user1, user2, lastMessage } = doc.data({
+      serverTimestamps: 'estimate'
+    });
+    const user = user1.username === me.username ? user2 : user1;
+    return { user, lastMessage };
   }
 };
 
-export const onNewChat = (callback, me) => {
+export const onNewChat = (callback, user, me) => {
   return db
     .collection('chats')
-    .where('user1.username', '==', me.username)
+    .where(`${user}.username`, '==', me.username)
     .onSnapshot(function (querySnapshot) {
       querySnapshot.docChanges().forEach(function (change) {
         if (change.type === 'added') {
-          callback(parseChat(change.doc));
+          callback(parseChat(change.doc, me));
         }
       });
     });
