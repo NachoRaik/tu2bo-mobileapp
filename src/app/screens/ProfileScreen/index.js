@@ -198,7 +198,7 @@ function ProfileScreen({ navigation, route }) {
                   backgroundColor={COLORS.white}
                   color={COLORS.main}
                   size={30}
-                  onPress={pickImage()}
+                  onPress={pickImage}
                 />
               </View>
             ) : (
