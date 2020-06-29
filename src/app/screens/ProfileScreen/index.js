@@ -116,7 +116,7 @@ function ProfileScreen({ navigation, route }) {
           pickerResult.uri,
           profile.username,
           'profile_pic',
-          'currentPic'
+          'current'
         );
         await editProfile({
           picture: uploadUrl
@@ -198,7 +198,7 @@ function ProfileScreen({ navigation, route }) {
                   backgroundColor={COLORS.white}
                   color={COLORS.main}
                   size={30}
-                  onPress={() => pickImage()}
+                  onPress={pickImage()}
                 />
               </View>
             ) : (
