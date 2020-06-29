@@ -13,18 +13,15 @@ function InitialLoading({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
     getSession().then(({ token, user }) => {
+      let route = ROUTES.Login;
       if (token && user) {
         dispatch(actionCreator.saveCurrentSession({ token, user }));
-        navigation.reset({
-          index: 0,
-          routes: [{ name: ROUTES.Home }]
-        });
-      } else {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: ROUTES.Login }]
-        });
+        route = ROUTES.Home;
       }
+      navigation.reset({
+        index: 0,
+        routes: [{ name: route }]
+      });
     });
   }, [dispatch, navigation]);
 
