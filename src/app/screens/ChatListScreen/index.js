@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { GiftedAvatar } from 'react-native-gifted-chat';
-import moment from 'moment';
 import {
   SafeAreaView,
   FlatList,
@@ -14,6 +13,7 @@ import { useSelector } from 'react-redux';
 
 import { ROUTES } from '@constants/routes';
 import { onNewChat } from '@services/ChatService';
+import { formatFirebaseTimestampInWords } from '@utils/date';
 
 import styles from './styles';
 
@@ -85,7 +85,7 @@ function ChatListScreen({ navigation }) {
               {item.lastMessage.text}
             </Text>
             <Text style={styles.date}>
-              {moment(item.lastMessage.createdAt.toDate()).fromNow()}
+              {formatFirebaseTimestampInWords(item.lastMessage.createdAt)}
             </Text>
           </View>
         </View>
