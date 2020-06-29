@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 import { ROUTES } from '@constants/routes';
 import { onNewChat } from '@services/ChatService';
+import { formatFirebaseTimestampInWords } from '@utils/date';
 
 import styles from './styles';
 
@@ -85,7 +86,7 @@ function ChatListScreen({ navigation }) {
               {item.lastMessage.text}
             </Text>
             <Text style={styles.date}>
-              {moment(item.lastMessage.createdAt.toDate()).fromNow()}
+              {formatFirebaseTimestampInWords(item.lastMessage.createdAt)}
             </Text>
           </View>
         </View>
