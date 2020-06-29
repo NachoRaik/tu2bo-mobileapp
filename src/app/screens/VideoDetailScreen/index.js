@@ -111,8 +111,9 @@ function VideoDetailScreen({ navigation, route }) {
       navigation.navigate(ROUTES.Profile, {
         user_id: userId
       });
+      videoRef.stopAsync();
     },
-    [navigation]
+    [navigation, videoRef]
   );
 
   return (
