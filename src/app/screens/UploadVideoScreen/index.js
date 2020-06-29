@@ -23,10 +23,11 @@ import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/users/actions';
+import { uploadToFirebase } from '@services/FirebaseService';
 import { getFormatTimestamp } from '@utils/date';
 
 import styles from './styles';
-import { uploadToFirebase, getuuid } from './utils';
+import { getuuid } from './utils';
 import { VISIBILITIES } from './constants';
 
 console.disableYellowBox = true;

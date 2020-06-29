@@ -30,7 +30,6 @@ import { DEFAULT_IMAGE } from '@constants/defaults';
 import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
 import { uploadToFirebase } from '@services/FirebaseService';
-import { getFileFormatTimestamp } from '@utils/date';
 
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -38,6 +37,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 function ProfileScreen({ navigation, route }) {
   const [selection, setSelection] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
   const [profile, setProfile] = useState(null);
   const [requests, setRequests] = useState([]);
@@ -111,12 +111,12 @@ function ProfileScreen({ navigation, route }) {
 
     if (!pickerResult.cancelled) {
       try {
-        setLoading(true);
+        setLoadingImage(true);
         const uploadUrl = await uploadToFirebase(
           pickerResult.uri,
           profile.username,
           'profile_pic',
-          getFileFormatTimestamp()
+          'currentPic'
         );
         await editProfile({
           picture: uploadUrl
@@ -125,7 +125,7 @@ function ProfileScreen({ navigation, route }) {
         console.warn(e);
         setError('Algo falló mientras se cambiaba la foto de perfil');
       } finally {
-        setLoading(false);
+        setLoadingImage(false);
       }
     }
   }, [user_id, profile]);
@@ -182,7 +182,11 @@ function ProfileScreen({ navigation, route }) {
         <ScrollView style={styles.scrollArea}>
           <View style={styles.detailContainer}>
             <View style={styles.user}>
-              <Image source={{ uri: imageUrl }} style={styles.image} />
+              {loadingImage ? (
+                <ActivityIndicator size="large" color={COLORS.main} />
+              ) : (
+                <Image source={{ uri: imageUrl }} style={styles.image} />
+              )}
               <Text style={styles.username}>{profile?.username}</Text>
               <Text>{profile?.email}</Text>
             </View>
