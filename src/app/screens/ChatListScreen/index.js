@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { GiftedAvatar } from 'react-native-gifted-chat';
-import moment from 'moment';
 import {
   SafeAreaView,
   FlatList,

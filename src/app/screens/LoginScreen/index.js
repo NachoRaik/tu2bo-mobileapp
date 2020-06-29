@@ -36,7 +36,10 @@ function LoginScreen({ navigation }) {
 
   useEffect(() => {
     if (token) {
-      navigation.navigate(ROUTES.Home);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: ROUTES.Home }]
+      });
       cleanLogin();
     }
   }, [token, cleanLogin, navigation]);

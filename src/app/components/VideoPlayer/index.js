@@ -21,7 +21,6 @@ function VideoPlayer({ source, setVideoRef }) {
         rate={1.0}
         isMuted={false}
         useNativeControls
-        shouldPlay
         style={styles.video}
         resizeMode="contain"
       />
