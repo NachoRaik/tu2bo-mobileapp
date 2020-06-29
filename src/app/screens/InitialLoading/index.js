@@ -15,9 +15,15 @@ function InitialLoading({ navigation }) {
     getSession().then(({ token, user }) => {
       if (token && user) {
         dispatch(actionCreator.saveCurrentSession({ token, user }));
-        navigation.navigate(ROUTES.Home);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: ROUTES.Home }]
+        });
       } else {
-        navigation.navigate(ROUTES.Login);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: ROUTES.Login }]
+        });
       }
     });
   }, [dispatch, navigation]);
