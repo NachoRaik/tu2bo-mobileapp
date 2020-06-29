@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-import { StackActions } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -50,9 +49,11 @@ function ProfileScreen({ navigation, route }) {
   const dispatch = useDispatch();
 
   const onLogout = useCallback(() => {
-    navigation.dispatch(StackActions.popToTop());
     dispatch(actionCreator.logout());
-    navigation.navigate(ROUTES.Login);
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ROUTES.Login }]
+    });
   }, [navigation, dispatch]);
 
   const getRequests = useCallback(async () => {
@@ -129,7 +130,7 @@ function ProfileScreen({ navigation, route }) {
         { cancelable: false }
       );
     }
-  }, [error, openError]);
+  }, [error, openError, onLogout]);
 
   const imageUrl = profile?.profile_info?.picture || DEFAULT_IMAGE;
 
@@ -157,11 +158,21 @@ function ProfileScreen({ navigation, route }) {
                 />
               </View>
             ) : (
-              <StatusButton
-                onRequest={() => sendFriendRequest(user_id)}
-                onAccept={() => acceptFriendshipRequest(user_id)}
-                status={profile?.friendship_status}
-              />
+              <View>
+                <StatusButton
+                  onRequest={() => sendFriendRequest(user_id)}
+                  onAccept={() => acceptFriendshipRequest(user_id)}
+                  status={profile?.friendship_status}
+                  onStartChat={() =>
+                    navigation.navigate(ROUTES.Chat, {
+                      user: {
+                        user_id,
+                        username: profile.username
+                      }
+                    })
+                  }
+                />
+              </View>
             )}
           </View>
           <View

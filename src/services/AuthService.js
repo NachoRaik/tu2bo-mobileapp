@@ -11,7 +11,7 @@ export const getSession = async () => {
   const token = await AsyncStorage.getItem('access-token');
   const id = await AsyncStorage.getItem('userid');
   const username = await AsyncStorage.getItem('username');
-  return { token, user: { id, username } };
+  return { token, user: { id: parseInt(id, 10), username } };
 };
 
 export const removeSession = () => {

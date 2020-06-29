@@ -10,8 +10,9 @@ import LoginScreen from '@screens/LoginScreen';
 import SignUpScreen from '@screens/SignUpScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
-import NotificationsScreen from '@screens/NotificationsScreen';
+import ChatListScreen from '@screens/ChatListScreen';
 import ProfileScreen from '@screens/ProfileScreen';
+import ChatScreen from '@screens/ChatScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
 import UploadVideoScreen from '@screens/UploadVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
@@ -27,10 +28,8 @@ function WallStackScreen() {
     <WallStack.Navigator initialRouteName={ROUTES.Home}>
       <WallStack.Screen
         name={ROUTES.Home}
-        component={HomeScreen}
+        component={TabNavigatorScreen}
         options={({ navigation }) => ({
-          title: ROUTES.Wall,
-          //headerLeft: () => <LogoutButton navigation={navigation} />,
           headerRightContainerStyle: { flexDirection: 'row' },
           headerRight: () => <HeaderButtons navigation={navigation} />
         })}
@@ -50,17 +49,10 @@ function WallStackScreen() {
         component={UploadVideoScreen}
         options={{ title: ROUTES.UploadVideo }}
       />
-    </WallStack.Navigator>
-  );
-}
-
-function NotificationsStackScreen() {
-  return (
-    <WallStack.Navigator initialRouteName={ROUTES.Notifications}>
       <WallStack.Screen
-        name={ROUTES.Notifications}
-        component={NotificationsScreen}
-        options={{ title: ROUTES.Notifications }}
+        name={ROUTES.Chat}
+        component={ChatScreen}
+        options={{ title: '' }}
       />
     </WallStack.Navigator>
   );
@@ -75,19 +67,21 @@ function TabNavigatorScreen() {
       }}>
       <Tab.Screen
         name={ROUTES.Wall}
-        component={WallStackScreen}
+        component={HomeScreen}
         options={{
+          title: 'Muro',
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-home" focused={focused} size={size} />
           )
         }}
       />
       <Tab.Screen
-        name={ROUTES.Notifications}
-        component={NotificationsStackScreen}
+        name={ROUTES.ChatList}
+        component={ChatListScreen}
         options={{
+          title: 'Chats',
           tabBarIcon: ({ focused, size }) => (
-            <TabBarIcon name="md-notifications" focused={focused} size={size} />
+            <TabBarIcon name="md-chatbubbles" focused={focused} size={size} />
           )
         }}
       />
@@ -104,7 +98,7 @@ export default function App() {
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
-        <Stack.Screen name={ROUTES.Home} component={TabNavigatorScreen} />
+        <Stack.Screen name={ROUTES.Home} component={WallStackScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

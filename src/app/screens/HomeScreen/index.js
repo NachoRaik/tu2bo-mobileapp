@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native';
 
@@ -9,6 +10,17 @@ import styles from './styles';
 
 function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
+
+  useFocusEffect(
+    useCallback(() => {
+      const stackNavigator = navigation.dangerouslyGetParent();
+      if (stackNavigator) {
+        stackNavigator.setOptions({
+          title: 'Muro'
+        });
+      }
+    }, [navigation])
+  );
 
   const videos = useSelector((state) => state.videos.videos);
   const videosLoading = useSelector((state) => state.videos.loading);

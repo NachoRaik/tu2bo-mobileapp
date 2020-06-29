@@ -48,17 +48,6 @@ const styles = StyleSheet.create({
   },
   selected: {
     color: COLORS.main
-  },
-  friendRequestButton: {
-    alignSelf: 'center',
-    backgroundColor: COLORS.main,
-    borderStyle: 'solid',
-    borderWidth: 1,
-    borderColor: COLORS.main,
-    marginBottom: 10
-  },
-  buttonText: {
-    color: COLORS.white
   }
 });
 
