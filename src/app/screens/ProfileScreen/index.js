@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 import actionCreator from '@redux/auth/actions';
 import LogoutButton from '@components/LogoutButton';
@@ -17,6 +18,7 @@ import VideosList from '@components/VideosList';
 import { COLORS } from '@constants/colors';
 import {
   getUserById,
+  editUserById,
   getVideosById,
   sendFriendRequest,
   getFriendRequests,
@@ -27,6 +29,7 @@ import { DEFAULT_IMAGE } from '@constants/defaults';
 
 import StatusButton from './components/StatusButton';
 import FriendshipRequests from './components/FriendshipRequests';
+import { uploadToFirebase } from '@services/FirebaseService';
 
 import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -34,6 +37,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 function ProfileScreen({ navigation, route }) {
   const [selection, setSelection] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [loadingImage, setLoadingImage] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);
   const [profile, setProfile] = useState(null);
   const [requests, setRequests] = useState([]);
@@ -90,6 +94,42 @@ function ProfileScreen({ navigation, route }) {
     setLoading(false);
   }, [user_id]);
 
+  const editProfile = useCallback(async (data) => {
+    const response = await editUserById(user_id, data);
+    if (response.ok) {
+      console.log(response);
+      setProfile(response.data);
+    } else {
+      setError(response.data.reason);
+    }
+  }, [user_id]);
+
+  const pickImage= useCallback(async () => {
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: 'Images'
+    });
+
+    if (!pickerResult.cancelled) {
+      try {
+        setLoadingImage(true);
+        const uploadUrl = await uploadToFirebase(
+          pickerResult.uri,
+          profile.username,
+          'profile_pic',
+          'current'
+        );
+        await editProfile({
+          picture: uploadUrl
+        });
+      } catch (e) {
+        console.warn(e);
+        setError('Algo falló mientras se cambiaba la foto de perfil');
+      } finally {
+        setLoadingImage(false);
+      }
+    }
+  }, [user_id, profile]);
+
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -132,7 +172,7 @@ function ProfileScreen({ navigation, route }) {
     }
   }, [error, openError, onLogout]);
 
-  const imageUrl = profile?.profile_info?.picture || DEFAULT_IMAGE;
+  const imageUrl = profile?.profile?.picture || DEFAULT_IMAGE;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -142,7 +182,11 @@ function ProfileScreen({ navigation, route }) {
         <ScrollView style={styles.scrollArea}>
           <View style={styles.detailContainer}>
             <View style={styles.user}>
-              <Image source={{ uri: imageUrl }} style={styles.image} />
+              {loadingImage ? (
+                <ActivityIndicator size="large" color={COLORS.main} />
+              ) : (
+                <Image source={{ uri: imageUrl }} style={styles.image} />
+              )}
               <Text style={styles.username}>{profile?.username}</Text>
               <Text>{profile?.email}</Text>
             </View>
@@ -154,7 +198,7 @@ function ProfileScreen({ navigation, route }) {
                   backgroundColor={COLORS.white}
                   color={COLORS.main}
                   size={30}
-                  //onPress=TODO NAVIGATE EDIT PROFILE
+                  onPress={pickImage}
                 />
               </View>
             ) : (

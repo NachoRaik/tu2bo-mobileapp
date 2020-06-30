@@ -14,3 +14,6 @@ web-report/
 .DS_Store
 
 .env
+
+# Because we are using yarn
+package-lock.json
