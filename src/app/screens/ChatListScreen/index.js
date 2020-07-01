@@ -16,9 +16,9 @@ import { onNewChat } from '@services/ChatService';
 import { formatFirebaseTimestampInWords } from '@utils/date';
 
 import NewChatButton from './components/NewChatButton';
+import FriendsModal from './components/FriendsModal';
 
 import styles from './styles';
-import FriendsModal from './components/FriendsModal';
 
 function ChatListScreen({ navigation }) {
   const [chats, setChats] = useState([]);
