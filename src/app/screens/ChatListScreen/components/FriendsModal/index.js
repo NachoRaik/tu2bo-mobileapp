@@ -1,8 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Modal, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import {
+  Modal,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  ActivityIndicator
+} from 'react-native';
 import { GiftedAvatar } from 'react-native-gifted-chat';
 import { Entypo } from '@expo/vector-icons';
 
+import { COLORS } from '@constants/colors';
 import { getFriends } from '@services/UserService';
 import styles from './styles';
 
@@ -13,15 +21,19 @@ export default function FriendsModal({
   onClose
 }) {
   const [friends, setFriends] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     async function fetchFriends() {
+      setLoading(true);
       const response = await getFriends(userId);
       if (response.ok) {
         setFriends(response.data);
+        setLoading(false);
       }
     }
     fetchFriends();
-  });
+  }, [userId]);
 
   const renderFriend = useCallback(
     ({ item }) => (
@@ -40,6 +52,8 @@ export default function FriendsModal({
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);
 
+  console.warn(loading);
+
   return (
     <Modal
       animationType="slide"
@@ -54,7 +68,9 @@ export default function FriendsModal({
       </View>
 
       <View style={styles.container}>
-        {friends.length ? (
+        {loading ? (
+          <ActivityIndicator size="large" color={COLORS.main} />
+        ) : friends.length ? (
           <FlatList
             data={friends}
             renderItem={renderFriend}
