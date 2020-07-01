@@ -15,10 +15,14 @@ import { ROUTES } from '@constants/routes';
 import { onNewChat } from '@services/ChatService';
 import { formatFirebaseTimestampInWords } from '@utils/date';
 
+import NewChatButton from './components/NewChatButton';
+
 import styles from './styles';
+import FriendsModal from './components/FriendsModal';
 
 function ChatListScreen({ navigation }) {
   const [chats, setChats] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -68,15 +72,28 @@ function ChatListScreen({ navigation }) {
 
   const me = useSelector((state) => state.auth.currentUser);
 
+  const navigateToChat = useCallback(
+    (user) => {
+      navigation.navigate(ROUTES.Chat, {
+        user: { user_id: user.id, username: user.username }
+      });
+    },
+    [navigation]
+  );
+
+  const onSelectFriend = useCallback(
+    (user) => {
+      navigateToChat(user);
+      setOpenModal(false);
+    },
+    [navigateToChat]
+  );
+
   const renderChat = useCallback(
     ({ item }) => (
       <TouchableOpacity
         style={styles.card}
-        onPress={() =>
-          navigation.navigate(ROUTES.Chat, {
-            user: { user_id: item.user.id, username: item.user.username }
-          })
-        }>
+        onPress={() => navigateToChat(item.user)}>
         <GiftedAvatar user={{ name: item.user.username }} />
         <View style={styles.chat}>
           <Text style={styles.title}>{item.user.username}</Text>
@@ -91,7 +108,7 @@ function ChatListScreen({ navigation }) {
         </View>
       </TouchableOpacity>
     ),
-    [navigation]
+    [navigateToChat]
   );
 
   const renderSeparator = useCallback(() => {
@@ -100,23 +117,30 @@ function ChatListScreen({ navigation }) {
 
   const keyExtractor = useCallback((item) => item.user.id.toString(), []);
 
-  console.warn(chats);
-
   return (
-    <SafeAreaView style={styles.container}>
-      {chats.length ? (
-        <FlatList
-          data={chats}
-          renderItem={renderChat}
-          keyExtractor={keyExtractor}
-          ItemSeparatorComponent={renderSeparator}
-        />
-      ) : (
-        <View style={styles.empty}>
-          <Entypo name="chat" size={24} color="black" />
-          <Text style={styles.empty}>No hay chats de momento</Text>
-        </View>
-      )}
+    <SafeAreaView style={{ flex: 1 }}>
+      <FriendsModal
+        userId={me.id}
+        visible={openModal}
+        onFriendSelect={onSelectFriend}
+        onClose={() => setOpenModal(false)}
+      />
+      <View style={styles.container}>
+        {chats.length ? (
+          <FlatList
+            data={chats}
+            renderItem={renderChat}
+            keyExtractor={keyExtractor}
+            ItemSeparatorComponent={renderSeparator}
+          />
+        ) : (
+          <View style={styles.empty}>
+            <Entypo name="chat" size={24} color="black" />
+            <Text style={styles.empty}>No hay chats de momento</Text>
+          </View>
+        )}
+      </View>
+      <NewChatButton onNewChat={() => setOpenModal(true)} />
     </SafeAreaView>
   );
 }

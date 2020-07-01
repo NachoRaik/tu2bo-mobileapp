@@ -5,7 +5,7 @@ export const uploadVideo = (id, videoInfo) =>
 
 export const getUserById = (id) => api.get(`/users/${id}`);
 
-export const editUserById = (id, profileData) => 
+export const editUserById = (id, profileData) =>
   api.put(`/users/${id}`, profileData);
 
 export const getVideosById = (id) => api.get(`/users/${id}/videos`);
@@ -15,3 +15,5 @@ export const sendFriendRequest = (id) => api.post(`users/${id}/friend_request`);
 export const getFriendRequests = () => api.get(`users/my_requests`);
 
 export const acceptFriendshipRequest = (id) => api.post(`users/${id}/friends`);
+
+export const getFriends = (id) => api.get(`users/${id}/friends`);
