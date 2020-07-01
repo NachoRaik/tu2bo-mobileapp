@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Modal,
-  Text,
-  View,
-  TouchableOpacity,
-  FlatList,
-  Button
-} from 'react-native';
+import { Modal, Text, View, TouchableOpacity, FlatList } from 'react-native';
 import { GiftedAvatar } from 'react-native-gifted-chat';
 import { Entypo } from '@expo/vector-icons';
 
@@ -36,11 +29,9 @@ export default function FriendsModal({
         style={styles.card}
         onPress={() => onFriendSelect(item)}>
         <GiftedAvatar user={{ name: item.username }} />
-        <View style={styles.chat}>
+        <View style={styles.friend}>
           <Text style={styles.title}>{item.username}</Text>
-          <View style={styles.infoChat}>
-            <Text style={styles.message}>Disponible</Text>
-          </View>
+          <Text style={styles.message}>Disponible</Text>
         </View>
       </TouchableOpacity>
     ),

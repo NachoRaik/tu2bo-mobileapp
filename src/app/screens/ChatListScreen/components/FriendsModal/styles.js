@@ -27,9 +27,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     color: COLORS.main
   },
-  videoCard: {
-    minWidth: '100%'
-  },
   card: {
     padding: 20,
     flexDirection: 'row',
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     minWidth: '100%'
   },
-  chat: {
+  friend: {
     flexGrow: 1
   },
   title: {
@@ -50,28 +47,12 @@ const styles = StyleSheet.create({
     color: COLORS.gray,
     width: 120
   },
-  date: {
-    color: COLORS.gray,
-    alignSelf: 'flex-end'
-  },
-  infoChat: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  textContainer: {
-    flex: 1
-  },
   empty: {
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
     fontWeight: 'bold'
-  },
-  requestSeparator: {
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.gray,
-    paddingHorizontal: 20
   }
 });
 
