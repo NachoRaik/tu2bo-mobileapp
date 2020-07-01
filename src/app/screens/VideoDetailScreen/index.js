@@ -5,9 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import VideoPlayer from '@components/VideoPlayer';
 import CommentSection from '@components/CommentSection';
 import LikeButton from '@components/LikeButton';
+import CustomButton from '@components/CustomButton';
 import actionCreators from '@redux/videos/actions';
 import { getFormatTimestamp } from '@utils/date';
-import { updateLikedVideo, getVideoById } from '@services/VideoService';
+import {
+  updateLikedVideo,
+  getVideoById,
+  deleteVideo
+} from '@services/VideoService';
 import { ROUTES } from '@constants/routes';
 
 import { formatDate } from './utils';
@@ -38,6 +43,10 @@ function VideoDetailScreen({ navigation, route }) {
   const commentsLoading = useSelector((state) => state.videos.loading);
 
   const user = useSelector((state) => state.auth.currentUser);
+
+  const isMyVideo = user.id === user_id;
+
+  console.warn(isMyVideo);
 
   useEffect(() => {
     async function fetchData() {
@@ -116,6 +125,30 @@ function VideoDetailScreen({ navigation, route }) {
     [navigation, videoRef]
   );
 
+  const onDeleteVideo = useCallback(async () => {
+    Alert.alert(
+      'Borrar video',
+      'Esta seguro que desea borrar el video',
+      [
+        {
+          text: 'Si',
+          onPress: async () => {
+            const response = await deleteVideo(id);
+            if (response.ok) {
+              console.warn('se borro');
+            }
+          }
+        },
+        {
+          text: 'No',
+          onPress: () => console.warn('Cancel Pressed'),
+          style: 'cancel'
+        }
+      ],
+      { cancelable: true }
+    );
+  }, [id]);
+
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
       <VideoPlayer
@@ -145,6 +178,21 @@ function VideoDetailScreen({ navigation, route }) {
             onCommentSubmit={submitComment}
             onUserClick={navigateToProfile}
           />
+          {isMyVideo && (
+            <View style={styles.actions}>
+              <CustomButton
+                text="BORRAR"
+                style={styles.delete}
+                textStyle={styles.deleteText}
+                onPress={onDeleteVideo}
+              />
+              <CustomButton
+                text="EDITAR"
+                style={styles.edit}
+                textStyle={styles.editText}
+              />
+            </View>
+          )}
         </View>
       )}
     </ScrollView>

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { COLORS } from '@constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +29,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 5
+  },
+  actions: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: 10
+  },
+  delete: {
+    backgroundColor: COLORS.main,
+    borderRadius: 4,
+    flexGrow: 1
+  },
+  deleteText: {
+    color: COLORS.white
+  },
+  edit: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: COLORS.main,
+    borderRadius: 4,
+    flexGrow: 1
+  },
+  editText: {
+    color: COLORS.main
   }
 });
 
