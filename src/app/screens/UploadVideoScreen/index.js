@@ -149,7 +149,8 @@ function UploadVideoScreen({ navigation }) {
         title: title,
         description: description,
         author: user?.username,
-        date: timestamp
+        date: timestamp,
+        user_id: user.id
       }
     });
     setOpenModal(false);
@@ -253,7 +254,9 @@ function UploadVideoScreen({ navigation }) {
             El video puede tardar unos minutos en subir...
           </Text>
         )}
-        {error && <Text style={{ marginVertical: 5 }}>{error}</Text>}
+        {(error || !!uploadError) && (
+          <Text style={{ marginVertical: 5 }}>{error || uploadError}</Text>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

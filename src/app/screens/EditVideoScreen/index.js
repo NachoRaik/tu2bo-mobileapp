@@ -44,6 +44,7 @@ function EditVideoScreen({ navigation, route }) {
         setUploading(false);
       } else {
         setError(response.data.reason);
+        setUploading(false);
       }
     } catch (e) {
       console.warn(e);
@@ -86,7 +87,7 @@ function EditVideoScreen({ navigation, route }) {
         />
         <View style={styles.visPicker}>
           <Picker
-            selectedValue={newDescription}
+            selectedValue={newVisibility}
             onValueChange={(itemValue) => setVisibility(itemValue)}
             enabled={!uploading}>
             {VISIBILITIES.map((v) => (
@@ -96,7 +97,7 @@ function EditVideoScreen({ navigation, route }) {
         </View>
 
         <CustomButton
-          text="SUBIR"
+          text="EDITAR"
           style={[styles.uploadButton, disable && styles.buttonDisable]}
           textStyle={disable ? styles.textDisable : styles.uploadButtonText}
           onPress={handleSubmitVideo}

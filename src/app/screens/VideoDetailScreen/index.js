@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { ScrollView, Text, View, ActivityIndicator, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFocusEffect } from '@react-navigation/native';
+import { StackActions, useFocusEffect } from '@react-navigation/native';
 
 import VideoPlayer from '@components/VideoPlayer';
 import CommentSection from '@components/CommentSection';
@@ -15,6 +15,7 @@ import {
   deleteVideo
 } from '@services/VideoService';
 import { ROUTES } from '@constants/routes';
+import OkModal from '@components/OkModal';
 
 import { formatDate } from './utils';
 
@@ -38,6 +39,7 @@ function VideoDetailScreen({ navigation, route }) {
   const [videoRef, setVideoRef] = useState(null);
   const [error, setError] = useState('');
   const [openError, setopenError] = useState(false);
+  const [openDeleteModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -47,6 +49,10 @@ function VideoDetailScreen({ navigation, route }) {
   const user = useSelector((state) => state.auth.currentUser);
 
   const isMyVideo = user.id === user_id;
+
+  console.warn(isMyVideo);
+  console.warn(user.id);
+  console.warn(user_id);
 
   useFocusEffect(
     useCallback(() => {
@@ -141,7 +147,8 @@ function VideoDetailScreen({ navigation, route }) {
           onPress: async () => {
             const response = await deleteVideo(id);
             if (response.ok) {
-              console.warn('se borro');
+              dispatch(actionCreators.getVideos());
+              setOpenModal(true);
             }
           }
         },
@@ -153,7 +160,7 @@ function VideoDetailScreen({ navigation, route }) {
       ],
       { cancelable: true }
     );
-  }, [id]);
+  }, [id, dispatch]);
 
   const onEditVideo = useCallback(() => {
     navigation.navigate(ROUTES.EditVideo, {
@@ -166,8 +173,20 @@ function VideoDetailScreen({ navigation, route }) {
     });
   }, [navigation, id, videoInfo, visibility]);
 
+  const onCloseModal = useCallback(() => {
+    navigation.dispatch(StackActions.pop());
+    navigateToProfile(user_id);
+    setOpenModal(false);
+  }, [navigation, navigateToProfile, user_id]);
+
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
+      <OkModal
+        visible={openDeleteModal}
+        text="Se borró el video correctamente"
+        closeText="Ver mis videos"
+        onPress={onCloseModal}
+      />
       <VideoPlayer
         source={url}
         style={styles.videoPlayer}
