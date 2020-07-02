@@ -15,9 +15,9 @@ import ProfileScreen from '@screens/ProfileScreen';
 import ChatScreen from '@screens/ChatScreen';
 import VideoDetailScreen from '@screens/VideoDetailScreen';
 import UploadVideoScreen from '@screens/UploadVideoScreen';
+import EditVideoScreen from '@screens/EditVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import HeaderButtons from '@components/HeaderButtons';
-//import LogoutButton from '@components/LogoutButton';
 
 const Stack = createStackNavigator();
 const WallStack = createStackNavigator();
@@ -53,6 +53,11 @@ function WallStackScreen() {
         name={ROUTES.Chat}
         component={ChatScreen}
         options={{ title: '' }}
+      />
+      <WallStack.Screen
+        name={ROUTES.EditVideo}
+        component={EditVideoScreen}
+        options={{ title: ROUTES.EditVideo }}
       />
     </WallStack.Navigator>
   );
