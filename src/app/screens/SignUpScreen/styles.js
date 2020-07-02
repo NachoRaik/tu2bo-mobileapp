@@ -8,10 +8,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: COLORS.white
   },
-  title: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: COLORS.main,
+  logo: {
+    width: 300,
     marginBottom: 30
   },
   loginContainer: {

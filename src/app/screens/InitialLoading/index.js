@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { SafeAreaView, ActivityIndicator, Text } from 'react-native';
+import { SafeAreaView, ActivityIndicator, Image } from 'react-native';
 
+import logo from '@assets/tutubo-03.png';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/auth/actions';
@@ -27,7 +28,7 @@ function InitialLoading({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Tu2bo</Text>
+      <Image style={styles.logo} source={logo} resizeMode="contain" />
       <ActivityIndicator size="large" color={COLORS.main} />
     </SafeAreaView>
   );
