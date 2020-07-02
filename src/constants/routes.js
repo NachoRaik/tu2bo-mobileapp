@@ -9,5 +9,6 @@ export const ROUTES = {
   SignUp: 'Registro',
   UploadVideo: 'Subir Video',
   Chat: 'Chat',
-  ChatList: 'Chats'
+  ChatList: 'Chats',
+  EditVideo: 'Editar Video'
 };

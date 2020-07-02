@@ -11,3 +11,7 @@ export const commentVideo = (id, comment) =>
 
 export const updateLikedVideo = (id, liked) =>
   api.put(`/videos/${id}/likes`, liked);
+
+export const deleteVideo = (id) => api.delete(`/videos/${id}`);
+
+export const editVideo = (id, fields) => api.patch(`/videos/${id}`, fields);

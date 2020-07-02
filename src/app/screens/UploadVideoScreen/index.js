@@ -25,10 +25,10 @@ import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/users/actions';
 import { uploadToFirebase } from '@services/FirebaseService';
 import { getFormatTimestamp } from '@utils/date';
+import { VISIBILITIES } from '@constants/fields';
 
 import styles from './styles';
 import { getuuid } from './utils';
-import { VISIBILITIES } from './constants';
 
 console.disableYellowBox = true;
 
@@ -149,7 +149,8 @@ function UploadVideoScreen({ navigation }) {
         title: title,
         description: description,
         author: user?.username,
-        date: timestamp
+        date: timestamp,
+        user_id: user.id
       }
     });
     setOpenModal(false);
@@ -172,7 +173,7 @@ function UploadVideoScreen({ navigation }) {
       <OkModal
         visible={openModal}
         text="Se subió el video correctamente"
-        closeText="Ver mis videos"
+        closeText="Ver video"
         onPress={onCloseModal}
       />
       <ScrollView contentContainerStyle={styles.scrollArea}>
@@ -253,7 +254,9 @@ function UploadVideoScreen({ navigation }) {
             El video puede tardar unos minutos en subir...
           </Text>
         )}
-        {error && <Text style={{ marginVertical: 5 }}>{error}</Text>}
+        {(error || !!uploadError) && (
+          <Text style={{ marginVertical: 5 }}>{error || uploadError}</Text>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

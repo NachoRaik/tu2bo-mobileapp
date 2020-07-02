@@ -1,14 +1,21 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { ScrollView, Text, View, ActivityIndicator, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { StackActions, useFocusEffect } from '@react-navigation/native';
 
 import VideoPlayer from '@components/VideoPlayer';
 import CommentSection from '@components/CommentSection';
 import LikeButton from '@components/LikeButton';
+import CustomButton from '@components/CustomButton';
 import actionCreators from '@redux/videos/actions';
 import { getFormatTimestamp } from '@utils/date';
-import { updateLikedVideo, getVideoById } from '@services/VideoService';
+import {
+  updateLikedVideo,
+  getVideoById,
+  deleteVideo
+} from '@services/VideoService';
 import { ROUTES } from '@constants/routes';
+import OkModal from '@components/OkModal';
 
 import { formatDate } from './utils';
 
@@ -16,21 +23,16 @@ import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function VideoDetailScreen({ navigation, route }) {
-  const {
-    id,
-    url,
-    title,
-    author,
-    description,
-    date,
-    user_id
-  } = route?.params?.video;
+  const { id, url, title, author, date, user_id } = route?.params?.video;
+
+  const [videoInfo, setVideoInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [videoRef, setVideoRef] = useState(null);
   const [error, setError] = useState('');
   const [openError, setopenError] = useState(false);
+  const [openDeleteModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -39,21 +41,30 @@ function VideoDetailScreen({ navigation, route }) {
 
   const user = useSelector((state) => state.auth.currentUser);
 
-  useEffect(() => {
-    async function fetchData() {
-      dispatch(actionCreators.getVideoComments(id));
-      setLoading(true);
-      const response = await getVideoById(id);
-      if (response.ok) {
-        setLiked(response.data.user_related_info.is_liked);
-        setLikes(response.data.likes);
-      } else {
-        setError(response.data.reason);
+  const isMyVideo = user.id === user_id;
+
+  useFocusEffect(
+    useCallback(() => {
+      async function fetchData() {
+        dispatch(actionCreators.getVideoComments(id));
+        setLoading(true);
+        const response = await getVideoById(id);
+        if (response.ok) {
+          setVideoInfo(response.data); //for updates
+          setLiked(response.data.user_related_info.is_liked);
+          setLikes(response.data.likes);
+        } else {
+          setError(response.data.reason);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
-    fetchData();
-  }, [dispatch, id]);
+      fetchData();
+
+      return () => {
+        videoRef?.stopAsync();
+      };
+    }, [dispatch, id, videoRef])
+  );
 
   useEffect(() => {
     if (error && !openError) {
@@ -76,7 +87,7 @@ function VideoDetailScreen({ navigation, route }) {
   }, [error, openError]);
 
   navigation.setOptions({
-    title: title
+    title: videoInfo?.title || title //if title changed
   });
 
   const onRefPress = useCallback(
@@ -111,13 +122,60 @@ function VideoDetailScreen({ navigation, route }) {
       navigation.navigate(ROUTES.Profile, {
         user_id: userId
       });
-      videoRef.stopAsync();
     },
-    [navigation, videoRef]
+    [navigation]
   );
+
+  const onDeleteVideo = useCallback(async () => {
+    Alert.alert(
+      'Borrar video',
+      'Esta seguro que desea borrar el video',
+      [
+        {
+          text: 'Si',
+          onPress: async () => {
+            const response = await deleteVideo(id);
+            if (response.ok) {
+              dispatch(actionCreators.getVideos());
+              setOpenModal(true);
+            }
+          }
+        },
+        {
+          text: 'No',
+          onPress: () => console.warn('Cancel Pressed'),
+          style: 'cancel'
+        }
+      ],
+      { cancelable: true }
+    );
+  }, [id, dispatch]);
+
+  const onEditVideo = useCallback(() => {
+    navigation.navigate(ROUTES.EditVideo, {
+      video: {
+        id,
+        title: videoInfo.title,
+        description: videoInfo.description,
+        visibility: videoInfo.visibility
+      }
+    });
+  }, [navigation, id, videoInfo]);
+
+  const onCloseModal = useCallback(() => {
+    navigation.dispatch(StackActions.pop());
+    navigateToProfile(user_id);
+    setOpenModal(false);
+  }, [navigation, navigateToProfile, user_id]);
 
   return (
     <ScrollView style={styles.scrollArea} alwaysBounceVertical>
+      <OkModal
+        visible={openDeleteModal}
+        text="Se borró el video correctamente"
+        closeText="Ver mis videos"
+        onPress={onCloseModal}
+      />
       <VideoPlayer
         source={url}
         style={styles.videoPlayer}
@@ -129,7 +187,7 @@ function VideoDetailScreen({ navigation, route }) {
         <View style={styles.videoInfo}>
           <View style={styles.header}>
             <View>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>{videoInfo?.title}</Text>
               <Text>{formatDate(date)}</Text>
             </View>
             <LikeButton liked={liked} onLiked={onLikeToggle} likes={likes} />
@@ -137,7 +195,7 @@ function VideoDetailScreen({ navigation, route }) {
           <TouchableOpacity onPress={() => navigateToProfile(user_id)}>
             <Text style={styles.subtitle}>{author && `by ${author}`}</Text>
           </TouchableOpacity>
-          <Text style={styles.desc}>{description}</Text>
+          <Text style={styles.desc}>{videoInfo?.description}</Text>
           <CommentSection
             loading={commentsLoading}
             comments={comments}
@@ -145,6 +203,22 @@ function VideoDetailScreen({ navigation, route }) {
             onCommentSubmit={submitComment}
             onUserClick={navigateToProfile}
           />
+          {isMyVideo && (
+            <View style={styles.actions}>
+              <CustomButton
+                text="BORRAR"
+                style={styles.delete}
+                textStyle={styles.deleteText}
+                onPress={onDeleteVideo}
+              />
+              <CustomButton
+                text="EDITAR"
+                style={styles.edit}
+                textStyle={styles.editText}
+                onPress={onEditVideo}
+              />
+            </View>
+          )}
         </View>
       )}
     </ScrollView>
