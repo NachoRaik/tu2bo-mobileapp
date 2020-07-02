@@ -25,10 +25,10 @@ import { COLORS } from '@constants/colors';
 import actionCreator from '@redux/users/actions';
 import { uploadToFirebase } from '@services/FirebaseService';
 import { getFormatTimestamp } from '@utils/date';
+import { VISIBILITIES } from '@constants/fields';
 
 import styles from './styles';
 import { getuuid } from './utils';
-import { VISIBILITIES } from './constants';
 
 console.disableYellowBox = true;
 
