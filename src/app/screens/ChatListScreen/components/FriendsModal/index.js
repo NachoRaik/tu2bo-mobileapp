@@ -52,8 +52,6 @@ export default function FriendsModal({
 
   const keyExtractor = useCallback((item) => item.id.toString(), []);
 
-  console.warn(loading);
-
   return (
     <Modal
       animationType="slide"

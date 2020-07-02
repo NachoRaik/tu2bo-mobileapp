@@ -28,8 +28,6 @@ function EditVideoScreen({ navigation, route }) {
   const [newDescription, setDescription] = useState(description);
   const [newVisibility, setVisibility] = useState(visibility);
 
-  console.warn(visibility);
-
   const [openModal, setOpenModal] = useState(false);
   const [error, setError] = useState(null);
 
