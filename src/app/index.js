@@ -1,9 +1,11 @@
 import 'react-native-gesture-handler';
 import React from 'react';
+import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import logo from '@assets/tutubo-03.png';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
@@ -30,6 +32,13 @@ function WallStackScreen() {
         name={ROUTES.Home}
         component={TabNavigatorScreen}
         options={({ navigation }) => ({
+          headerTitle: () => (
+            <Image
+              style={{ width: 120, marginTop: 5 }}
+              source={logo}
+              resizeMode="contain"
+            />
+          ),
           headerRightContainerStyle: { flexDirection: 'row' },
           headerRight: () => <HeaderButtons navigation={navigation} />
         })}
@@ -69,7 +78,6 @@ function TabNavigatorScreen() {
         name={ROUTES.Wall}
         component={HomeScreen}
         options={{
-          title: 'Muro',
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-home" focused={focused} size={size} />
           )
@@ -79,7 +87,6 @@ function TabNavigatorScreen() {
         name={ROUTES.ChatList}
         component={ChatListScreen}
         options={{
-          title: 'Chats',
           tabBarIcon: ({ focused, size }) => (
             <TabBarIcon name="md-chatbubbles" focused={focused} size={size} />
           )

@@ -11,17 +11,6 @@ import styles from './styles';
 function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
 
-  useFocusEffect(
-    useCallback(() => {
-      const stackNavigator = navigation.dangerouslyGetParent();
-      if (stackNavigator) {
-        stackNavigator.setOptions({
-          title: 'Muro'
-        });
-      }
-    }, [navigation])
-  );
-
   const videos = useSelector((state) => state.videos.videos);
   const videosLoading = useSelector((state) => state.videos.loading);
 

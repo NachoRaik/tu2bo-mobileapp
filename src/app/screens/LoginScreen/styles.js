@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white
   },
   logo: {
-    width: 300,
+    width: 250,
     marginBottom: 30
   },
   loginContainer: {
