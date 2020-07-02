@@ -23,15 +23,8 @@ import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function VideoDetailScreen({ navigation, route }) {
-  const {
-    id,
-    url,
-    title,
-    author,
-    date,
-    user_id,
-    visibility
-  } = route?.params?.video;
+  const { id, url, title, author, date, user_id } = route?.params?.video;
+
   const [videoInfo, setVideoInfo] = useState(null);
   const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(0);
@@ -49,10 +42,6 @@ function VideoDetailScreen({ navigation, route }) {
   const user = useSelector((state) => state.auth.currentUser);
 
   const isMyVideo = user.id === user_id;
-
-  console.warn(isMyVideo);
-  console.warn(user.id);
-  console.warn(user_id);
 
   useFocusEffect(
     useCallback(() => {
@@ -168,10 +157,10 @@ function VideoDetailScreen({ navigation, route }) {
         id,
         title: videoInfo.title,
         description: videoInfo.description,
-        visibility
+        visibility: videoInfo.visibility
       }
     });
-  }, [navigation, id, videoInfo, visibility]);
+  }, [navigation, id, videoInfo]);
 
   const onCloseModal = useCallback(() => {
     navigation.dispatch(StackActions.pop());
