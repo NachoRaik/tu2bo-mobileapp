@@ -1,7 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, SafeAreaView, TextInput, Text } from 'react-native';
+import { View, SafeAreaView, TextInput, Text, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
+import logo from '@assets/tutubo-03.png';
 import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
@@ -58,7 +59,7 @@ function SignUpScreen({ navigation }) {
         visible={openModal}
         onPress={onCloseModal}
       />
-      <Text style={styles.title}>Tu2bo</Text>
+      <Image style={styles.logo} source={logo} resizeMode="contain" />
       <View styles={styles.loginContainer}>
         <TextInput
           style={styles.input}

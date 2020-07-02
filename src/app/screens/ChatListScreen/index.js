@@ -24,17 +24,6 @@ function ChatListScreen({ navigation }) {
   const [chats, setChats] = useState([]);
   const [openModal, setOpenModal] = useState(false);
 
-  useFocusEffect(
-    useCallback(() => {
-      const stackNavigator = navigation.dangerouslyGetParent();
-      if (stackNavigator) {
-        stackNavigator.setOptions({
-          title: 'Chats'
-        });
-      }
-    }, [navigation])
-  );
-
   const updateChats = useCallback((chat) => {
     setChats((prevChats) => {
       const copy = [...prevChats];
