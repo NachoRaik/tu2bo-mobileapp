@@ -173,7 +173,7 @@ function UploadVideoScreen({ navigation }) {
       <OkModal
         visible={openModal}
         text="Se subió el video correctamente"
-        closeText="Ver mis videos"
+        closeText="Ver video"
         onPress={onCloseModal}
       />
       <ScrollView contentContainerStyle={styles.scrollArea}>
