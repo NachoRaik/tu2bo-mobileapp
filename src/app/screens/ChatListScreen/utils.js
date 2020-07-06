@@ -1,0 +1,1 @@
+export const sortChats = (chats) => chats.sort((a, b) => b.lastMessage.createdAt.toDate() - a.lastMessage.createdAt.toDate());

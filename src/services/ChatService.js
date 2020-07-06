@@ -70,6 +70,7 @@ export const onNewChat = (callback, user, me) => {
   return db
     .collection('chats')
     .where(`${user}.username`, '==', me.username)
+    .orderBy('lastMessage.createdAt', 'desc')
     .onSnapshot(function (querySnapshot) {
       querySnapshot.docChanges().forEach(function (change) {
         if (change.type === 'added' || change.type === 'modified') {

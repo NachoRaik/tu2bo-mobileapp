@@ -18,6 +18,7 @@ import { formatFirebaseTimestampInWords } from '@utils/date';
 import NewChatButton from './components/NewChatButton';
 import FriendsModal from './components/FriendsModal';
 
+import { sortChats } from './utils'
 import styles from './styles';
 
 function ChatListScreen({ navigation }) {
@@ -38,6 +39,10 @@ function ChatListScreen({ navigation }) {
       }
     });
   }, []);
+
+  useEffect(() => {
+    setChats((prevChats) => sortChats(prevChats));
+  }, [chats])
 
   useEffect(() => {
     const unsuscribe1 = onNewChat(
