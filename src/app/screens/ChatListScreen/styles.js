@@ -22,6 +22,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     minWidth: '100%'
   },
+  notfication: {
+    width: 8,
+    height: 8,
+    backgroundColor: COLORS.main,
+    borderRadius: 5,
+    position: 'absolute',
+    right: 10,
+    top: 10
+  },
   chat: {
     flexGrow: 1
   },
@@ -34,6 +43,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     color: COLORS.gray,
     width: 120
+  },
+  notify: {
+    color: '#000'
   },
   date: {
     color: COLORS.gray,

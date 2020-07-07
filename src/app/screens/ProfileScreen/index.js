@@ -94,17 +94,20 @@ function ProfileScreen({ navigation, route }) {
     setLoading(false);
   }, [user_id]);
 
-  const editProfile = useCallback(async (data) => {
-    const response = await editUserById(user_id, data);
-    if (response.ok) {
-      console.log(response);
-      setProfile(response.data);
-    } else {
-      setError(response.data.reason);
-    }
-  }, [user_id]);
+  const editProfile = useCallback(
+    async (data) => {
+      const response = await editUserById(user_id, data);
+      if (response.ok) {
+        console.log(response);
+        setProfile(response.data);
+      } else {
+        setError(response.data.reason);
+      }
+    },
+    [user_id]
+  );
 
-  const pickImage= useCallback(async () => {
+  const pickImage = useCallback(async () => {
     const pickerResult = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: 'Images'
     });

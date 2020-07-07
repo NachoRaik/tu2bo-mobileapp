@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import { Entypo } from '@expo/vector-icons';
 import { GiftedAvatar } from 'react-native-gifted-chat';
 import {
@@ -12,13 +11,13 @@ import {
 import { useSelector } from 'react-redux';
 
 import { ROUTES } from '@constants/routes';
-import { onNewChat } from '@services/ChatService';
+import { onNewChat, readMessage } from '@services/ChatService';
 import { formatFirebaseTimestampInWords } from '@utils/date';
 
 import NewChatButton from './components/NewChatButton';
 import FriendsModal from './components/FriendsModal';
 
-import { sortChats } from './utils'
+import { sortChats, shouldNotify } from './utils';
 import styles from './styles';
 
 function ChatListScreen({ navigation }) {
@@ -42,7 +41,7 @@ function ChatListScreen({ navigation }) {
 
   useEffect(() => {
     setChats((prevChats) => sortChats(prevChats));
-  }, [chats])
+  }, [chats]);
 
   useEffect(() => {
     const unsuscribe1 = onNewChat(
@@ -66,6 +65,14 @@ function ChatListScreen({ navigation }) {
 
   const me = useSelector((state) => state.auth.currentUser);
 
+  const onSelectChat = useCallback(
+    (item) => {
+      readMessage(item.lastMessage, item.user, item.otherUser);
+      navigateToChat(item.user);
+    },
+    [navigateToChat]
+  );
+
   const navigateToChat = useCallback(
     (user) => {
       navigation.navigate(ROUTES.Chat, {
@@ -85,14 +92,20 @@ function ChatListScreen({ navigation }) {
 
   const renderChat = useCallback(
     ({ item }) => (
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => navigateToChat(item.user)}>
+      <TouchableOpacity style={styles.card} onPress={() => onSelectChat(item)}>
         <GiftedAvatar user={{ name: item.user.username }} />
         <View style={styles.chat}>
           <Text style={styles.title}>{item.user.username}</Text>
+          {shouldNotify(item.lastMessage, me) && (
+            <View style={styles.notfication} />
+          )}
           <View style={styles.infoChat}>
-            <Text style={styles.message} numberOfLines={1}>
+            <Text
+              style={[
+                styles.message,
+                shouldNotify(item.lastMessage, me) && styles.notify
+              ]}
+              numberOfLines={1}>
               {item.lastMessage.text}
             </Text>
             <Text style={styles.date}>
@@ -102,7 +115,7 @@ function ChatListScreen({ navigation }) {
         </View>
       </TouchableOpacity>
     ),
-    [navigateToChat]
+    [me, onSelectChat]
   );
 
   const renderSeparator = useCallback(() => {
