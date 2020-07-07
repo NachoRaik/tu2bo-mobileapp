@@ -1,5 +1,5 @@
 export const sortChats = (chats) =>
-  chats.sort(
+  [...chats].sort(
     (a, b) =>
       b.lastMessage.createdAt.toDate() - a.lastMessage.createdAt.toDate()
   );

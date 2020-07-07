@@ -26,11 +26,11 @@ export const sendMessages = (messages, myUser, otherUser) => {
   }
 };
 
-export const readMessage = (msg, user1, user2) => {
-  const sortUsers = [user1, user2].sort((a, b) => a.id - b.id);
+export const readMessage = (chat, myId) => {
+  const sortUsers = [chat.user, chat.otherUser].sort((a, b) => a.id - b.id);
   const message = {
-    ...msg,
-    read: true
+    ...chat.lastMessage,
+    ...(chat.lastMessage.user._id !== myId && { read: true })
   };
   const chatRef = db
     .collection('chats')

@@ -40,6 +40,7 @@ function ChatListScreen({ navigation }) {
   }, []);
 
   useEffect(() => {
+    console.warn('HOLAAAAAAAAAAAA');
     setChats((prevChats) => sortChats(prevChats));
   }, [chats]);
 
@@ -67,10 +68,10 @@ function ChatListScreen({ navigation }) {
 
   const onSelectChat = useCallback(
     (item) => {
-      readMessage(item.lastMessage, item.user, item.otherUser);
+      readMessage(item, me.id);
       navigateToChat(item.user);
     },
-    [navigateToChat]
+    [navigateToChat, me]
   );
 
   const navigateToChat = useCallback(
