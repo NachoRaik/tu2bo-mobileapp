@@ -11,7 +11,8 @@ export const sendMessages = (messages, myUser, otherUser) => {
     const message = {
       text,
       user,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      read: false
     };
     const chatRef = db
       .collection('chats')
@@ -23,6 +24,19 @@ export const sendMessages = (messages, myUser, otherUser) => {
     );
     chatRef.collection('messages').add(message);
   }
+};
+
+export const readMessage = (msg, user1, user2) => {
+  const sortUsers = [user1, user2].sort((a, b) => a.id - b.id);
+  const message = {
+    ...msg,
+    read: true
+  };
+  const chatRef = db
+    .collection('chats')
+    .doc(`${sortUsers[0].id}-${sortUsers[1].id}`);
+
+  chatRef.set({ lastMessage: message }, { merge: true });
 };
 
 const parseMessage = (doc) => {
@@ -62,7 +76,8 @@ const parseChat = (doc, me) => {
       serverTimestamps: 'estimate'
     });
     const user = user1.username === me.username ? user2 : user1;
-    return { user, lastMessage };
+    const otherUser = user1.username !== me.username ? user2 : user1;
+    return { user, otherUser, lastMessage };
   }
 };
 
@@ -70,6 +85,7 @@ export const onNewChat = (callback, user, me) => {
   return db
     .collection('chats')
     .where(`${user}.username`, '==', me.username)
+    .orderBy('lastMessage.createdAt', 'desc')
     .onSnapshot(function (querySnapshot) {
       querySnapshot.docChanges().forEach(function (change) {
         if (change.type === 'added' || change.type === 'modified') {

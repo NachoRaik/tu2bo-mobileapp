@@ -1,5 +1,5 @@
 import React from 'react';
-import { Entypo } from '@expo/vector-icons'; 
+import { Entypo } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import styles from './styles';
 
