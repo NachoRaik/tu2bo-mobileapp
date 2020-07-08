@@ -32,16 +32,12 @@ function ChatListScreen({ navigation }) {
       );
       if (index >= 0) {
         copy[index] = chat;
-        return copy;
+        return sortChats(copy);
       } else {
-        return [...prevChats, chat];
+        return sortChats([...prevChats, chat]);
       }
     });
   }, []);
-
-  useEffect(() => {
-    setChats((prevChats) => sortChats(prevChats));
-  }, [chats]);
 
   useEffect(() => {
     const unsuscribe1 = onNewChat(
@@ -67,10 +63,10 @@ function ChatListScreen({ navigation }) {
 
   const onSelectChat = useCallback(
     (item) => {
-      readMessage(item.lastMessage, item.user, item.otherUser);
+      readMessage(item, me.id);
       navigateToChat(item.user);
     },
-    [navigateToChat]
+    [navigateToChat, me]
   );
 
   const navigateToChat = useCallback(
