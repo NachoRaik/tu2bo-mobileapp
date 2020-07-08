@@ -32,17 +32,12 @@ function ChatListScreen({ navigation }) {
       );
       if (index >= 0) {
         copy[index] = chat;
-        return copy;
+        return sortChats(copy);
       } else {
-        return [...prevChats, chat];
+        return sortChats([...prevChats, chat]);
       }
     });
   }, []);
-
-  useEffect(() => {
-    console.warn('HOLAAAAAAAAAAAA');
-    setChats((prevChats) => sortChats(prevChats));
-  }, [chats]);
 
   useEffect(() => {
     const unsuscribe1 = onNewChat(
