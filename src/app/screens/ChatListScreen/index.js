@@ -11,7 +11,7 @@ import {
 import { useSelector } from 'react-redux';
 
 import { ROUTES } from '@constants/routes';
-import { onNewChat, readMessage } from '@services/ChatService';
+import { onNewChat, readMessage } from '@services/FirestoreService';
 import { formatFirebaseTimestampInWords } from '@utils/date';
 
 import NewChatButton from './components/NewChatButton';

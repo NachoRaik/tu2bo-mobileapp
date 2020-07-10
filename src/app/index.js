@@ -1,10 +1,13 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import * as Notifications from 'expo-notifications';
 
+import { registerForPushNotifications } from '@services/NotificationService';
 import logo from '@assets/tutubo-03.png';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
@@ -21,11 +24,31 @@ import EditVideoScreen from '@screens/EditVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import HeaderButtons from '@components/HeaderButtons';
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false
+  })
+});
+
 const Stack = createStackNavigator();
 const WallStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function WallStackScreen() {
+  const me = useSelector((state) => state.auth.currentUser);
+
+  useEffect(() => {
+    registerForPushNotifications(me.username);
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        alert(notification);
+      }
+    );
+    return () => subscription.remove();
+  }, [me]);
+
   return (
     <WallStack.Navigator initialRouteName={ROUTES.Home}>
       <WallStack.Screen

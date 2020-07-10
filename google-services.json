@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "665671721983",
+    "firebase_url": "https://tu2bo-131ec.firebaseio.com",
+    "project_id": "tu2bo-131ec",
+    "storage_bucket": "tu2bo-131ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665671721983:android:8aaf93cbcea93722ed3dca",
+        "android_client_info": {
+          "package_name": "com.taller2.tutubo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665671721983-a13evss1c1cufotp19239ibl8fli6lfu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsTW3uFCNSCA9AivAVEZI7SuyZ9wWAGoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665671721983-a13evss1c1cufotp19239ibl8fli6lfu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
