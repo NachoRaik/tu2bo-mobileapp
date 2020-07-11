@@ -28,6 +28,7 @@
     "android": {
       "package": "com.taller2.tutubo",
       "googleServicesFile": "./google-services.json",
+      "useNextNotificationsApi": true,
       "config": {
         "googleSignIn": {
           "apiKey": "AIzaSyAsTW3uFCNSCA9AivAVEZI7SuyZ9wWAGoU"

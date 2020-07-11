@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, Alert } from 'react-native';
+import * as Notifications from 'expo-notifications';
 
+import { ROUTES } from '@constants/routes';
+import { registerForPushNotifications } from '@services/NotificationService';
 import VideosList from '@components/VideosList';
 import actionCreators from '@redux/videos/actions';
 
@@ -12,6 +15,21 @@ function HomeScreen({ navigation }) {
 
   const videos = useSelector((state) => state.videos.videos);
   const videosLoading = useSelector((state) => state.videos.loading);
+  const me = useSelector((state) => state.auth.currentUser);
+
+  useEffect(() => {
+    registerForPushNotifications(me.username);
+    Notifications.addNotificationReceivedListener((notification) => {
+      console.warn(notification);
+    });
+    Notifications.addNotificationResponseReceivedListener((response) => {
+      console.warn(response.notification.request.content.data);
+      navigation.navigate(ROUTES.Chat, {
+        user: { ...response.notification.request.content.data }
+      });
+    });
+    return () => Notifications.removeAllNotificationListeners();
+  }, [me, navigation]);
 
   useEffect(() => {
     dispatch(actionCreators.getVideos());
