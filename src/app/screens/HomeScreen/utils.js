@@ -12,5 +12,9 @@ export const notificationHanlder = (data) => ({
     payload: {
       tabSelected: 1
     }
+  },
+  ACCEPTED_REQUEST_NOTIFICATION: {
+    redirect: ROUTES.Profile,
+    payload: { ...data }
   }
 });
