@@ -18,3 +18,4 @@ web-report/
 # Because we are using yarn
 package-lock.json
 google-services.json
+app.json
