@@ -1,6 +1,14 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, SafeAreaView, TextInput, Text, Image } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  TextInput,
+  Text,
+  Image,
+  Clipboard
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 import logo from '@assets/tutubo-03.png';
 import CustomButton from '@components/CustomButton';
@@ -15,6 +23,8 @@ import styles from './styles';
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userLogged, setUser] = useState(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
@@ -44,6 +54,62 @@ function LoginScreen({ navigation }) {
       cleanLogin();
     }
   }, [token, cleanLogin, navigation]);
+
+  useEffect(() => {
+    console.warn('hola');
+    initAsync();
+  }, [initAsync]);
+
+  const initAsync = useCallback(async () => {
+    await GoogleSignIn.initAsync();
+    _syncUserWithStateAsync();
+  }, [_syncUserWithStateAsync]);
+
+  const _syncUserWithStateAsync = useCallback(async () => {
+    const user = await GoogleSignIn.signInSilentlyAsync();
+    setUser(user);
+    const string =
+      'user email: ' +
+      user.email +
+      '\nuser photo: ' +
+      user.photoURL +
+      '\ndisplayname: ' +
+      user.displayName +
+      '\naccesstoken: ' +
+      user.auth.accessToken +
+      '\nidToken: ' +
+      user.auth.idToken;
+    await Clipboard.setString(string);
+    alert(string);
+  }, []);
+
+  const signInAsync = useCallback(async () => {
+    try {
+      setGoogleLoading(true);
+      const { type, user } = await GoogleSignIn.signInAsync();
+      console.warn('HOLA!!!');
+      console.warn(user);
+      if (type === 'success') {
+        await _syncUserWithStateAsync();
+        setGoogleLoading(false);
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+    }
+  }, [_syncUserWithStateAsync]);
+
+  const signOutAsync = useCallback(async () => {
+    await GoogleSignIn.signOutAsync();
+    setUser(null);
+  }, []);
+
+  const onPressLoginGoogle = useCallback(() => {
+    if (userLogged) {
+      signOutAsync();
+    } else {
+      signInAsync();
+    }
+  }, [userLogged, signInAsync, signOutAsync]);
 
   const onNavigateToRegister = useCallback(() => {
     cleanLogin();
@@ -85,6 +151,15 @@ function LoginScreen({ navigation }) {
           textStyle={styles.loginButtonText}
           onPress={onNavigateToRegister}
           disable={authLoading}
+        />
+        <CustomButton
+          text="INGRESAR CON GOOGLE"
+          style={[styles.loginButton]}
+          textStyle={disable ? styles.textDisable : styles.loginButtonText}
+          onPress={onPressLoginGoogle}
+          //disable={disable}
+          loading={authLoading}
+          loaderColor={COLORS.white}
         />
       </View>
       {error && <Text>{error}</Text>}
