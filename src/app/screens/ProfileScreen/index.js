@@ -35,7 +35,7 @@ import styles from './styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 function ProfileScreen({ navigation, route }) {
-  const [selection, setSelection] = useState(0);
+  const [selection, setSelection] = useState(route?.params?.tabSelected || 0);
   const [loading, setLoading] = useState(true);
   const [loadingImage, setLoadingImage] = useState(false);
   const [loadingRequests, setLoadingRequests] = useState(false);

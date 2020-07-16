@@ -94,3 +94,9 @@ export const onNewChat = (callback, user, me) => {
       });
     });
 };
+
+export const saveNotificationToken = (token, expoToken, username) => {
+  const userRef = db.collection('tokens').doc(username);
+
+  userRef.set({ token, expoToken }, { merge: true });
+};

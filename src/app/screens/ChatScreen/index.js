@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useSelector } from 'react-redux';
 
-import { on, sendMessages } from '@services/ChatService';
+import { on, sendMessages } from '@services/FirestoreService';
 
 import { renderBubble } from './components/CustomBubble';
 import { renderSend, renderComposer } from './components/CustomInput';
