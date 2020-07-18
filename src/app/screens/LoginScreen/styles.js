@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
   forgotPassword: {
     color: COLORS.main,
     textAlign: 'center'
+  },
+  error: {
+    marginTop: 10
   }
 });
 

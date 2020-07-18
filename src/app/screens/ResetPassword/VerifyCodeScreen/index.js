@@ -21,11 +21,8 @@ function VerifyCodeScreen({ navigation, route }) {
     setLoading(true);
     const response = await verifyCode(email, code);
     if (response.ok) {
-      //navigate? o change input
       navigation.navigate(ROUTES.NewPassword, { email, code });
     } else {
-      //TODO: Remove
-      navigation.navigate(ROUTES.NewPassword, { email, code });
       setError(response.data.reason);
     }
     setLoading(false);

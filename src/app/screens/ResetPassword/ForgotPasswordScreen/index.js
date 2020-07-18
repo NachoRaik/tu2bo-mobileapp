@@ -24,8 +24,6 @@ function ForgotPasswordScreen({ navigation }) {
     if (response.ok) {
       navigation.navigate(ROUTES.VerifyCode, { email });
     } else {
-      //TODO: remove
-      navigation.navigate(ROUTES.VerifyCode, { email });
       setError(response.data.reason);
     }
     setLoading(false);

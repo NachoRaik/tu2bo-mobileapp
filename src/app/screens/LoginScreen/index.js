@@ -102,7 +102,7 @@ function LoginScreen({ navigation }) {
           <Text style={styles.forgotPassword}>Olvidaste tu contraseña?</Text>
         </TouchableOpacity>
       </View>
-      {error && <Text>{error}</Text>}
+      {error && <Text style={styles.error}>{error}</Text>}
     </SafeAreaView>
   );
 }

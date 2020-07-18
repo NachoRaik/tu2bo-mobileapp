@@ -28,8 +28,6 @@ function NewPasswordScreen({ navigation, route }) {
     if (response.ok) {
       setOpenModal(true);
     } else {
-      //TODO: remove
-      setOpenModal(true);
       setError(response.data.reason);
     }
     setLoading(false);
