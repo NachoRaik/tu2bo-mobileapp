@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image } from 'react-native';
-import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -12,6 +11,7 @@ import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
 import SignUpScreen from '@screens/SignUpScreen';
+import ResetPasswordScreen from '@screens/ResetPasswordScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
 import ChatListScreen from '@screens/ChatListScreen';
@@ -120,6 +120,10 @@ export default function App() {
         <Stack.Screen name={ROUTES.InitialLoading} component={InitialLoading} />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
+        <Stack.Screen
+          name={ROUTES.ResetPassword}
+          component={ResetPasswordScreen}
+        />
         <Stack.Screen name={ROUTES.Home} component={WallStackScreen} />
       </Stack.Navigator>
     </NavigationContainer>

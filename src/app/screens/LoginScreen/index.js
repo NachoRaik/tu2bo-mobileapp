@@ -1,5 +1,12 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { View, SafeAreaView, TextInput, Text, Image } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  TextInput,
+  Text,
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import logo from '@assets/tutubo-03.png';
@@ -50,6 +57,11 @@ function LoginScreen({ navigation }) {
     navigation.navigate(ROUTES.SignUp);
   }, [navigation, cleanLogin]);
 
+  const onNavigateToResetPassword = useCallback(() => {
+    cleanLogin();
+    navigation.navigate(ROUTES.ResetPassword);
+  }, [navigation, cleanLogin]);
+
   return (
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={logo} resizeMode="contain" />
@@ -86,6 +98,9 @@ function LoginScreen({ navigation }) {
           onPress={onNavigateToRegister}
           disable={authLoading}
         />
+        <TouchableOpacity onPress={onNavigateToResetPassword}>
+          <Text style={styles.forgotPassword}>Olvidaste tu contraseña?</Text>
+        </TouchableOpacity>
       </View>
       {error && <Text>{error}</Text>}
     </SafeAreaView>
