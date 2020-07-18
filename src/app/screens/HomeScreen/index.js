@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native';
 import * as Notifications from 'expo-notifications';
 
-import { ROUTES } from '@constants/routes';
 import { registerForPushNotifications } from '@services/NotificationService';
 import VideosList from '@components/VideosList';
 import actionCreators from '@redux/videos/actions';
@@ -25,10 +24,8 @@ function HomeScreen({ navigation }) {
       console.warn(notification);
     });
     Notifications.addNotificationResponseReceivedListener((response) => {
-      const {type, ...data} = response.notification.request.content.data;
-      const { redirect, payload } = notificationHanlder(
-        response.notification.request.content.data
-      )[type];
+      const { type, ...data } = response.notification.request.content.data;
+      const { redirect, payload } = notificationHanlder(data)[type];
       navigation.navigate(redirect, payload);
     });
     return () => Notifications.removeAllNotificationListeners();

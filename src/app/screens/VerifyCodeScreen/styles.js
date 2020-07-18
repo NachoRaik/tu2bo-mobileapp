@@ -18,15 +18,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: COLORS.gray
   },
-  input: {
-    backgroundColor: COLORS.white,
-    borderColor: COLORS.gray,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-    padding: 5,
-    width: 200
-  },
   loginButton: {
     backgroundColor: COLORS.main,
     borderStyle: 'solid',

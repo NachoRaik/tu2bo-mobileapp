@@ -18,8 +18,11 @@ export const acceptFriendshipRequest = (id) => api.post(`users/${id}/friends`);
 
 export const getFriends = (id) => api.get(`users/${id}/friends`);
 
-export const resetPassword  = (email) => api.post(`users/reset_password`, { email });
+export const resetPassword = (email) =>
+  api.post(`users/reset_password`, { email });
 
-export const verifyCode  = (email, code) => api.get(`users/password`, { email, code });
+export const verifyCode = (email, code) =>
+  api.get(`users/password`, { email, code });
 
-export const newPassword  = (email, code, password) => api.get(`users/password`, { password }, { params: { email, code }});
+export const newPassword = (email, code, password) =>
+  api.get(`users/password`, { password }, { params: { email, code } });
