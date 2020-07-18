@@ -8,21 +8,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: COLORS.white
   },
-  logo: {
-    width: 220,
-    marginBottom: 30
+  title: {
+    fontSize: 28,
+    color: COLORS.main
   },
-  loginContainer: {
-    flex: 1
-  },
-  input: {
-    backgroundColor: COLORS.white,
-    borderColor: COLORS.gray,
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-    padding: 5,
-    width: 200
+  explanation: {
+    margin: 30,
+    marginTop: 10,
+    textAlign: 'center',
+    color: COLORS.gray
   },
   loginButton: {
     backgroundColor: COLORS.main,
@@ -40,13 +34,6 @@ const styles = StyleSheet.create({
   },
   textDisable: {
     color: COLORS.white
-  },
-  forgotPassword: {
-    color: COLORS.main,
-    textAlign: 'center'
-  },
-  error: {
-    marginTop: 5
   }
 });
 

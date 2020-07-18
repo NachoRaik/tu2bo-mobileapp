@@ -10,5 +10,8 @@ export const ROUTES = {
   UploadVideo: 'Subir Video',
   Chat: 'Chat',
   ChatList: 'Chats',
-  EditVideo: 'Editar Video'
+  EditVideo: 'Editar Video',
+  ForgotPassword: 'Olvidaste tu Contraseña?',
+  VerifyCode: 'Verificar Código',
+  NewPassword: 'Nueva Contraseña'
 };
