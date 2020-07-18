@@ -4,13 +4,13 @@ import { View, SafeAreaView, TextInput, Text } from 'react-native';
 import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
-import { resetPassword } from '@services/UserService';
+import { resetPassword } from '@services/AuthService';
 
 import { validateEmail } from '@utils/email';
 
 import styles from './styles';
 
-function ResetPasswordScreen({ navigation }) {
+function ForgotPasswordScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -76,4 +76,4 @@ function ResetPasswordScreen({ navigation }) {
   );
 }
 
-export default ResetPasswordScreen;
+export default ForgotPasswordScreen;

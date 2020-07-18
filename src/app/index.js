@@ -11,7 +11,6 @@ import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
 import LoginScreen from '@screens/LoginScreen';
 import SignUpScreen from '@screens/SignUpScreen';
-import ResetPasswordScreen from '@screens/ResetPasswordScreen';
 import InitialLoading from '@screens/InitialLoading';
 import HomeScreen from '@screens/HomeScreen';
 import ChatListScreen from '@screens/ChatListScreen';
@@ -22,8 +21,9 @@ import UploadVideoScreen from '@screens/UploadVideoScreen';
 import EditVideoScreen from '@screens/EditVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import HeaderButtons from '@components/HeaderButtons';
-import VerifyCodeScreen from '@screens/VerifyCodeScreen';
-import NewPasswordScreen from '@screens/NewPasswordScreen';
+import VerifyCodeScreen from '@screens/ResetPassword/VerifyCodeScreen';
+import NewPasswordScreen from '@screens/ResetPassword/NewPasswordScreen';
+import ForgotPasswordScreen from '@screens/ResetPassword/ForgotPasswordScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -123,8 +123,8 @@ export default function App() {
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.SignUp} component={SignUpScreen} />
         <Stack.Screen
-          name={ROUTES.ResetPassword}
-          component={ResetPasswordScreen}
+          name={ROUTES.ForgotPassword}
+          component={ForgotPasswordScreen}
         />
         <Stack.Screen name={ROUTES.VerifyCode} component={VerifyCodeScreen} />
         <Stack.Screen name={ROUTES.NewPassword} component={NewPasswordScreen} />

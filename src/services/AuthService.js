@@ -7,6 +7,14 @@ export const login = (username, password) =>
 
 export const register = (info) => api.post('/register', info);
 
+export const resetPassword = (email) => api.post(`/reset_password`, { email });
+
+export const verifyCode = (email, code) =>
+  api.get(`/password`, { email, code });
+
+export const newPassword = (email, code, password) =>
+  api.post(`/password`, { password }, { params: { email, code } });
+
 export const getSession = async () => {
   const token = await AsyncStorage.getItem('access-token');
   const id = await AsyncStorage.getItem('userid');

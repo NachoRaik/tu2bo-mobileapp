@@ -59,7 +59,7 @@ function LoginScreen({ navigation }) {
 
   const onNavigateToResetPassword = useCallback(() => {
     cleanLogin();
-    navigation.navigate(ROUTES.ResetPassword);
+    navigation.navigate(ROUTES.ForgotPassword);
   }, [navigation, cleanLogin]);
 
   return (

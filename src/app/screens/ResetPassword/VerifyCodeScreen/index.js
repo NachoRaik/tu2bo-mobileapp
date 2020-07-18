@@ -4,7 +4,7 @@ import { View, SafeAreaView, Text } from 'react-native';
 import CustomButton from '@components/CustomButton';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
-import { verifyCode } from '@services/UserService';
+import { verifyCode } from '@services/AuthService';
 
 import styles from './styles';
 import CodeInput from './components/CodeInput';

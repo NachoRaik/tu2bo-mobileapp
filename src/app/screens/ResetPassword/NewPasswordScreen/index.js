@@ -5,7 +5,7 @@ import CustomButton from '@components/CustomButton';
 import OkModal from '@components/OkModal';
 import { ROUTES } from '@constants/routes';
 import { COLORS } from '@constants/colors';
-import { newPassword } from '@services/UserService';
+import { newPassword } from '@services/AuthService';
 
 import styles from './styles';
 

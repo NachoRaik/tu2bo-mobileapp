@@ -11,7 +11,7 @@ export const ROUTES = {
   Chat: 'Chat',
   ChatList: 'Chats',
   EditVideo: 'Editar Video',
-  ResetPassword: 'Resetear Contraseña',
+  ForgotPassword: 'Olvidaste tu Contraseña?',
   VerifyCode: 'Verificar Código',
   NewPassword: 'Nueva Contraseña'
 };
