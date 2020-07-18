@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   error: {
-    marginTop: 10
+    marginTop: 5
   }
 });
 
