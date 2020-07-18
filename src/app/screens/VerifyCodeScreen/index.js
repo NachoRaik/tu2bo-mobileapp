@@ -22,11 +22,14 @@ function VerifyCodeScreen({ navigation, route }) {
     const response = await verifyCode(email, code);
     if (response.ok) {
       //navigate? o change input
+      navigation.navigate(ROUTES.NewPassword, { email, code });
     } else {
+      //TODO: Remove
+      navigation.navigate(ROUTES.NewPassword, { email, code });
       setError(response.data.reason);
     }
     setLoading(false);
-  }, [email, code]);
+  }, [email, code, navigation]);
 
   const onNavigateToLogin = useCallback(() => {
     navigation.reset({

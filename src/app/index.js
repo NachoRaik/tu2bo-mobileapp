@@ -23,6 +23,7 @@ import EditVideoScreen from '@screens/EditVideoScreen';
 import TabBarIcon from '@components/TabBarIcon';
 import HeaderButtons from '@components/HeaderButtons';
 import VerifyCodeScreen from '@screens/VerifyCodeScreen';
+import NewPasswordScreen from '@screens/NewPasswordScreen';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -126,6 +127,7 @@ export default function App() {
           component={ResetPasswordScreen}
         />
         <Stack.Screen name={ROUTES.VerifyCode} component={VerifyCodeScreen} />
+        <Stack.Screen name={ROUTES.NewPassword} component={NewPasswordScreen} />
         <Stack.Screen name={ROUTES.Home} component={WallStackScreen} />
       </Stack.Navigator>
     </NavigationContainer>
