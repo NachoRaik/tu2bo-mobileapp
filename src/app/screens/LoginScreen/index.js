@@ -51,6 +51,7 @@ function LoginScreen({ navigation }) {
 
   useEffect(() => {
     if (token) {
+      setGoogleLoading(false);
       navigation.reset({
         index: 0,
         routes: [{ name: ROUTES.Home }]
@@ -70,20 +71,7 @@ function LoginScreen({ navigation }) {
 
   const _syncUserWithStateAsync = useCallback(async () => {
     const user = await GoogleSignIn.signInSilentlyAsync();
-    setUser(user);
-    const string =
-      'user email: ' +
-      user.email +
-      '\nuser photo: ' +
-      user.photoURL +
-      '\ndisplayname: ' +
-      user.displayName +
-      '\naccesstoken: ' +
-      user.auth.accessToken +
-      '\nidToken: ' +
-      user.auth.idToken;
-    await Clipboard.setString(string);
-    alert(string);
+    dispatch(actionCreator.oauth(user.auth.idToken));
   }, []);
 
   const signInAsync = useCallback(async () => {
@@ -93,9 +81,9 @@ function LoginScreen({ navigation }) {
       if (type === 'success') {
         await _syncUserWithStateAsync();
       }
-      setGoogleLoading(false);
     } catch ({ message }) {
       alert('login: Error:' + message);
+      setGoogleLoading(false);
     }
   }, [_syncUserWithStateAsync]);
 
@@ -105,11 +93,7 @@ function LoginScreen({ navigation }) {
   }, []);
 
   const onPressLoginGoogle = useCallback(() => {
-    if (userLogged) {
-      signOutAsync();
-    } else {
       signInAsync();
-    }
   }, [userLogged, signInAsync, signOutAsync]);
 
   const onNavigateToRegister = useCallback(() => {
@@ -148,7 +132,7 @@ function LoginScreen({ navigation }) {
           textStyle={disable ? styles.textDisable : styles.loginButtonText}
           onPress={onSubmit}
           disable={disable}
-          loading={authLoading}
+          loading={authLoading && !googleLoading}
           loaderColor={COLORS.white}
         />
         <CustomButton
@@ -163,7 +147,7 @@ function LoginScreen({ navigation }) {
           style={[styles.loginButton]}
           textStyle={disable ? styles.textDisable : styles.loginButtonText}
           onPress={onPressLoginGoogle}
-          //disable={disable}
+          disable={authLoading && !googleLoading}
           loading={googleLoading}
           loaderColor={COLORS.white}
         />

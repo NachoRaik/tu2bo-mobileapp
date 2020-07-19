@@ -1,6 +1,7 @@
 import {
   login,
   register,
+  oauth,
   setSession,
   removeSession
 } from '@services/AuthService';
@@ -15,7 +16,8 @@ export const actions = {
   REGISTER: '@@AUTH/REGISTER',
   REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
   REGISTER_FAILURE: '@@AUTH/REGISTER_FAILURE',
-  CLEAN_STATE: '@@AUTH/CLEAN_STATE'
+  CLEAN_STATE: '@@AUTH/CLEAN_STATE',
+  OAUTH: '@@AUTH/OAUTH'
 };
 
 export const actionCreator = {
@@ -59,7 +61,15 @@ export const actionCreator = {
   }),
   cleanState: () => ({
     type: actions.CLEAN_STATE
-  })
+  }),
+  oauth: (idToken) => async (dispatch) => {
+    dispatch({ type: actions.OAUTH });
+    const response = await oauth(idToken);
+    if (response?.ok) {
+      setSession(response.data);
+      dispatch(actionCreator.loginSuccess(response.data));
+    } else dispatch(actionCreator.loginFailure(response?.data.reason));
+  }
 };
 
 export default actionCreator;

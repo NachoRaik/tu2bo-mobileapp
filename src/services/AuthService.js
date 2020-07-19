@@ -5,6 +5,8 @@ import api from '@config/api';
 export const login = (username, password) =>
   api.post('/login', { email: username, password });
 
+export const oauth = (idToken) => api.post('/oauth2login', { idToken });
+
 export const register = (info) => api.post('/register', info);
 
 export const resetPassword = (email) => api.post(`/reset_password`, { email });
