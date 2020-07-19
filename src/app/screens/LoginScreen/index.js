@@ -5,11 +5,7 @@ import {
   TextInput,
   Text,
   Image,
-<<<<<<< HEAD
-  Clipboard
-=======
   TouchableOpacity
->>>>>>> 5e019da18dd812a8ee122681b779342c5e6f06e5
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as GoogleSignIn from 'expo-google-sign-in';
@@ -93,7 +89,7 @@ function LoginScreen({ navigation }) {
   }, []);
 
   const onPressLoginGoogle = useCallback(() => {
-      signInAsync();
+    signInAsync();
   }, [userLogged, signInAsync, signOutAsync]);
 
   const onNavigateToRegister = useCallback(() => {

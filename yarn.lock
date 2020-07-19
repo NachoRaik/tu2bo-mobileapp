@@ -4204,21 +4204,12 @@ expect@^25.5.0:
     jest-matcher-utils "^25.5.0"
     jest-message-util "^25.5.0"
     jest-regex-util "^25.2.6"
-<<<<<<< HEAD
 
 expo-application@~2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.2.1.tgz#f14b83ae0b07e4922850f8856a56f141c168d6d0"
   integrity sha512-YyYB2EPWmFmXgmnul9AMdZ6Ze290BWaez7RhUfAMq2gQU84EdpvL3vkO9SV5E4zI7Rj2jfS0VcCDpxrcdlBW/w==
 
-=======
-
-expo-application@~2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.2.1.tgz#f14b83ae0b07e4922850f8856a56f141c168d6d0"
-  integrity sha512-YyYB2EPWmFmXgmnul9AMdZ6Ze290BWaez7RhUfAMq2gQU84EdpvL3vkO9SV5E4zI7Rj2jfS0VcCDpxrcdlBW/w==
-
->>>>>>> 5e019da18dd812a8ee122681b779342c5e6f06e5
 expo-asset@~8.1.7:
   version "8.1.7"
   resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.1.7.tgz#32618e51f85df56f1d7dd54c71eb486ae7f7674e"
@@ -4254,14 +4245,6 @@ expo-error-recovery@~1.2.1:
   dependencies:
     fbjs "1.0.0"
 
-<<<<<<< HEAD
-expo-facebook@~8.2.1:
-  version "8.2.1"
-  resolved "https://registry.yarnpkg.com/expo-facebook/-/expo-facebook-8.2.1.tgz#3932ba061567e9ac2d897848f121275bd44a34fb"
-  integrity sha512-lCCRmhoI9gLfF5v/leSZiVjQxEb0O9/Wf9viHdOfFZFYufPspVqTjDhCpIXMdpQX0dLhWdRRV1dkKOwE8g+kIg==
-
-=======
->>>>>>> 5e019da18dd812a8ee122681b779342c5e6f06e5
 expo-file-system@~9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-9.0.1.tgz#50a6a0b29fbc45413de9f7d38c0695503bf03d7e"
@@ -4277,7 +4260,6 @@ expo-font@~8.2.1:
     fbjs "1.0.0"
     fontfaceobserver "^2.1.0"
 
-<<<<<<< HEAD
 expo-google-sign-in@~8.2.1:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/expo-google-sign-in/-/expo-google-sign-in-8.2.1.tgz#eae43b7c8ea890eed03e47ae28d25cf896b9efce"
@@ -4285,8 +4267,6 @@ expo-google-sign-in@~8.2.1:
   dependencies:
     invariant "^2.2.4"
 
-=======
->>>>>>> 5e019da18dd812a8ee122681b779342c5e6f06e5
 expo-image-picker@~8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-8.3.0.tgz#5a9daacbc1afa7fdbfd31edb22818524ad0b85e2"
