@@ -5,7 +5,11 @@ import {
   TextInput,
   Text,
   Image,
+<<<<<<< HEAD
   Clipboard
+=======
+  TouchableOpacity
+>>>>>>> 5e019da18dd812a8ee122681b779342c5e6f06e5
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import * as GoogleSignIn from 'expo-google-sign-in';
@@ -56,7 +60,6 @@ function LoginScreen({ navigation }) {
   }, [token, cleanLogin, navigation]);
 
   useEffect(() => {
-    console.warn('hola');
     initAsync();
   }, [initAsync]);
 
@@ -86,13 +89,11 @@ function LoginScreen({ navigation }) {
   const signInAsync = useCallback(async () => {
     try {
       setGoogleLoading(true);
-      const { type, user } = await GoogleSignIn.signInAsync();
-      console.warn('HOLA!!!');
-      console.warn(user);
+      const { type } = await GoogleSignIn.signInAsync();
       if (type === 'success') {
         await _syncUserWithStateAsync();
-        setGoogleLoading(false);
       }
+      setGoogleLoading(false);
     } catch ({ message }) {
       alert('login: Error:' + message);
     }
@@ -114,6 +115,11 @@ function LoginScreen({ navigation }) {
   const onNavigateToRegister = useCallback(() => {
     cleanLogin();
     navigation.navigate(ROUTES.SignUp);
+  }, [navigation, cleanLogin]);
+
+  const onNavigateToResetPassword = useCallback(() => {
+    cleanLogin();
+    navigation.navigate(ROUTES.ForgotPassword);
   }, [navigation, cleanLogin]);
 
   return (
@@ -158,11 +164,14 @@ function LoginScreen({ navigation }) {
           textStyle={disable ? styles.textDisable : styles.loginButtonText}
           onPress={onPressLoginGoogle}
           //disable={disable}
-          loading={authLoading}
+          loading={googleLoading}
           loaderColor={COLORS.white}
         />
+        <TouchableOpacity onPress={onNavigateToResetPassword}>
+          <Text style={styles.forgotPassword}>Olvidaste tu contraseña?</Text>
+        </TouchableOpacity>
       </View>
-      {error && <Text>{error}</Text>}
+      {error && <Text style={styles.error}>{error}</Text>}
     </SafeAreaView>
   );
 }
