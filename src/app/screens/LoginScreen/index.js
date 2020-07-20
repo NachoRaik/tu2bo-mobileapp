@@ -23,7 +23,6 @@ import styles from './styles';
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userLogged, setUser] = useState(null);
   const [googleLoading, setGoogleLoading] = useState(false);
 
   const emailValid = validateEmail(email);
@@ -62,13 +61,13 @@ function LoginScreen({ navigation }) {
 
   const initAsync = useCallback(async () => {
     await GoogleSignIn.initAsync();
-    _syncUserWithStateAsync();
-  }, [_syncUserWithStateAsync]);
+    //_syncUserWithStateAsync();
+  }, []);
 
   const _syncUserWithStateAsync = useCallback(async () => {
     const user = await GoogleSignIn.signInSilentlyAsync();
-    dispatch(actionCreator.oauth(user.auth.idToken));
-  }, []);
+    dispatch(actionCreator.oauth(user.auth.idToken, user.photoURL));
+  }, [dispatch]);
 
   const signInAsync = useCallback(async () => {
     try {
@@ -83,14 +82,9 @@ function LoginScreen({ navigation }) {
     }
   }, [_syncUserWithStateAsync]);
 
-  const signOutAsync = useCallback(async () => {
-    await GoogleSignIn.signOutAsync();
-    setUser(null);
-  }, []);
-
   const onPressLoginGoogle = useCallback(() => {
     signInAsync();
-  }, [userLogged, signInAsync, signOutAsync]);
+  }, [signInAsync]);
 
   const onNavigateToRegister = useCallback(() => {
     cleanLogin();
