@@ -61,7 +61,6 @@ function LoginScreen({ navigation }) {
 
   const initAsync = useCallback(async () => {
     await GoogleSignIn.initAsync();
-    //_syncUserWithStateAsync();
   }, []);
 
   const _syncUserWithStateAsync = useCallback(async () => {
