@@ -5,7 +5,8 @@ const initialState = {
   token: '',
   error: null,
   registered: false,
-  currentUser: {}
+  currentUser: {},
+  googleUser: false
 };
 
 function reducer(state = initialState, action) {
@@ -66,6 +67,14 @@ function reducer(state = initialState, action) {
         registered: false,
         error: null,
         loading: false
+      };
+    case actions.OAUTH:
+      return {
+        ...state,
+        loading: true,
+        token: '',
+        error: null,
+        googleUser: true
       };
     default:
       return state;

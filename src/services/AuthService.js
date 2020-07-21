@@ -5,6 +5,9 @@ import api from '@config/api';
 export const login = (username, password) =>
   api.post('/login', { email: username, password });
 
+export const oauth = (idToken, photoURL) =>
+  api.post('/oauth2login', { idToken, photoURL });
+
 export const register = (info) => api.post('/register', info);
 
 export const resetPassword = (email) => api.post(`/reset_password`, { email });
@@ -22,8 +25,8 @@ export const getSession = async () => {
   return { token, user: { id: parseInt(id, 10), username } };
 };
 
-export const removeSession = () => {
-  AsyncStorage.removeItem('access-token');
+export const removeSession = async () => {
+  await AsyncStorage.removeItem('access-token');
   AsyncStorage.removeItem('userid');
   AsyncStorage.removeItem('username');
   api.deleteHeader('access-token');

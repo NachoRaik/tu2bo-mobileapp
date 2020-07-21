@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -24,6 +25,14 @@ import HeaderButtons from '@components/HeaderButtons';
 import VerifyCodeScreen from '@screens/ResetPassword/VerifyCodeScreen';
 import NewPasswordScreen from '@screens/ResetPassword/NewPasswordScreen';
 import ForgotPasswordScreen from '@screens/ResetPassword/ForgotPasswordScreen';
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false
+  })
+});
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({

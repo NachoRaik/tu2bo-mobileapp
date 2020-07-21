@@ -8,6 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import * as GoogleSignIn from 'expo-google-sign-in';
 
 import logo from '@assets/tutubo-03.png';
 import CustomButton from '@components/CustomButton';
@@ -22,6 +23,7 @@ import styles from './styles';
 function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const emailValid = validateEmail(email);
   const passwordValid = password.length > 0;
@@ -44,6 +46,7 @@ function LoginScreen({ navigation }) {
 
   useEffect(() => {
     if (token) {
+      setGoogleLoading(false);
       navigation.reset({
         index: 0,
         routes: [{ name: ROUTES.Home }]
@@ -51,6 +54,36 @@ function LoginScreen({ navigation }) {
       cleanLogin();
     }
   }, [token, cleanLogin, navigation]);
+
+  useEffect(() => {
+    initAsync();
+  }, [initAsync]);
+
+  const initAsync = useCallback(async () => {
+    await GoogleSignIn.initAsync();
+  }, []);
+
+  const _syncUserWithStateAsync = useCallback(async () => {
+    const user = await GoogleSignIn.signInSilentlyAsync();
+    dispatch(actionCreator.oauth(user.auth.idToken, user.photoURL));
+  }, [dispatch]);
+
+  const signInAsync = useCallback(async () => {
+    try {
+      setGoogleLoading(true);
+      const { type } = await GoogleSignIn.signInAsync();
+      if (type === 'success') {
+        await _syncUserWithStateAsync();
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+      setGoogleLoading(false);
+    }
+  }, [_syncUserWithStateAsync]);
+
+  const onPressLoginGoogle = useCallback(() => {
+    signInAsync();
+  }, [signInAsync]);
 
   const onNavigateToRegister = useCallback(() => {
     cleanLogin();
@@ -88,7 +121,7 @@ function LoginScreen({ navigation }) {
           textStyle={disable ? styles.textDisable : styles.loginButtonText}
           onPress={onSubmit}
           disable={disable}
-          loading={authLoading}
+          loading={authLoading && !googleLoading}
           loaderColor={COLORS.white}
         />
         <CustomButton
@@ -97,6 +130,15 @@ function LoginScreen({ navigation }) {
           textStyle={styles.loginButtonText}
           onPress={onNavigateToRegister}
           disable={authLoading}
+        />
+        <CustomButton
+          text="INGRESAR CON GOOGLE"
+          style={[styles.loginButton]}
+          textStyle={disable ? styles.textDisable : styles.loginButtonText}
+          onPress={onPressLoginGoogle}
+          disable={authLoading && !googleLoading}
+          loading={googleLoading}
+          loaderColor={COLORS.white}
         />
         <TouchableOpacity onPress={onNavigateToResetPassword}>
           <Text style={styles.forgotPassword}>Olvidaste tu contraseña?</Text>

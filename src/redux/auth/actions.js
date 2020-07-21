@@ -1,6 +1,9 @@
+import * as GoogleSignIn from 'expo-google-sign-in';
+
 import {
   login,
   register,
+  oauth,
   setSession,
   removeSession
 } from '@services/AuthService';
@@ -15,7 +18,8 @@ export const actions = {
   REGISTER: '@@AUTH/REGISTER',
   REGISTER_SUCCESS: '@@AUTH/REGISTER_SUCCESS',
   REGISTER_FAILURE: '@@AUTH/REGISTER_FAILURE',
-  CLEAN_STATE: '@@AUTH/CLEAN_STATE'
+  CLEAN_STATE: '@@AUTH/CLEAN_STATE',
+  OAUTH: '@@AUTH/OAUTH'
 };
 
 export const actionCreator = {
@@ -39,9 +43,13 @@ export const actionCreator = {
     api.setHeader('access-token', session.token);
     return { type: actions.SAVE_CURRENT_SESSION, payload: session };
   },
-  logout: () => {
+  logout: () => async (dispatch, getState) => {
+    dispatch({ type: actions.LOGOUT });
+    const { googleUser } = getState().auth;
+    if (googleUser) {
+      await GoogleSignIn.signOutAsync();
+    }
     removeSession();
-    return { type: actions.LOGOUT };
   },
   register: (info) => async (dispatch) => {
     dispatch({ type: actions.REGISTER });
@@ -59,7 +67,15 @@ export const actionCreator = {
   }),
   cleanState: () => ({
     type: actions.CLEAN_STATE
-  })
+  }),
+  oauth: (idToken, photoURL) => async (dispatch) => {
+    dispatch({ type: actions.OAUTH });
+    const response = await oauth(idToken, photoURL);
+    if (response?.ok) {
+      setSession(response.data);
+      dispatch(actionCreator.loginSuccess(response.data));
+    } else dispatch(actionCreator.loginFailure(response?.data.reason));
+  }
 };
 
 export default actionCreator;
