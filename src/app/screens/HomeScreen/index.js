@@ -26,9 +26,9 @@ function HomeScreen({ navigation }) {
     });
     Notifications.addNotificationResponseReceivedListener((response) => {
       const { type, ...data } = response.notification.request.content.data;
-      const { redirect, payload } = notificationHanlder(data)[
-        Platform.OS === 'ios' ? data.body.type : type
-      ];
+      const { redirect, payload } = notificationHanlder(
+        Platform.OS === 'ios' ? data.body : data
+      )[Platform.OS === 'ios' ? data.body.type : type];
       navigation.navigate(redirect, payload);
     });
     return () => Notifications.removeAllNotificationListeners();
