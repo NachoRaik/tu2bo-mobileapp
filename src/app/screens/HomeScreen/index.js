@@ -25,10 +25,13 @@ function HomeScreen({ navigation }) {
       console.warn(notification);
     });
     Notifications.addNotificationResponseReceivedListener((response) => {
-      const { type, ...data } = response.notification.request.content.data;
-      const { redirect, payload } = notificationHanlder(
-        Platform.OS === 'ios' ? data.body : data
-      )[Platform.OS === 'ios' ? data.body.type : type];
+      let data;
+      if (Platform.OS === 'ios') {
+        data = response.notification.request.content.data.body;
+      } else {
+        data = response.notification.request.content.data;
+      }
+      const { redirect, payload } = notificationHanlder(data)[data.type];
       navigation.navigate(redirect, payload);
     });
     return () => Notifications.removeAllNotificationListeners();
