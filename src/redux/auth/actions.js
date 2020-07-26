@@ -74,7 +74,10 @@ export const actionCreator = {
     if (response?.ok) {
       setSession(response.data);
       dispatch(actionCreator.loginSuccess(response.data));
-    } else dispatch(actionCreator.loginFailure(response?.data.reason));
+    } else {
+      await GoogleSignIn.signOutAsync();
+      dispatch(actionCreator.loginFailure(response?.data.reason));
+    }
   }
 };
 
