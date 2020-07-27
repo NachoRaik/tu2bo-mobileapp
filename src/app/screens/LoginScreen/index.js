@@ -56,6 +56,12 @@ function LoginScreen({ navigation }) {
   }, [token, cleanLogin, navigation]);
 
   useEffect(() => {
+    if (error) {
+      setGoogleLoading(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
     initAsync();
   }, [initAsync]);
 

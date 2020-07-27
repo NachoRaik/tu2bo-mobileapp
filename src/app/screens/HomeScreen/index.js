@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import { Platform } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native';
 import * as Notifications from 'expo-notifications';
@@ -24,8 +25,13 @@ function HomeScreen({ navigation }) {
       console.warn(notification);
     });
     Notifications.addNotificationResponseReceivedListener((response) => {
-      const { type, ...data } = response.notification.request.content.data;
-      const { redirect, payload } = notificationHanlder(data)[type];
+      let data;
+      if (Platform.OS === 'ios') {
+        data = response.notification.request.content.data.body;
+      } else {
+        data = response.notification.request.content.data;
+      }
+      const { redirect, payload } = notificationHanlder(data)[data.type];
       navigation.navigate(redirect, payload);
     });
     return () => Notifications.removeAllNotificationListeners();
